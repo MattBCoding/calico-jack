@@ -114,6 +114,8 @@
 
 
 # SETUP function - establishes parameters for game
+def setup():
+    pass
 # USER OPTIONS LOGIC
 # Grid dimension selection 6x6 or 10x10 message
 # user input of desired dimension for board
@@ -128,3 +130,57 @@
 # START function - first function - welcome through to setup()
 # Game start
 # Display Welcome Message
+
+
+def start():
+
+    print('''
+    Welcome to Pirate Battleships
+    This is a test for the multi line string
+    To see how it formats it when it runs
+    ''')
+    print('''
+      . .    . .  . . .  . .  . .     ,((/. .    . .  . . .  . .  . .    . .
+    . .    . .  . . .  . .  .@@@@@@@@@@@@@@@@@ . .  . . .  . .  . .    . .
+    . .    . .  . . .  . . @@@@@@@@@@@@@@@@@@@@@ .  . . .  . .  . .    . .
+    @ . .    . .  . . .  . .&@@@@@@@@@@@@@@@@@@@@@@   . . .  . .  . .    . ,
+    .@@ .    . .  . . .  .  @@*@@@@@@@@@@@@@@@@@@@@@  . . .  . .  . .    .@@
+    *@@@    . .  . . .  . .@/@@.     @@@/. .  %@ @@  . . .  . .  . .  /@@@
+    .@@@@( . .  . . .  . .@/@@.    @@.@@@ .  @@ @.  . . .  . .  . .@@@.@ .
+    . .@@@@@ .  . . .  . ..@@@@@@@@@ . /@@@@@@@@@.  . . .  . .  *@@@,@ . .
+    . .  @@@@@@ .   .  .        %@@@@@&@@@@@ *%. .  . . .  . .@@@@%@   . .
+            &@@@@@@.          ,@( (@@@@@@@@  @@            #@@@@,@,
+    . .    . @@@@@#@@  .     @@    . .. . ,@(  .    ..@@&@@@@(  . .  . .
+    .  . .  . .    %@@@@.@@@   . @@@@@@@@@@@@@/ . . *@@&.@@@@,.    . .  . .
+    .  . .  . .    . . @@@@&,@@@&   @@@&@@@% . .@@@@ @@@@&  . .    . .  . .
+    .  . .  . .    . .  .  @@@@@,%@@@@/ ..&@@@@,&@@@@# . .  . .    . .  . .
+    .  . .  . .  @@@@@  . .    .@@@@@%.@@@@@&,%@# .    . .%@@@@    . .  . .
+    .  . .  . .  @@@.@@@. ,%@@@@@& ,#*@@@@@@* (@@@@@@* .@@@%@@@.   . .  . .
+    .  . .@@@ @@(@@*@&%@@@@ &@@@@@@#. . .  .*@@@@@@@*/@@@@ @,@@ @@ @@@  . .
+    .  . @@@@@ @@@@@@@@%@@ *   . .  . . .  . .  . . . @@@/@@@@@@@,*@@@@ . .
+        ,@@/          @@@ (#                    *% /@@          (@@#
+                        @@@@@%                   @@@@@
+    ''')
+
+    play = 'N'
+    while play == 'N':
+        try:
+            play = input('''
+    Would you like to play a game me 'arty?
+    (enter 'Y' to play or 'Q' to quit) : ''').lower()
+            if (play != 'y') and (play != 'q'):
+                raise Exception()
+            elif play == "q":
+                print('''
+    Goodbye''')
+                quit()
+        except Exception:
+            print('''
+    Argh! you woke me up for nothin... I should make ye walk the plank...
+    Wait, shall we try that again?''')
+            play = 'N'
+
+    setup()
+
+
+start()
