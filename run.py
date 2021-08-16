@@ -115,16 +115,33 @@
 
 # SETUP function - establishes parameters for game
 def setup():
-    pass
+    print('''
+    Good on ya, argh, we'll make a pirate out of ye yet!''')
 # USER OPTIONS LOGIC
 # Grid dimension selection 6x6 or 10x10 message
-# user input of desired dimension for board
-# validation of user input
-# display error message if input fails validation
+    while True:
+        try:
+            # user input of desired dimension for board
+            dimensions = int(input('''
+    How brave are ye? Shall we play a full game or a little one?
+    Select a board size, enter '6' for a little one or '10' for normal : '''))
+            #   validation of user input
+            if (dimensions != 6) and (dimensions != 10):
+                raise Exception()
+            elif (dimensions == 6) or (dimensions == 10):
+                break
+        # display error message if input fails vaidation
+        except Exception:
+            print('''
+    Don't be getting all artistic with the choices like some scurvy landlover
+    It's either '6' or '10' that be it. Try again!''')
+
 # Difficulty options
 # easy - comp selects tiles at random
 # normal - comp selects tiles at random until a hit then targets nearby tiles
 # hard - comp works on algorithm to determine next tile to target
+    
+
 # passes information on difficulty and dimensions to classes
 
 # START function - first function - welcome through to setup()
