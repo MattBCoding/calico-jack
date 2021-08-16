@@ -111,6 +111,9 @@
 #   user input validation
 #   if yes - restart game
 #   if no - display a thank you for playing message and exit app
+def test_funct(dimensions, difficulty):
+    print(dimensions)
+    print(difficulty)
 
 
 # SETUP function - establishes parameters for game
@@ -140,7 +143,54 @@ def setup():
 # easy - comp selects tiles at random
 # normal - comp selects tiles at random until a hit then targets nearby tiles
 # hard - comp works on algorithm to determine next tile to target
-    
+    while True:
+        try:
+            if dimensions == 6:
+                difficulty = input('''
+    A little one, suppose you want it easy as well? Select your difficulty,
+    enter 'E' for easy, 'N' for normal or 'H' for hard : ''').lower()
+                if ((difficulty != 'e')
+                        and (difficulty != 'n')
+                        and (difficulty != 'h')):
+                    print(difficulty)
+                    raise Exception()
+                elif difficulty == 'e':
+                    print('difficulty set to easy, dim=6')
+                    test_funct(dimensions, difficulty)
+                    break
+                elif difficulty == 'n':
+                    print('difficulty set to normal, dim=6')
+                    test_funct(dimensions, difficulty)
+                    break
+                elif difficulty == 'h':
+                    print('difficulty set to hard, dim=6')
+                    test_funct(dimensions, difficulty)
+                    break
+            elif dimensions == 10:
+                difficulty = input('''
+    Hmm a full one, ye be a brave pirate to tryin to impress me? If you really
+    want to impress me, you should try it on hard Select your difficulty,
+    enter 'E' for easy, 'N' for normal or 'H' for hard : ''').lower()
+                if ((difficulty != 'e')
+                        and (difficulty != 'n')
+                        and (difficulty != 'h')):
+                    raise Exception()
+                elif difficulty == 'e':
+                    print('difficulty set to easy, dim=10')
+                    test_funct(dimensions, difficulty)
+                    break
+                elif difficulty == 'n':
+                    print('difficulty set to normal, dim=10')
+                    test_funct(dimensions, difficulty)
+                    break
+                elif difficulty == 'h':
+                    print('difficulty set to hard, dim=10')
+                    test_funct(dimensions, difficulty)
+                    break
+        except Exception:
+            print('''
+    There ye go getting artistic, are ye a pirate or a West Indian spy?
+    Try again, before we make ye walk the plank, it's 'E', 'N' or 'H' ''')
 
 # passes information on difficulty and dimensions to classes
 
