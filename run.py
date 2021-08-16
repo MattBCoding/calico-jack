@@ -2,7 +2,15 @@
 
 # python code goes here
 
-# class Board:
+class Board:
+    '''
+    Creates and manages the playing boards
+    '''
+
+    def __init__(self, dimensions):
+        self.dimensions = dimensions
+
+
 # create grid and store player ship locations
 # create blanked out version of board to display in game
 # add ships to board
@@ -31,7 +39,15 @@
 
 # class Boat:
 
-# class Player:
+class Player:
+    '''
+    Player object
+    '''
+
+    def __init__(self, name, dimensions):
+        self.name = name
+        self.board = Board(dimensions)
+
 # GAME SETUP LOGIC
 # display message informing user on next ship to be placed - name and size
 # user input of starting location for next ship
@@ -81,7 +97,15 @@
 #   hit or miss?
 
 
-# class Comp:
+class Comp:
+    '''
+    AI player
+    '''
+
+    def __init__(self, name, dimensions, difficulty):
+        self.name = name
+        self.board = Board(dimensions)
+        self.difficulty = difficulty
 
 # AI SELECT LOCATIONS FOR SHIPS LOGIC
 
@@ -111,10 +135,6 @@
 #   user input validation
 #   if yes - restart game
 #   if no - display a thank you for playing message and exit app
-def test_funct(dimensions, difficulty):
-    print(dimensions)
-    print(difficulty)
-
 
 # SETUP function - establishes parameters for game
 def setup():
@@ -152,19 +172,21 @@ def setup():
                 if ((difficulty != 'e')
                         and (difficulty != 'n')
                         and (difficulty != 'h')):
-                    print(difficulty)
                     raise Exception()
                 elif difficulty == 'e':
                     print('difficulty set to easy, dim=6')
-                    test_funct(dimensions, difficulty)
+                    player = Player('Calico Jack', dimensions)
+                    comp = Comp('Jonathan Barnet', dimensions, difficulty)
                     break
                 elif difficulty == 'n':
                     print('difficulty set to normal, dim=6')
-                    test_funct(dimensions, difficulty)
+                    player = Player('Calico Jack', dimensions)
+                    comp = Comp('Jonathan Barnet', dimensions, difficulty)
                     break
                 elif difficulty == 'h':
                     print('difficulty set to hard, dim=6')
-                    test_funct(dimensions, difficulty)
+                    player = Player('Calico Jack', dimensions)
+                    comp = Comp('Jonathan Barnet', dimensions, difficulty)
                     break
             elif dimensions == 10:
                 difficulty = input('''
@@ -177,15 +199,18 @@ def setup():
                     raise Exception()
                 elif difficulty == 'e':
                     print('difficulty set to easy, dim=10')
-                    test_funct(dimensions, difficulty)
+                    player = Player('Calico Jack', dimensions)
+                    comp = Comp('Jonathan Barnet', dimensions, difficulty)
                     break
                 elif difficulty == 'n':
                     print('difficulty set to normal, dim=10')
-                    test_funct(dimensions, difficulty)
+                    player = Player('Calico Jack', dimensions)
+                    comp = Comp('Jonathan Barnet', dimensions, difficulty)
                     break
                 elif difficulty == 'h':
                     print('difficulty set to hard, dim=10')
-                    test_funct(dimensions, difficulty)
+                    player = Player('Calico Jack', dimensions)
+                    comp = Comp('Jonathan Barnet', dimensions, difficulty)
                     break
         except Exception:
             print('''
