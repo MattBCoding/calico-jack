@@ -120,7 +120,16 @@ class Comp:
 #   if miss - run miss logic loop
 
 
-# class Game:
+class Game:
+    '''
+    game object
+    '''
+
+    def __init__(self, dimensions, difficulty):
+        self.dimensions = dimensions
+        self.difficulty = difficulty
+        player = Player('Calico Jack', self.dimensions)
+        comp = Comp('Jonathan Barnet', self.dimensions, self.difficulty)
 # display board
 
 # PLAY GAME LOGIC
@@ -135,6 +144,7 @@ class Comp:
 #   user input validation
 #   if yes - restart game
 #   if no - display a thank you for playing message and exit app
+
 
 # SETUP function - establishes parameters for game
 def setup():
@@ -175,18 +185,19 @@ def setup():
                     raise Exception()
                 elif difficulty == 'e':
                     print('difficulty set to easy, dim=6')
-                    player = Player('Calico Jack', dimensions)
-                    comp = Comp('Jonathan Barnet', dimensions, difficulty)
+# passes information on difficulty and dimensions to classes
+                    # player = Player('Calico Jack', dimensions)
+                    # comp = Comp('Jonathan Barnet', dimensions, difficulty)
                     break
                 elif difficulty == 'n':
                     print('difficulty set to normal, dim=6')
-                    player = Player('Calico Jack', dimensions)
-                    comp = Comp('Jonathan Barnet', dimensions, difficulty)
+                    # player = Player('Calico Jack', dimensions)
+                    # comp = Comp('Jonathan Barnet', dimensions, difficulty)
                     break
                 elif difficulty == 'h':
                     print('difficulty set to hard, dim=6')
-                    player = Player('Calico Jack', dimensions)
-                    comp = Comp('Jonathan Barnet', dimensions, difficulty)
+                    # player = Player('Calico Jack', dimensions)
+                    # comp = Comp('Jonathan Barnet', dimensions, difficulty)
                     break
             elif dimensions == 10:
                 difficulty = input('''
@@ -199,25 +210,26 @@ def setup():
                     raise Exception()
                 elif difficulty == 'e':
                     print('difficulty set to easy, dim=10')
-                    player = Player('Calico Jack', dimensions)
-                    comp = Comp('Jonathan Barnet', dimensions, difficulty)
+                    # player = Player('Calico Jack', dimensions)
+                    # comp = Comp('Jonathan Barnet', dimensions, difficulty)
                     break
                 elif difficulty == 'n':
                     print('difficulty set to normal, dim=10')
-                    player = Player('Calico Jack', dimensions)
-                    comp = Comp('Jonathan Barnet', dimensions, difficulty)
+                    # player = Player('Calico Jack', dimensions)
+                    # comp = Comp('Jonathan Barnet', dimensions, difficulty)
                     break
                 elif difficulty == 'h':
                     print('difficulty set to hard, dim=10')
-                    player = Player('Calico Jack', dimensions)
-                    comp = Comp('Jonathan Barnet', dimensions, difficulty)
+                    # player = Player('Calico Jack', dimensions)
+                    # comp = Comp('Jonathan Barnet', dimensions, difficulty)
                     break
         except Exception:
             print('''
     There ye go getting artistic, are ye a pirate or a West Indian spy?
     Try again, before we make ye walk the plank, it's 'E', 'N' or 'H' ''')
 
-# passes information on difficulty and dimensions to classes
+    Game(dimensions, difficulty)
+
 
 # START function - first function - welcome through to setup()
 # Game start
