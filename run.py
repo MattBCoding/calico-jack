@@ -214,6 +214,11 @@ def create_player_ships(dimensions, player, comp):
     fleet = sorted(fleet, reverse=True, key=lambda x: x[1])
     print(fleet)
     print(len(fleet))
+    for ship in fleet:
+        player.ships.append(Boat(ship[0], ship[1]))
+        comp.ships.append(Boat(ship[0], ship[1]))
+    print(player.ships)
+    print(comp.ships)
 
 
 def create_players(dimensions, difficulty):
