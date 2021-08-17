@@ -9,6 +9,9 @@ class Board:
 
     def __init__(self, dimensions):
         self.dimensions = dimensions
+        self.board = [
+            ["~" for i in range(dimensions)] for i in range(dimensions)
+            ]
 
 
 # create grid and store player ship locations
@@ -125,15 +128,49 @@ class Game:
     game object
     '''
 
-    def __init__(self, dimensions, difficulty):
+    def __init__(self, dimensions, player, comp):
         self.dimensions = dimensions
-        self.difficulty = difficulty
-        player = Player('Calico Jack', self.dimensions)
-        comp = Comp('Jonathan Barnet', self.dimensions, self.difficulty)
+
 # display board
+# display grids, one for targetting one for showing own ship locations
+    def PrintBoards(self, player, comp):
+        letter = 0
+        # prints five blank lines to create space
+        # will need to be adjusted so that each time the PrintBoards is
+        # called a fresh screen appears for the user, total line height = 24
+        print('\n\n\n\n\n')
+        # prints first line of board with numbers for column reference
+        print(' '*2, end='| ')
+        for i in range(self.dimensions):
+            # print('    ')
+            print(i, end=' ')
+        # prints ending character for numbers area and gap to new board
+        print('| ', ' '*20, end=' ')
+        # prints first line of board with numbers for column reference board 2
+        print(' '*2, end='| ')
+        for i in range(self.dimensions):
+            # print('    ')
+            print(i, end=' ')
+        print('| ')
+
+        # prints player board to screen,
+        for letter in range(self.dimensions):
+            # puts a capital letter in front of each row of board
+            print(chr(letter + 65), end=' | ')
+            for column in range(len(player.board.board[letter])):
+                print(player.board.board[letter][column], end=' ')
+        # prints ending character for numbers area and gap to new board
+        # MIDDLE TABLE information needs to go in here
+            print('|', ' '*20, end='  ')
+        # prints comp board to screen,
+            # puts a capital letter in front of each row of board
+            print(chr(letter + 65), end=' | ')
+            for column in range(len(comp.board.board[letter])):
+                print(comp.board.board[letter][column], end=' ')
+            print('| ')
+            letter += 1
 
 # PLAY GAME LOGIC
-# display grids, one for targetting one for showing own ship locations
 
 # END OF GAME LOGIC
 #   Display end of game screen
@@ -144,6 +181,13 @@ class Game:
 #   user input validation
 #   if yes - restart game
 #   if no - display a thank you for playing message and exit app
+
+
+def create_players(dimensions, difficulty):
+    player = Player('Calico Jack', dimensions)
+    comp = Comp('Jonathan Barnet', dimensions, difficulty)
+    game = Game(dimensions, player, comp)
+    game.PrintBoards(player, comp)
 
 
 # SETUP function - establishes parameters for game
@@ -227,8 +271,7 @@ def setup():
             print('''
     There ye go getting artistic, are ye a pirate or a West Indian spy?
     Try again, before we make ye walk the plank, it's 'E', 'N' or 'H' ''')
-
-    Game(dimensions, difficulty)
+    create_players(dimensions, difficulty)
 
 
 # START function - first function - welcome through to setup()
