@@ -1,6 +1,7 @@
 # import required modules here
-
+import math
 # python code goes here
+
 
 class Board:
     '''
@@ -40,7 +41,14 @@ class Board:
 #   display updated board
 #   start other player turn
 
-# class Boat:
+class Boat:
+    '''
+    Constructor for Boat objects
+    '''
+    def __init__(self, name, length):
+        self.name = name
+        self.length = length
+
 
 class Player:
     '''
@@ -50,6 +58,7 @@ class Player:
     def __init__(self, name, dimensions):
         self.name = name
         self.board = Board(dimensions)
+        self.ships = []
 
 # GAME SETUP LOGIC
 # display message informing user on next ship to be placed - name and size
@@ -109,6 +118,7 @@ class Comp:
         self.name = name
         self.board = Board(dimensions)
         self.difficulty = difficulty
+        self.ships = []
 
 # AI SELECT LOCATIONS FOR SHIPS LOGIC
 
@@ -183,11 +193,35 @@ class Game:
 #   if no - display a thank you for playing message and exit app
 
 
+def create_player_ships(dimensions, player, comp):
+    number_of_ships_ratio = 0.6
+    ships = [
+        ('Brigantine', 2),
+        ('Lugger', 3),
+        ('Schooner', 3),
+        ('Sloop', 4),
+        ('Pinnace', 5)
+    ]
+    number_of_ships = math.floor(dimensions * number_of_ships_ratio)
+    print(number_of_ships)
+    fleet = []
+    x = 0
+    while x < number_of_ships:
+        v = x % len(ships)
+        fleet.append(ships[v])
+        x += 1
+        print(fleet)
+    fleet = sorted(fleet, reverse=True, key=lambda x: x[1])
+    print(fleet)
+    print(len(fleet))
+
+
 def create_players(dimensions, difficulty):
     player = Player('Calico Jack', dimensions)
     comp = Comp('Jonathan Barnet', dimensions, difficulty)
     game = Game(dimensions, player, comp)
     game.PrintBoards(player, comp)
+    create_player_ships(dimensions, player, comp)
 
 
 # SETUP function - establishes parameters for game
