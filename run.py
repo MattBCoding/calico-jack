@@ -60,6 +60,40 @@ class Player:
         self.board = Board(dimensions)
         self.ships = []
 
+    def get_position_from_user(self, player, comp, game):
+        game.PrintBoards(player, comp)
+        input('''
+    Now we need to position our ships ready for battle! Are ye ready?
+    Press 'Enter' to start! ''')
+        for ship in self.ships:
+            self.position_ship(ship, game)
+
+    def position_ship(self, ship, game):
+        while True:
+            try:
+                user_input_coords = input(f'''
+    Please select the starting location for your {ship.name}, it is
+    {ship.length} tiles long, in the format of row then column e.g. 'E4' : ''')
+                # convert input to list
+                user_input_coords_list = list(user_input_coords)
+                # check input is the correct length
+                if len(user_input_coords_list) != 2:
+                    raise Exception
+                # check input is in the correct format letter then number
+                elif (not user_input_coords_list[0].isalpha()
+                        or not user_input_coords_list[1].isdigit()):
+                    raise Exception
+                # need to check if input is valid board coords.
+                else:
+                    print(user_input_coords_list)
+            except Exception:
+                print('''
+    The starting location needs to be entered in the format of row then
+    column, e.g. 'F4' or 'A2' a letter followed by a number,
+    no spaces, dashes, dots or bottles of rum before after or in the
+    middle. Try again!''')
+
+
 # GAME SETUP LOGIC
 # display message informing user on next ship to be placed - name and size
 # user input of starting location for next ship
@@ -227,6 +261,7 @@ def create_players(dimensions, difficulty):
     game = Game(dimensions, player, comp)
     game.PrintBoards(player, comp)
     create_player_ships(dimensions, player, comp)
+    player.get_position_from_user(player, comp, game)
 
 
 # SETUP function - establishes parameters for game
