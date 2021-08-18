@@ -211,9 +211,30 @@ class Player:
                     # now need to check if ship can be placed Hor or Ver
                     # at location specified by user.
                     # check for space enough and clear
+                    '''
+                    NOTE TO SELF
+                    Placing of ships works, however it will not let you place
+                    ships in all squares. a7 for a three tile ship should
+                    work but gives an error. Need to investigate why and
+                    remove bug
+                    '''
                     if self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 1:
-                        print("Ask for orientation, can be H or V")
+                        try:
+                            orientation = input('''
+    Would you like to place this ship horizontally, left to right
+    or vertically, downwards from starting location?
+    Enter 'H' for horizontally, 'V' for vertically : ''').lower()
+                            if (orientation != 'h') and (orientation != 'v'):
+                                raise Exception
+                            else:
+                                self.add_ship(ship, user_input_coords_list,
+                                              orientation, game)
+                                break
+                        except Exception:
+                            print('''
+    It can only be 'H' for horizontally or 'V' for vertically
+    There are no other options, try again!''')
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 2:
@@ -252,7 +273,7 @@ class Player:
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 7:
-                            game.PrintBoards()
+                        game.PrintBoards()
                         print('''
     Can not place ship, only option from this location is vertical
     which would hit another ship. Try a different location''')
