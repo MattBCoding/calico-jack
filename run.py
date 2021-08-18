@@ -26,6 +26,90 @@ class Board:
     e.g. 'A2' or 'C5'. Try Again!''')
             return False
 
+    def can_ship_be_placed(self, coords, ship):
+        '''
+    checks if ship can be placed horizontally and/or vertically
+    on the board. checks will ship fit, then checks if something
+    already there.
+    parameters: self is board being checked, coords is starting location
+    ship is the ship being checked, gives access to length.
+        '''
+
+        # convert row coord value into int to perform checks
+        row_coord_value = (ord(coords[0].upper()) - 65)
+        # convert column coord value into int to perform checks
+        column_coord_value = int(coords[1])
+        # holding list to check space against
+        clear_space_vertical = []
+        clear_space_horizontal = []
+        # vertical orientation from row check
+        vertical_check = (self.dimensions - row_coord_value - ship.length >= 0)
+        # horizontal orientation from column check
+        horizontal_check = (self.dimensions
+                            - column_coord_value
+                            - ship.length >= 0)
+        if horizontal_check:
+            if vertical_check:
+                # Ship fits both horizontally and vertically
+                # check board to see if locations are clear
+                # both vertically and horizontally
+                # horizontal
+                for i in range(ship.length):
+                    if self.board[row_coord_value][column_coord_value] == '~':
+                        clear_space_horizontal.append((row_coord_value,
+                                                      column_coord_value))
+                        column_coord_value += 1
+                    else:
+                        column_coord_value += 1
+                # vertical
+                for i in range(ship.length):
+                    if self.board[row_coord_value][column_coord_value] == '~':
+                        clear_space_vertical.append((row_coord_value,
+                                                    column_coord_value))
+                        row_coord_value += 1
+                    else:
+                        row_coord_value += 1
+                if ship.length == len(clear_space_horizontal):
+                    if ship.length == len(clear_space_vertical):
+                        return 1
+                    else:
+                        return 2
+                elif ship.length == len(clear_space_vertical):
+                    return 3
+
+            else:
+                # Ship fits horizontally but not vertically
+                # check board to see if locations are clear (only contain ~)
+                for i in range(ship.length):
+                    if self.board[row_coord_value][column_coord_value] == '~':
+                        clear_space_horizontal.append((row_coord_value,
+                                                      column_coord_value))
+                        column_coord_value += 1
+                    else:
+                        column_coord_value += 1
+                if ship.length == len(clear_space_horizontal):
+                    return 4
+                else:
+                    return 5
+
+        else:
+            if vertical_check:
+                # ship fits vertically but not horizontally
+                # check board to see if locations are clear (only contain ~)
+                for i in range(ship.length):
+                    if self.board[row_coord_value][column_coord_value] == '~':
+                        clear_space_vertical.append((row_coord_value,
+                                                    column_coord_value))
+                        row_coord_value += 1
+                    else:
+                        row_coord_value += 1
+                if ship.length == len(clear_space_vertical):
+                    return 6
+                else:
+                    return 7
+            else:
+                return 8
+
 
 # create grid and store player ship locations
 # create blanked out version of board to display in game
@@ -100,7 +184,35 @@ class Player:
                     # now need to check if ship can be placed Hor or Ver
                     # at location specified by user.
                     # check for space enough and clear
-                    pass
+                    if self.board.can_ship_be_placed(
+                            user_input_coords_list, ship) == 1:
+                        print("Ask for orientation, can be H or V")
+                        break
+                    elif self.board.can_ship_be_placed(
+                            user_input_coords_list, ship) == 2:
+                        print("Can only be H, V hits another ship")
+                        break
+                    elif self.board.can_ship_be_placed(
+                            user_input_coords_list, ship) == 3:
+                        print("Can only be V, H hits another ship")
+                        break
+                    elif self.board.can_ship_be_placed(
+                            user_input_coords_list, ship) == 4:
+                        print("Can only be H, Are you happy to place ship?")
+                        break
+                    elif self.board.can_ship_be_placed(
+                            user_input_coords_list, ship) == 5:
+                        print("Can not place ship H would hit another ship")
+                    elif self.board.can_ship_be_placed(
+                            user_input_coords_list, ship) == 6:
+                        print("Can only be V, Are you happy to place ship?")
+                        break
+                    elif self.board.can_ship_be_placed(
+                            user_input_coords_list, ship) == 7:
+                        print("Can not place ship V would hit other ship")
+                    elif self.board.can_ship_be_placed(
+                            user_input_coords_list, ship) == 8:
+                        print("Ship does not fit on board either H or V")
                 else:
                     print(user_input_coords_list)
             except Exception:
