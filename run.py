@@ -14,6 +14,18 @@ class Board:
             ["~" for i in range(dimensions)] for i in range(dimensions)
             ]
 
+    def on_board_test(self, coords):
+        row_test = ((ord(coords[0].upper()) - 65) < self.dimensions)
+        column_test = (int(coords[1]) < self.dimensions)
+        if(row_test and column_test):
+            print('coords on board')
+            return True
+        else:
+            print('''
+    The location entered is not on the board! The format is row then column,
+    e.g. 'A2' or 'C5'. Try Again!''')
+            return False
+
 
 # create grid and store player ship locations
 # create blanked out version of board to display in game
@@ -84,6 +96,11 @@ class Player:
                         or not user_input_coords_list[1].isdigit()):
                     raise Exception
                 # need to check if input is valid board coords.
+                elif self.board.on_board_test(user_input_coords_list):
+                    # now need to check if ship can be placed Hor or Ver
+                    # at location specified by user.
+                    # check for space enough and clear
+                    pass
                 else:
                     print(user_input_coords_list)
             except Exception:
