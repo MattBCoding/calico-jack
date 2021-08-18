@@ -110,6 +110,21 @@ class Board:
             else:
                 return 8
 
+    def set_ship_position(self, ship):
+        width = 0
+        height = 0
+        if ship.orientation == 'h':
+            width = ship.length
+            print("width set ok")
+            print(width)
+        else:
+            height = ship.length
+            print("height set ok")
+
+        for x in range(width):
+            for y in range(height):
+                self.board[ship.y + y][ship.x + x] = 'S'
+
 
 # create grid and store player ship locations
 # create blanked out version of board to display in game
@@ -144,6 +159,14 @@ class Boat:
     def __init__(self, name, length):
         self.name = name
         self.length = length
+        self.x = None
+        self.y = None
+        self.orientation = None
+
+    def set_position(self, x, y, orientation):
+        self.x = x
+        self.y = y
+        self.orientation = orientation
 
 
 class Player:
@@ -157,7 +180,7 @@ class Player:
         self.ships = []
 
     def get_position_from_user(self, player, comp, game):
-        game.PrintBoards(player, comp)
+        game.PrintBoards()
         input('''
     Now we need to position our ships ready for battle! Are ye ready?
     Press 'Enter' to start! ''')
@@ -198,7 +221,10 @@ class Player:
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 4:
-                        print("Can only be H, Are you happy to place ship?")
+                        # scenario 4 = ship can only be placed horizontally
+                        # being used as a test case to assign ship to board
+                        self.add_ship(ship, user_input_coords_list, 'h', game)
+                        game.PrintBoards()
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 5:
@@ -214,13 +240,23 @@ class Player:
                             user_input_coords_list, ship) == 8:
                         print("Ship does not fit on board either H or V")
                 else:
-                    print(user_input_coords_list)
+                    raise Exception
             except Exception:
                 print('''
     The starting location needs to be entered in the format of row then
     column, e.g. 'F4' or 'A2' a letter followed by a number,
     no spaces, dashes, dots or bottles of rum before after or in the
     middle. Try again!''')
+
+    def add_ship(self, ship, coords, orientation, game):
+        x = (ord(coords[0].upper()) - 65)
+        y = int(coords[1])
+        ship.set_position(x, y, orientation)
+        print("ship position just set")
+        print(ship.x, ship.y, ship.orientation)
+        self.board.set_ship_position(ship)
+        print("ship added to board ok")
+        game.PrintBoards()
 
 
 # GAME SETUP LOGIC
@@ -274,7 +310,9 @@ class Player:
 
 class Comp:
     '''
-    AI player
+    AI player - will need shot selection
+    setting ship locations
+    difficulty algorithms
     '''
 
     def __init__(self, name, dimensions, difficulty):
@@ -303,10 +341,12 @@ class Game:
 
     def __init__(self, dimensions, player, comp):
         self.dimensions = dimensions
+        self.player = player
+        self.comp = comp
 
 # display board
 # display grids, one for targetting one for showing own ship locations
-    def PrintBoards(self, player, comp):
+    def PrintBoards(self):
         letter = 0
         # prints five blank lines to create space
         # will need to be adjusted so that each time the PrintBoards is
@@ -330,16 +370,16 @@ class Game:
         for letter in range(self.dimensions):
             # puts a capital letter in front of each row of board
             print(chr(letter + 65), end=' | ')
-            for column in range(len(player.board.board[letter])):
-                print(player.board.board[letter][column], end=' ')
+            for column in range(len(self.player.board.board[letter])):
+                print(self.player.board.board[letter][column], end=' ')
         # prints ending character for numbers area and gap to new board
         # MIDDLE TABLE information needs to go in here
             print('|', ' '*20, end='  ')
         # prints comp board to screen,
             # puts a capital letter in front of each row of board
             print(chr(letter + 65), end=' | ')
-            for column in range(len(comp.board.board[letter])):
-                print(comp.board.board[letter][column], end=' ')
+            for column in range(len(self.comp.board.board[letter])):
+                print(self.comp.board.board[letter][column], end=' ')
             print('| ')
             letter += 1
 
@@ -357,7 +397,10 @@ class Game:
 
 
 def create_player_ships(dimensions, player, comp):
+    # pre-determined ratio so number of ships is appropriate
     number_of_ships_ratio = 0.6
+    # list of possible ships in game, for large boards
+    # list will loop through again
     ships = [
         ('Brigantine', 2),
         ('Lugger', 3),
@@ -365,18 +408,25 @@ def create_player_ships(dimensions, player, comp):
         ('Sloop', 4),
         ('Pinnace', 5)
     ]
+    # calculate number of ships based on board dimensions
     number_of_ships = math.floor(dimensions * number_of_ships_ratio)
     print(number_of_ships)
     fleet = []
     x = 0
+    # generate list of ships for each player
     while x < number_of_ships:
         v = x % len(ships)
         fleet.append(ships[v])
         x += 1
         print(fleet)
+    # reverse order of ships so players can assign them in
+    # the order of largest ship first. It is needed due to
+    # the list of ships being generated based on board size
+    # this way small boards don't get three large ships.
     fleet = sorted(fleet, reverse=True, key=lambda x: x[1])
     print(fleet)
     print(len(fleet))
+    # creates Boat object for each ship within player objects
     for ship in fleet:
         player.ships.append(Boat(ship[0], ship[1]))
         comp.ships.append(Boat(ship[0], ship[1]))
@@ -388,7 +438,7 @@ def create_players(dimensions, difficulty):
     player = Player('Calico Jack', dimensions)
     comp = Comp('Jonathan Barnet', dimensions, difficulty)
     game = Game(dimensions, player, comp)
-    game.PrintBoards(player, comp)
+    game.PrintBoards()
     create_player_ships(dimensions, player, comp)
     player.get_position_from_user(player, comp, game)
 

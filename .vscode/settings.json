@@ -20,7 +20,7 @@
       "**/core.python*": true
    },
    "files.autoSave": "off",
-   "workbench.colorTheme": "Visual Studio Dark",
+   "workbench.colorTheme": "Default Dark+",
    "editor.defaultFormatter": "HookyQR.beautify",
    "editor.formatOnSave": true
 }
