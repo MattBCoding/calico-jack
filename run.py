@@ -5,7 +5,10 @@ import math
 
 class Board:
     '''
-    Creates and manages the playing boards
+    Creates and manages the playing boards,
+    methods include placing ships on the board
+    along with checking ships will fit and don't
+    collide with other ships during placement.
     '''
 
     def __init__(self, dimensions):
@@ -111,8 +114,8 @@ class Board:
                 return 8
 
     def set_ship_position(self, ship):
-        width = 0
-        height = 0
+        width = 1
+        height = 1
         if ship.orientation == 'h':
             width = ship.length
             print("width set ok")
@@ -121,9 +124,10 @@ class Board:
             height = ship.length
             print("height set ok")
 
-        for x in range(width):
-            for y in range(height):
-                self.board[ship.y + y][ship.x + x] = 'S'
+        for y in range(width):
+            for x in range(height):
+                self.board[ship.x + x][ship.y + y] = 'S'
+                print(self.board)  # check object value against original
 
 
 # create grid and store player ship locations
@@ -257,6 +261,7 @@ class Player:
         self.board.set_ship_position(ship)
         print("ship added to board ok")
         game.PrintBoards()
+        print(self.board)  # so I can check the object against original value
 
 
 # GAME SETUP LOGIC
@@ -439,6 +444,8 @@ def create_players(dimensions, difficulty):
     comp = Comp('Jonathan Barnet', dimensions, difficulty)
     game = Game(dimensions, player, comp)
     game.PrintBoards()
+    print(player.board)  # so there is a visible reference of the object
+    print(comp.board)  # so there is a visible reference of the object
     create_player_ships(dimensions, player, comp)
     player.get_position_from_user(player, comp, game)
 
