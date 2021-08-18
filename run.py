@@ -218,31 +218,49 @@ class Player:
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 2:
                         print("Can only be H, V hits another ship")
+                        orientation = 'h'
+                        self.add_ship(ship, user_input_coords_list,
+                                      orientation, game)
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 3:
                         print("Can only be V, H hits another ship")
+                        orientation = 'v'
+                        self.add_ship(ship, user_input_coords_list,
+                                      orientation, game)
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 4:
                         # scenario 4 = ship can only be placed horizontally
                         # being used as a test case to assign ship to board
-                        self.add_ship(ship, user_input_coords_list, 'h', game)
-                        game.PrintBoards()
+                        orientation = 'h'
+                        self.add_ship(ship, user_input_coords_list,
+                                      orientation, game)
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 5:
-                        print("Can not place ship H would hit another ship")
+                        print('''
+    Can not place ship, only option from this location is horizontal
+    which would hit another ship. Try a different location''')
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 6:
-                        print("Can only be V, Are you happy to place ship?")
+                        orientation = 'v'
+                        self.add_ship(ship, user_input_coords_list,
+                                      orientation, game)
+                        print('''
+    Ship can only be placed vertically, so we placed it.''')
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 7:
-                        print("Can not place ship V would hit other ship")
+                            game.PrintBoards()
+                        print('''
+    Can not place ship, only option from this location is vertical
+    which would hit another ship. Try a different location''')
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 8:
-                        print("Ship does not fit on board either H or V")
+                        print('''
+    Can not place ship, it will not fit either horizontally or
+    vertically at this location. Try a different location''')
                 else:
                     raise Exception
             except Exception:
