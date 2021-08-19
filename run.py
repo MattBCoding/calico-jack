@@ -55,37 +55,64 @@ class Board:
         clear_space_horizontal = []
         # vertical orientation from row check
         vertical_check = (self.dimensions - row_coord_value - ship.length >= 0)
+        print(vertical_check)
         # horizontal orientation from column check
         horizontal_check = (self.dimensions
                             - column_coord_value
                             - ship.length >= 0)
+        print(horizontal_check)
         if horizontal_check:
             if vertical_check:
                 # Ship fits both horizontally and vertically
                 # check board to see if locations are clear
                 # both vertically and horizontally
                 # horizontal
-                for i in range(ship.length):
+                i = 0
+                while i < ship.length:
+                    print(i)
                     if self.board[row_coord_value][column_coord_value] == '~':
+                        print("if")
                         clear_space_horizontal.append((row_coord_value,
                                                       column_coord_value))
                         column_coord_value += 1
+                        i += 1
                     else:
+                        print("else")
                         column_coord_value += 1
+                        i += 1
                 # vertical
-                for i in range(ship.length):
+                j = 0
+                # reset values back to original after while loop
+                row_coord_value = (ord(coords[0].upper()) - 65)
+                column_coord_value = int(coords[1])
+                while j < ship.length:
+                    print("starting second while loop")
                     if self.board[row_coord_value][column_coord_value] == '~':
+                        print("v if")
                         clear_space_vertical.append((row_coord_value,
                                                     column_coord_value))
                         row_coord_value += 1
+                        j += 1
                     else:
+                        print("v else")
                         row_coord_value += 1
+                        j += 1
+
                 if ship.length == len(clear_space_horizontal):
                     if ship.length == len(clear_space_vertical):
+                        print(len(clear_space_horizontal))
+                        print("^^^ length of clear space horizontal")
+                        print(len(clear_space_vertical))
+                        print("^^^ length of clear space vertical")
+                        print("scenario 1")
                         return 1
                     else:
+                        print("scenario 2")
                         return 2
                 elif ship.length == len(clear_space_vertical):
+                    print(len(clear_space_vertical))
+                    print("^^^ length of clear space vertical")
+                    print("scenario 3")
                     return 3
 
             else:
@@ -99,8 +126,14 @@ class Board:
                     else:
                         column_coord_value += 1
                 if ship.length == len(clear_space_horizontal):
+                    print(len(clear_space_horizontal))
+                    print("^^^ length of clear space horizontal")
+                    print("scenario 4")
                     return 4
                 else:
+                    print(len(clear_space_horizontal))
+                    print("^^^ length of clear space horizontal")
+                    print("scenario 5")
                     return 5
 
         else:
@@ -115,10 +148,17 @@ class Board:
                     else:
                         row_coord_value += 1
                 if ship.length == len(clear_space_vertical):
+                    print(len(clear_space_vertical))
+                    print("^^^ length of clear space vertical")
+                    print("scenario 6")
                     return 6
                 else:
+                    print(len(clear_space_vertical))
+                    print("^^^ length of clear space vertical")
+                    print("scenario 7")
                     return 7
             else:
+                print("scenario 8")
                 return 8
 
     def set_ship_position(self, ship):
