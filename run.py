@@ -25,6 +25,12 @@ class Board:
             ["~" for i in range(dimensions)] for i in range(dimensions)
             ]
 
+    def turn_into_blank_board(self):
+        self.board = [
+            ["_" for i in range(self.dimensions)]
+            for i in range(self.dimensions)
+        ]
+
     def on_board_test(self, coords):
         row_test = ((ord(coords[0].upper()) - 65) < self.dimensions)
         column_test = (int(coords[1]) < self.dimensions)
@@ -411,6 +417,18 @@ class Player:
 #       - display error message to user and restart targetting process
 #   check target location for enemy ship
 #   hit or miss?
+class Blank:
+    '''
+    class to hold a blank board to display to player
+    blank board will reference comp board to determine if
+    a ship has been hit.
+    '''
+
+    def __init__(self, dimensions, comp):
+        self.dimensions = dimensions
+        self.board = Board(dimensions)
+        self.reference_board = comp.board
+        self.board.turn_into_blank_board()
 
 
 class Comp:
@@ -501,10 +519,11 @@ class Game:
     game object
     '''
 
-    def __init__(self, dimensions, player, comp):
+    def __init__(self, dimensions, player, comp, blank):
         self.dimensions = dimensions
         self.player = player
         self.comp = comp
+        self.blank = blank
 
 # setup the comp player
     def comp_setup(self):
@@ -549,6 +568,51 @@ class Game:
             print('| ')
             letter += 1
 
+    def PrintPlayerBoard(self):
+        letter = 0
+        # prints five blank lines to create space
+        # will need to be adjusted so that each time the PrintBoards is
+        # called a fresh screen appears for the user, total line height = 24
+        print('\n\n\n\n\n')
+        print("PLAYER BOARD")
+        # prints first line of board with numbers for column reference
+        print(' '*2, end='| ')
+        for i in range(self.dimensions):
+            # print('    ')
+            print(i, end=' ')
+        # prints ending character for numbers area and gap to new board
+        print('| ')
+        # prints player board to screen,
+        for letter in range(self.dimensions):
+            # puts a capital letter in front of each row of board
+            print(chr(letter + 65), end=' | ')
+            for column in range(len(self.player.board.board[letter])):
+                print(self.player.board.board[letter][column], end=' ')
+            print('| ')
+            letter += 1
+
+    def PrintBlankBoard(self):
+        letter = 0
+        # prints five blank lines to create space
+        # will need to be adjusted so that each time the PrintBoards is
+        # called a fresh screen appears for the user, total line height = 24
+        print('\n\n\n\n\n')
+        print("BLANK BOARD")
+        # prints first line of board with numbers for column reference
+        print(' '*2, end='| ')
+        for i in range(self.dimensions):
+            # print('    ')
+            print(i, end=' ')
+        # prints ending character for numbers area and gap to new board
+        print('| ')
+        # prints player board to screen,
+        for letter in range(self.dimensions):
+            # puts a capital letter in front of each row of board
+            print(chr(letter + 65), end=' | ')
+            for column in range(len(self.blank.board.board[letter])):
+                print(self.blank.board.board[letter][column], end=' ')
+            print('| ')
+            letter += 1
 # PLAY GAME LOGIC
 
 # END OF GAME LOGIC
@@ -603,8 +667,11 @@ def create_player_ships(dimensions, player, comp):
 def create_players(dimensions, difficulty):
     player = Player('Calico Jack', dimensions)
     comp = Comp('Jonathan Barnet', dimensions, difficulty)
-    game = Game(dimensions, player, comp)
+    blank = Blank(dimensions, comp)
+    game = Game(dimensions, player, comp, blank)
     game.PrintBoards()
+    game.PrintPlayerBoard()
+    game.PrintBlankBoard()
     print(player.board)  # so there is a visible reference of the object
     print(comp.board)  # so there is a visible reference of the object
     create_player_ships(dimensions, player, comp)
