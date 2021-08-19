@@ -118,13 +118,16 @@ class Board:
             else:
                 # Ship fits horizontally but not vertically
                 # check board to see if locations are clear (only contain ~)
-                for i in range(ship.length):
+                i = 0
+                while i < ship.length:
                     if self.board[row_coord_value][column_coord_value] == '~':
                         clear_space_horizontal.append((row_coord_value,
                                                       column_coord_value))
                         column_coord_value += 1
+                        i += 1
                     else:
                         column_coord_value += 1
+                        i += 1
                 if ship.length == len(clear_space_horizontal):
                     print(len(clear_space_horizontal))
                     print("^^^ length of clear space horizontal")
@@ -140,13 +143,16 @@ class Board:
             if vertical_check:
                 # ship fits vertically but not horizontally
                 # check board to see if locations are clear (only contain ~)
-                for i in range(ship.length):
+                i = 0
+                while i < ship.length:
                     if self.board[row_coord_value][column_coord_value] == '~':
                         clear_space_vertical.append((row_coord_value,
                                                     column_coord_value))
                         row_coord_value += 1
+                        i += 1
                     else:
                         row_coord_value += 1
+                        i += 1
                 if ship.length == len(clear_space_vertical):
                     print(len(clear_space_vertical))
                     print("^^^ length of clear space vertical")
