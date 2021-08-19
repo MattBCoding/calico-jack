@@ -3,6 +3,12 @@ import math
 import random
 import string
 # python code goes here
+'''
+NOTE to self
+bug in ship placement doesn't always recognise ships in way
+bug in comp ship placement, doesn't always complete task
+might be related
+'''
 
 
 class Board:
@@ -222,7 +228,7 @@ class Player:
                     NOTE TO SELF
                     Placing of ships works, however it will not let you place
                     ships in all squares. a7 for a three tile ship should
-                    work but gives an error. Need to investigate why and
+                    work but gaves an error. Need to investigate why and
                     remove bug
                     '''
                     if self.board.can_ship_be_placed(
