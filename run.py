@@ -114,6 +114,8 @@ class Board:
                     print("^^^ length of clear space vertical")
                     print("scenario 3")
                     return 3
+                else:
+                    return 8
 
             else:
                 # Ship fits horizontally but not vertically
@@ -452,14 +454,20 @@ class Comp:
                 self.add_ship(ship, coords, orientation, game)
                 break
             elif self.board.can_ship_be_placed(coords, ship) == 5:
+                coords = [random.choice(alpha),
+                          random.randint(0, (self.dimensions - 1))]
                 pass
             elif self.board.can_ship_be_placed(coords, ship) == 6:
                 orientation = 'v'
                 self.add_ship(ship, coords, orientation, game)
                 break
             elif self.board.can_ship_be_placed(coords, ship) == 7:
+                coords = [random.choice(alpha),
+                          random.randint(0, (self.dimensions - 1))]
                 pass
             elif self.board.can_ship_be_placed(coords, ship) == 8:
+                coords = [random.choice(alpha),
+                          random.randint(0, (self.dimensions - 1))]
                 pass
 
     def add_ship(self, ship, coords, orientation, game):
