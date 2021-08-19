@@ -1,5 +1,7 @@
 # import required modules here
 import math
+import random
+import string
 # python code goes here
 
 
@@ -190,6 +192,11 @@ class Player:
     Press 'Enter' to start! ''')
         for ship in self.ships:
             self.position_ship(ship, game)
+        print('''
+    THERE HERE!!! THERE HERE!!! MAN THE CANNONS!!!
+    Wait?? Where is everyone?? You'll have to fight them on your own while I
+    go and wake that drunken rabble up! Do not let Calico Jack down!''')
+        game.comp_setup()
 
     def position_ship(self, ship, game):
         while True:
@@ -273,10 +280,10 @@ class Player:
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 7:
-                        game.PrintBoards()
                         print('''
     Can not place ship, only option from this location is vertical
     which would hit another ship. Try a different location''')
+                        game.PrintBoards()
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 8:
                         print('''
@@ -361,9 +368,60 @@ class Comp:
 
     def __init__(self, name, dimensions, difficulty):
         self.name = name
+        self.dimensions = dimensions
         self.board = Board(dimensions)
         self.difficulty = difficulty
         self.ships = []
+
+    def place_ships(self, game):
+        for ship in self.ships:
+            self.position_ship(ship, game)
+
+    def position_ship(self, ship, game):
+        alpha = list(string.ascii_letters[:self.dimensions])
+        option = ['h', 'v']
+        coords = [random.choice(alpha),
+                  random.randint(0, (self.dimensions - 1))]
+        while True:
+            if self.board.can_ship_be_placed(coords, ship) == 1:
+                orientation = random.choice(option)
+                self.add_ship(ship, coords, orientation, game)
+                break
+            elif self.board.can_ship_be_placed(coords, ship) == 2:
+                orientation = 'h'
+                self.add_ship(ship, coords, orientation, game)
+                break
+            elif self.board.can_ship_be_placed(coords, ship) == 3:
+                orientation = 'v'
+                self.add_ship(ship, coords, orientation, game)
+                break
+            elif self.board.can_ship_be_placed(coords, ship) == 4:
+                orientation = 'h'
+                self.add_ship(ship, coords, orientation, game)
+                break
+            elif self.board.can_ship_be_placed(coords, ship) == 5:
+                pass
+            elif self.board.can_ship_be_placed(coords, ship) == 6:
+                orientation = 'v'
+                self.add_ship(ship, coords, orientation, game)
+                break
+            elif self.board.can_ship_be_placed(coords, ship) == 7:
+                pass
+            elif self.board.can_ship_be_placed(coords, ship) == 8:
+                pass
+
+    def add_ship(self, ship, coords, orientation, game):
+        # copied from player class
+        x = (ord(coords[0].upper()) - 65)
+        y = int(coords[1])
+        ship.set_position(x, y, orientation)
+        print("ship position just set")
+        print(ship.x, ship.y, ship.orientation)
+        self.board.set_ship_position(ship)
+        print("ship added to board ok")
+        game.PrintBoards()
+        print(self.board)  # so I can check the object against original value
+
 
 # AI SELECT LOCATIONS FOR SHIPS LOGIC
 
@@ -387,6 +445,10 @@ class Game:
         self.dimensions = dimensions
         self.player = player
         self.comp = comp
+
+# setup the comp player
+    def comp_setup(self):
+        self.comp.place_ships(self)
 
 # display board
 # display grids, one for targetting one for showing own ship locations
