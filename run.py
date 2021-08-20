@@ -245,8 +245,9 @@ class Player:
         self.board = Board(dimensions)
         self.ships = []
         self.previous_shots = []
+        self.hit_counter = 0
 
-    def get_target_from_user(self, comp, game):
+    def get_target_from_user(self, game):
         while True:
             try:
                 user_target = input('''
@@ -265,25 +266,28 @@ class Player:
                     raise Exception
                 # check target is a valid on board location
                 elif self.board.on_board_test(user_target_coords_list):
+                    a = (ord(user_target_coords_list[0].upper()) - 65)
+                    b = int(user_target_coords_list[1])
+                    shot = [a, b]
                     while True:
                         try:
-                            a = user_target_coords_list[0].upper()
-                            b = user_target_coords_list[1]
-                            shot = [a, b]
                             if shot in self.previous_shots:
+                                print(self.previous_shots)
                                 raise Exception
                             else:
                                 self.previous_shots.append(shot)
                                 print(self.previous_shots)
+                                break
                         except Exception:
                             print('''
     You have already fired there, are you trying to waste our Cannonballs?
     You better get your head in the game pirate, lets try this again!''')
                             break
+                    game.turn_loop(self, shot)
             except Exception:
                 print('''
     We've been through this already, it needs to be in the format of 'E4'
-    Letter then Number, ''')
+    Letter then Number, this is not a time to act the fool, try again! ''')
 
     def get_position_from_user(self, player, comp, game):
         game.PrintBoards()
@@ -484,6 +488,7 @@ class Comp:
         self.board = Board(dimensions)
         self.difficulty = difficulty
         self.ships = []
+        self.hit_counter = 0
 
     def place_ships(self, game):
         for ship in self.ships:
@@ -569,7 +574,48 @@ class Game:
     def comp_setup(self):
         self.comp.place_ships(self)
         self.PrintBlankAndPlayerBoards()
-        self.player.get_target_from_user(self.comp, self)
+        self.player.get_target_from_user(self)
+
+# manage the turn of each player
+    def turn_loop(self, whichplayer, shot):
+        print("start turn loop")
+        if (whichplayer == self.player):
+            print("matched player")
+            print(self.comp.board.board[shot[0]][shot[1]])
+            if self.comp.board.board[shot[0]][shot[1]] == '~':
+                print("checked comp board ok")
+                self.blank.board.board[shot[0]][shot[1]]\
+                    = self.comp.board.board[shot[0]][shot[1]]
+                print('''
+    You missed! Nothing but water! What a waste of some perfectly good
+    iron. You better hope we win or you'll be swimming for that later!
+    Your turn is over!''')
+                self.comp.get_target_from_comp(self)
+            else:
+                self.blank.board.board[shot[0]][shot[1]]\
+                    = self.comp.board.board[shot[0]][shot[1]]
+                print('''
+    Direct Hit!!! The sound of screams and breaking wood is unmistakable!''')
+                self.player.hit_counter += 1
+                # insert function call to check for player win
+                self.comp.get_target_from_comp(self)
+        else:
+            if self.player.board.board[shot[0]][shot[1]] == '~':
+                self.player.board.board[shot[0]][shot[1]] = 'M'
+                print('''
+    They missed! Nothing but water! Useless West India Co landlovers
+    They would miss a bottle of rum if it was in their own hands.
+    It's our turn again, let's do some damage argh!''')
+                self.player.get_target_from_user(self)
+            else:
+                self.player.board.board[shot[0]][shot[1]] = '#'
+                print('''
+    Direct Hit!!! We took damage! Don't just stand their you filthy rats,
+    did you expect them to just send rum and wenches over for a party? It's
+    our turn now!''')
+                self.comp.hit_counter += 1
+                # insert function call to check for player win
+                self.player.get_target_from_user(self)
 
 # display board
 # display grids, one for targetting one for showing own ship locations
