@@ -244,6 +244,46 @@ class Player:
         self.name = name
         self.board = Board(dimensions)
         self.ships = []
+        self.previous_shots = []
+
+    def get_target_from_user(self, comp, game):
+        while True:
+            try:
+                user_target = input('''
+    What are your orders? Where do you want to target?
+    Select the location in the format of row then column e.g. 'E4' : ''')
+                # THIS NEEDS REFACTORING IS DUPLICATED CODE
+                # DUPLICATED IN SHIP PLACEMENT AS WELL
+                # MOVE INTO OWN FUNCTION
+                # convert to a list
+                user_target_coords_list = list(user_target)
+                # check input is correct length
+                if len(user_target_coords_list) != 2:
+                    raise Exception
+                elif (not user_target_coords_list[0].isalpha()
+                        or not user_target_coords_list[1].isdigit()):
+                    raise Exception
+                # check target is a valid on board location
+                elif self.board.on_board_test(user_target_coords_list):
+                    while True:
+                        try:
+                            a = user_target_coords_list[0].upper()
+                            b = user_target_coords_list[1]
+                            shot = [a, b]
+                            if shot in self.previous_shots:
+                                raise Exception
+                            else:
+                                self.previous_shots.append(shot)
+                                print(self.previous_shots)
+                        except Exception:
+                            print('''
+    You have already fired there, are you trying to waste our Cannonballs?
+    You better get your head in the game pirate, lets try this again!''')
+                            break
+            except Exception:
+                print('''
+    We've been through this already, it needs to be in the format of 'E4'
+    Letter then Number, ''')
 
     def get_position_from_user(self, player, comp, game):
         game.PrintBoards()
@@ -529,6 +569,7 @@ class Game:
     def comp_setup(self):
         self.comp.place_ships(self)
         self.PrintBlankAndPlayerBoards()
+        self.player.get_target_from_user(self.comp, self)
 
 # display board
 # display grids, one for targetting one for showing own ship locations
