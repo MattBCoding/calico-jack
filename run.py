@@ -528,6 +528,7 @@ class Game:
 # setup the comp player
     def comp_setup(self):
         self.comp.place_ships(self)
+        self.PrintBlankAndPlayerBoards()
 
 # display board
 # display grids, one for targetting one for showing own ship locations
@@ -565,6 +566,43 @@ class Game:
             print(chr(letter + 65), end=' | ')
             for column in range(len(self.comp.board.board[letter])):
                 print(self.comp.board.board[letter][column], end=' ')
+            print('| ')
+            letter += 1
+
+    def PrintBlankAndPlayerBoards(self):
+        letter = 0
+        # prints five blank lines to create space
+        # will need to be adjusted so that each time the PrintBoards is
+        # called a fresh screen appears for the user, total line height = 24
+        print('\n\n\n\n\n')
+        # prints first line of board with numbers for column reference
+        print(' '*2, end='| ')
+        for i in range(self.dimensions):
+            # print('    ')
+            print(i, end=' ')
+        # prints ending character for numbers area and gap to new board
+        print('| ', ' '*20, end=' ')
+        # prints first line of board with numbers for column reference board 2
+        print(' '*2, end='| ')
+        for i in range(self.dimensions):
+            # print('    ')
+            print(i, end=' ')
+        print('| ')
+
+        # prints player board to screen,
+        for letter in range(self.dimensions):
+            # puts a capital letter in front of each row of board
+            print(chr(letter + 65), end=' | ')
+            for column in range(len(self.blank.board.board[letter])):
+                print(self.blank.board.board[letter][column], end=' ')
+        # prints ending character for numbers area and gap to new board
+        # MIDDLE TABLE information needs to go in here
+            print('|', ' '*20, end='  ')
+        # prints comp board to screen,
+            # puts a capital letter in front of each row of board
+            print(chr(letter + 65), end=' | ')
+            for column in range(len(self.player.board.board[letter])):
+                print(self.player.board.board[letter][column], end=' ')
             print('| ')
             letter += 1
 
