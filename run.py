@@ -2,6 +2,7 @@
 import math
 import random
 import string
+import time
 # python code goes here
 '''
 NOTE to self
@@ -256,11 +257,11 @@ class Player:
         # THEN WHILE VARIABLE IS LESS THAN LENGTH OF PREVIOUS SHOTS
         x = 0
         shot = None
-        while x < 1:
-            try:
+        try:
+            while x < 1:
                 user_target = input('''
-    What are your orders? Where do you want to target?
-    Select the location in the format of row then column e.g. 'E4' : ''')
+What are your orders? Where do you want to target?
+Select the location in the format of row then column e.g. 'E4' : ''')
                 # THIS NEEDS REFACTORING IS DUPLICATED CODE
                 # DUPLICATED IN SHIP PLACEMENT AS WELL
                 # MOVE INTO OWN FUNCTION
@@ -285,17 +286,18 @@ class Player:
                             else:
                                 self.previous_shots.append(shot)
                                 print(self.previous_shots)
+                                x += 1
                                 break
                         except Exception:
+                            game.PrintBlankAndPlayerBoards()
                             print('''
-    You have already fired there, are you trying to waste our Cannonballs?
-    You better get your head in the game pirate, lets try this again!''')
+You have already fired there, are you trying to waste our Cannonballs?
+You better get your head in the game pirate, lets try this again!''')
                             break
-                x += 1
-            except Exception:
-                print('''
-    We've been through this already, it needs to be in the format of 'E4'
-    Letter then Number, this is not a time to act the fool, try again! ''')
+        except Exception:
+            print('''
+We've been through this already, it needs to be in the format of 'E4'
+Letter then Number, this is not a time to act the fool, try again! ''')
         game.turn_loop(self, shot)
 
     def get_position_from_user(self, player, comp, game):
@@ -619,6 +621,7 @@ class Game:
     You missed! Nothing but water! What a waste of some perfectly good
     iron. You better hope we win or you'll be swimming for that later!
     Your turn is over!''')
+                time.sleep(5)
                 self.comp.get_target_from_comp(self)
             else:
                 self.blank.board.board[shot[0]][shot[1]]\
@@ -628,6 +631,7 @@ class Game:
     Direct Hit!!! The sound of screams and breaking wood is unmistakable!''')
                 self.player.hit_counter += 1
                 # insert function call to check for player win
+                time.sleep(5)
                 self.comp.get_target_from_comp(self)
         else:
             if self.player.board.board[shot[0]][shot[1]] == '~':
@@ -637,6 +641,7 @@ class Game:
     They missed! Nothing but water! Useless West India Co landlovers
     They would miss a bottle of rum if it was in their own hands.
     It's our turn again, let's do some damage argh!''')
+                time.sleep(5)
                 self.player.get_target_from_user(self)
             else:
                 self.player.board.board[shot[0]][shot[1]] = '#'
@@ -647,6 +652,7 @@ class Game:
     our turn now!''')
                 self.comp.hit_counter += 1
                 # insert function call to check for player win
+                time.sleep(5)
                 self.player.get_target_from_user(self)
 
 # display board
