@@ -248,7 +248,15 @@ class Player:
         self.hit_counter = 0
 
     def get_target_from_user(self, game):
-        while True:
+        # NEED TO CHANGE THIS LOOP
+        # FUNCTION WORKS BUT DOES NOT EXIT LOOP
+        # THIS WILL LIKELY LEAD TO AN ISSUE WITH MULTIPLE
+        # WHILE TRUE LOOPS BEING RUN CONCURRENTLY INSIDE EACH OTHER
+        # HOW ABOUT A VARIABLE = LENGTH OF PREVIOUS SHOTS
+        # THEN WHILE VARIABLE IS LESS THAN LENGTH OF PREVIOUS SHOTS
+        x = 0
+        shot = None
+        while x < 1:
             try:
                 user_target = input('''
     What are your orders? Where do you want to target?
@@ -283,11 +291,12 @@ class Player:
     You have already fired there, are you trying to waste our Cannonballs?
     You better get your head in the game pirate, lets try this again!''')
                             break
-                    game.turn_loop(self, shot)
+                x += 1
             except Exception:
                 print('''
     We've been through this already, it needs to be in the format of 'E4'
     Letter then Number, this is not a time to act the fool, try again! ''')
+        game.turn_loop(self, shot)
 
     def get_position_from_user(self, player, comp, game):
         game.PrintBoards()
@@ -488,7 +497,26 @@ class Comp:
         self.board = Board(dimensions)
         self.difficulty = difficulty
         self.ships = []
+        self.previous_shots = []
         self.hit_counter = 0
+
+    def get_target_from_comp(self, game):
+        alpha = list(string.ascii_letters[:self.dimensions])
+        shot = None
+        if self.difficulty == 'e':
+            x = 0
+            while x < 1:
+                coords = [random.choice(alpha),
+                          random.randint(0, (self.dimensions - 1))]
+                shot = [(ord(coords[0].upper()) - 65), int(coords[1])]
+                if shot in self.previous_shots:
+                    continue
+                else:
+                    self.previous_shots.append(shot)
+                    print("comp shot")
+                    print(shot)
+                    x += 1
+            game.turn_loop(self, shot)
 
     def place_ships(self, game):
         for ship in self.ships:
@@ -586,6 +614,7 @@ class Game:
                 print("checked comp board ok")
                 self.blank.board.board[shot[0]][shot[1]]\
                     = self.comp.board.board[shot[0]][shot[1]]
+                self.PrintBlankAndPlayerBoards()
                 print('''
     You missed! Nothing but water! What a waste of some perfectly good
     iron. You better hope we win or you'll be swimming for that later!
@@ -594,6 +623,7 @@ class Game:
             else:
                 self.blank.board.board[shot[0]][shot[1]]\
                     = self.comp.board.board[shot[0]][shot[1]]
+                self.PrintBlankAndPlayerBoards()
                 print('''
     Direct Hit!!! The sound of screams and breaking wood is unmistakable!''')
                 self.player.hit_counter += 1
@@ -602,6 +632,7 @@ class Game:
         else:
             if self.player.board.board[shot[0]][shot[1]] == '~':
                 self.player.board.board[shot[0]][shot[1]] = 'M'
+                self.PrintBlankAndPlayerBoards()
                 print('''
     They missed! Nothing but water! Useless West India Co landlovers
     They would miss a bottle of rum if it was in their own hands.
@@ -609,6 +640,7 @@ class Game:
                 self.player.get_target_from_user(self)
             else:
                 self.player.board.board[shot[0]][shot[1]] = '#'
+                self.PrintBlankAndPlayerBoards()
                 print('''
     Direct Hit!!! We took damage! Don't just stand their you filthy rats,
     did you expect them to just send rum and wenches over for a party? It's
