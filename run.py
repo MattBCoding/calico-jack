@@ -3,6 +3,7 @@ import math
 import random
 import string
 import time
+import sys
 # python code goes here
 '''
 NOTE to self
@@ -10,6 +11,19 @@ bug in ship placement doesn't always recognise ships in way
 bug in comp ship placement, doesn't always complete task
 might be related
 '''
+
+
+def loading():
+    print("Loading...")
+    print(u"\u001b[1m\u001b[31m")
+    for i in range(0, 100):
+        time.sleep(0.1)
+        width = int((i + 1) / 4)
+        bar = "[" + "#" * width + " " * (25 - width) + "]"
+        sys.stdout.write(u"\u001b[1000D" + bar)
+        sys.stdout.flush()
+    print
+    print(u"\u001b[0m")
 
 
 class Board:
@@ -843,6 +857,7 @@ def create_players(dimensions, difficulty):
 
 # SETUP function - establishes parameters for game
 def setup():
+    loading()
     print('''
     Good on ya, argh, we'll make a pirate out of ye yet!''')
 # USER OPTIONS LOGIC
