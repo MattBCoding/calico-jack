@@ -26,6 +26,48 @@ def loading():
     print(u"\u001b[0m")
 
 
+# def loading(count):
+#     print("Loading...")
+#     print(u"\u001b[1m\u001b[31m")
+#     # for i in range(0, 100):
+#     #     time.sleep(0.1)
+#     #     width = int((i + 1) / 4)
+#     #     bar = "[" + "#" * width + " " * (25 - width) + "]"
+#     #     sys.stdout.write(u"\u001b[1000D" + bar)
+#     #     sys.stdout.flush()
+#     # print
+#     all_progress = [0] * count
+#     sys.stdout.write("\n" * count)  # Make sure we have space to draw the bars
+#     while any(x < 100 for x in all_progress):
+#         time.sleep(0.01)
+#         # Randomly increment one of our progress values
+#         unfinished = [(i, v) for (i, v) in enumerate(all_progress) if v < 100]
+#         index, _ = random.choice(unfinished)
+#         all_progress[index] += 1
+
+#         # Draw the progress bars
+#         sys.stdout.write(u"\u001b[1000D")  # Move left
+#         sys.stdout.write(u"\u001b[" + str(count) + "A")  # Move up
+#         for progress in all_progress:
+#             width = int(progress / 4)
+#             print("[" + "#" * width + " " * (25 - width) + "]")
+#     print(u"\u001b[0m")
+class C:
+    END = '\33[0m'
+    BLACK = '\33[30m'
+    RED = '\33[91m'
+    GREEN = '\33[92m'
+    YELLOW = '\33[93m'
+    BLUE = '\33[94m'
+    BGBLACK = '\33[40m'
+    BGRED = '\33[41m'
+    BGGREEN = '\33[42m'
+    BGYELLOW = '\33[43m'
+    BGBLUE = '\33[44m'
+    BGVIOLET = '\33[45m'
+    BGWHITE = '\33[47m'
+
+
 class Board:
     '''
     Creates and manages the playing boards,
@@ -275,7 +317,7 @@ class Player:
             while x < 1:
                 user_target = input('''
 What are your orders? Where do you want to target?
-Select the location in the format of row then column e.g. 'E4' : ''')
+Select the location in the format of row then column e.g. 'E4':\n''')
                 # THIS NEEDS REFACTORING IS DUPLICATED CODE
                 # DUPLICATED IN SHIP PLACEMENT AS WELL
                 # MOVE INTO OWN FUNCTION
@@ -318,13 +360,13 @@ Letter then Number, this is not a time to act the fool, try again! ''')
         game.PrintBoards()
         input('''
     Now we need to position our ships ready for battle! Are ye ready?
-    Press 'Enter' to start! ''')
+    Press 'Enter' to start!\n''')
         for ship in self.ships:
             self.position_ship(ship, game)
         print('''
     THERE HERE!!! THERE HERE!!! MAN THE CANNONS!!!
     Wait?? Where is everyone?? You'll have to fight them on your own while I
-    go and wake that drunken rabble up! Do not let Calico Jack down!''')
+    go and wake that drunken rabble up! Do not let Calico Jack down!\n''')
         game.comp_setup()
 
     def position_ship(self, ship, game):
@@ -332,7 +374,7 @@ Letter then Number, this is not a time to act the fool, try again! ''')
             try:
                 user_input_coords = input(f'''
     Please select the starting location for your {ship.name}, it is
-    {ship.length} tiles long, in the format of row then column e.g. 'E4' : ''')
+    {ship.length} tiles long, in the format of row then column e.g. 'E4':\n''')
                 # convert input to list
                 user_input_coords_list = list(user_input_coords)
                 # check input is the correct length
@@ -360,7 +402,7 @@ Letter then Number, this is not a time to act the fool, try again! ''')
                             orientation = input('''
     Would you like to place this ship horizontally, left to right
     or vertically, downwards from starting location?
-    Enter 'H' for horizontally, 'V' for vertically : ''').lower()
+    Enter 'H' for horizontally, 'V' for vertically:\n''').lower()
                             if (orientation != 'h') and (orientation != 'v'):
                                 raise Exception
                             else:
@@ -411,13 +453,13 @@ Letter then Number, this is not a time to act the fool, try again! ''')
                             user_input_coords_list, ship) == 7:
                         print('''
     Can not place ship, only option from this location is vertical
-    which would hit another ship. Try a different location''')
+    which would hit another ship. Try a different location\n''')
                         game.PrintBoards()
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 8:
                         print('''
     Can not place ship, it will not fit either horizontally or
-    vertically at this location. Try a different location''')
+    vertically at this location. Try a different location\n''')
                 else:
                     raise Exception
             except Exception:
@@ -425,7 +467,7 @@ Letter then Number, this is not a time to act the fool, try again! ''')
     The starting location needs to be entered in the format of row then
     column, e.g. 'F4' or 'A2' a letter followed by a number,
     no spaces, dashes, dots or bottles of rum before after or in the
-    middle. Try again!''')
+    middle. Try again!\n''')
 
     def add_ship(self, ship, coords, orientation, game):
         x = (ord(coords[0].upper()) - 65)
@@ -634,7 +676,7 @@ class Game:
                 print('''
     You missed! Nothing but water! What a waste of some perfectly good
     iron. You better hope we win or you'll be swimming for that later!
-    Your turn is over!''')
+    Your turn is over!\n''')
                 time.sleep(5)
                 self.comp.get_target_from_comp(self)
             else:
@@ -649,12 +691,12 @@ class Game:
                 self.comp.get_target_from_comp(self)
         else:
             if self.player.board.board[shot[0]][shot[1]] == '~':
-                self.player.board.board[shot[0]][shot[1]] = 'M'
+                self.player.board.board[shot[0]][shot[1]] = C.YELLOW + 'M' + C.END
                 self.PrintBlankAndPlayerBoards()
                 print('''
     They missed! Nothing but water! Useless West India Co landlovers
     They would miss a bottle of rum if it was in their own hands.
-    It's our turn again, let's do some damage argh!''')
+    It's our turn again, let's do some damage argh!\n''')
                 time.sleep(5)
                 self.player.get_target_from_user(self)
             else:
@@ -662,8 +704,8 @@ class Game:
                 self.PrintBlankAndPlayerBoards()
                 print('''
     Direct Hit!!! We took damage! Don't just stand their you filthy rats,
-    did you expect them to just send rum and wenches over for a party? It's
-    our turn now!''')
+    did you expect them to just send over rum and wenches for a party? It's
+    our turn now!\n''')
                 self.comp.hit_counter += 1
                 # insert function call to check for player win
                 time.sleep(5)
@@ -867,7 +909,7 @@ def setup():
             # user input of desired dimension for board
             dimensions = int(input('''
     How brave are ye? Shall we play a full game or a little one?
-    Select a board size, enter '6' for a little one or '10' for normal : '''))
+    Select a board size, enter '6' for a little one or '10' for normal:\n'''))
             #   validation of user input
             if (dimensions != 6) and (dimensions != 10):
                 raise Exception()
@@ -877,7 +919,7 @@ def setup():
         except Exception:
             print('''
     Don't be getting all artistic with the choices like some scurvy landlover
-    It's either '6' or '10' that be it. Try again!''')
+    It's either '6' or '10' that be it. Try again!\n''')
 
 # Difficulty options
 # easy - comp selects tiles at random
@@ -888,7 +930,7 @@ def setup():
             if dimensions == 6:
                 difficulty = input('''
     A little one, suppose you want it easy as well? Select your difficulty,
-    enter 'E' for easy, 'N' for normal or 'H' for hard : ''').lower()
+    enter 'E' for easy, 'N' for normal or 'H' for hard:\n''').lower()
                 if ((difficulty != 'e')
                         and (difficulty != 'n')
                         and (difficulty != 'h')):
@@ -913,7 +955,7 @@ def setup():
                 difficulty = input('''
     Hmm a full one, ye be a brave pirate to tryin to impress me? If you really
     want to impress me, you should try it on hard Select your difficulty,
-    enter 'E' for easy, 'N' for normal or 'H' for hard : ''').lower()
+    enter 'E' for easy, 'N' for normal or 'H' for hard:\n''').lower()
                 if ((difficulty != 'e')
                         and (difficulty != 'n')
                         and (difficulty != 'h')):
@@ -936,7 +978,7 @@ def setup():
         except Exception:
             print('''
     There ye go getting artistic, are ye a pirate or a West Indian spy?
-    Try again, before we make ye walk the plank, it's 'E', 'N' or 'H' ''')
+    Try again, before we make ye walk the plank, it's 'E', 'N' or 'H'\n''')
     create_players(dimensions, difficulty)
 
 
@@ -947,11 +989,6 @@ def setup():
 
 def start():
 
-    print('''
-    Welcome to Pirate Battleships
-    This is a test for the multi line string
-    To see how it formats it when it runs
-    ''')
     print('''
       . .    . .  . . .  . .  . .     ,((/. .    . .  . . .  . .  . .    . .
     . .    . .  . . .  . .  .@@@@@@@@@@@@@@@@@ . .  . . .  . .  . .    . .
@@ -978,9 +1015,8 @@ def start():
     play = 'N'
     while play == 'N':
         try:
-            play = input('''
-    Would you like to play a game me 'arty?
-    (enter 'Y' to play or 'Q' to quit) : ''').lower()
+            play = input('''Would you like to play a game me 'arty?
+(enter 'Y' to play or 'Q' to quit):\n''').lower()
             if (play != 'y') and (play != 'q'):
                 raise Exception()
             elif play == "q":
@@ -990,7 +1026,7 @@ def start():
         except Exception:
             print('''
     Argh! you woke me up for nothin... I should make ye walk the plank...
-    Wait, shall we try that again?''')
+    Wait, shall we try that again?\n''')
             play = 'N'
 
     setup()
