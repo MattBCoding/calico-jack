@@ -673,11 +673,19 @@ class Game:
         self.comp = comp
         self.blank = blank
 
+# setup the winning condition
+    def win_needs(self, hits):
+        self.to_win = hits
+        print("from the win_needs method")
+        print(self.to_win)
+
 # setup the comp player
     def comp_setup(self):
         self.comp.place_ships(self)
         self.PrintBlankAndPlayerBoards()
         self.player.get_target_from_user(self)
+
+    # def check_for_win(self):
 
 # manage the turn of each player
 # check board locations for ships
@@ -863,7 +871,7 @@ class Game:
 #   if no - display a thank you for playing message and exit app
 
 
-def create_player_ships(dimensions, player, comp):
+def create_player_ships(dimensions, player, comp, game):
     # pre-determined ratio so number of ships is appropriate
     number_of_ships_ratio = 0.6
     # list of possible ships in game, for large boards
@@ -880,6 +888,7 @@ def create_player_ships(dimensions, player, comp):
     print(number_of_ships)
     fleet = []
     x = 0
+    hits = 0
     # generate list of ships for each player
     while x < number_of_ships:
         v = x % len(ships)
@@ -893,6 +902,10 @@ def create_player_ships(dimensions, player, comp):
     fleet = sorted(fleet, reverse=True, key=lambda x: x[1])
     print(fleet)
     print(len(fleet))
+    # takes sum of the length of each ship to create win condition
+    for ship in fleet:
+        hits += ship[1]
+    game.win_needs(hits)
     # creates Boat object for each ship within player objects
     for ship in fleet:
         player.ships.append(Boat(ship[0], ship[1]))
@@ -911,7 +924,7 @@ def create_players(dimensions, difficulty):
     game.PrintBlankBoard()
     print(player.board)  # so there is a visible reference of the object
     print(comp.board)  # so there is a visible reference of the object
-    create_player_ships(dimensions, player, comp)
+    create_player_ships(dimensions, player, comp, game)
     player.get_position_from_user(player, comp, game)
 
 
