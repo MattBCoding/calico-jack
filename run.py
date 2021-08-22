@@ -7,21 +7,28 @@ import sys
 # python code goes here
 '''
 NOTE to self
-bug in ship placement doesn't always recognise ships in way
-bug in comp ship placement, doesn't always complete task
-might be related
+BUG in targetting on user input when they enter nothing
+need to add win condition
+need to reorganise starting menu to include instructions
+need to add backstory
+need to adjust formatting for deployed terminal emulator
+use color class to add colours to strings and boards
+need to add scoreboard
+could add leaderboard and link in a google sheet for highscores
+possibly move some classes to other files to make things easier to find
 '''
 
 
 def loading():
     print("Loading...")
-    print(u"\u001b[1m\u001b[31m")
+    print(u"\u001b[1m\u001b[31m\n")
     for i in range(0, 100):
-        time.sleep(0.1)
+        time.sleep(0.01)
         width = int((i + 1) / 4)
         bar = "[" + "#" * width + " " * (25 - width) + "]"
         sys.stdout.write(u"\u001b[1000D" + bar)
         sys.stdout.flush()
+    sys.stdout.write(u"\u001b[" + "A")
     print
     print(u"\u001b[0m")
 
@@ -250,9 +257,7 @@ class Board:
 
 
 # create grid and store player ship locations
-# create blanked out version of board to display in game
 # add ships to board
-# check board locations for ships
 
 # validation of ship location - does ship overlap any other ships?
 # display error message informing user
@@ -305,12 +310,12 @@ class Player:
         self.hit_counter = 0
 
     def get_target_from_user(self, game):
-        # NEED TO CHANGE THIS LOOP
-        # FUNCTION WORKS BUT DOES NOT EXIT LOOP
-        # THIS WILL LIKELY LEAD TO AN ISSUE WITH MULTIPLE
-        # WHILE TRUE LOOPS BEING RUN CONCURRENTLY INSIDE EACH OTHER
-        # HOW ABOUT A VARIABLE = LENGTH OF PREVIOUS SHOTS
-        # THEN WHILE VARIABLE IS LESS THAN LENGTH OF PREVIOUS SHOTS
+        # BUG if user presses enter instead of inputting a coord
+        # system generates a TypeError: 'NoneType' object is not
+        # subscriptable. inserted a if statement to check for this
+        # which successfully generates the message, however as its
+        # out of a while loop, it no longer repeats the input
+        # need to fix
         x = 0
         shot = None
         try:
@@ -318,38 +323,46 @@ class Player:
                 user_target = input('''
 What are your orders? Where do you want to target?
 Select the location in the format of row then column e.g. 'E4':\n''')
+                if user_target is None:
+                    raise TypeError
                 # THIS NEEDS REFACTORING IS DUPLICATED CODE
                 # DUPLICATED IN SHIP PLACEMENT AS WELL
                 # MOVE INTO OWN FUNCTION
                 # convert to a list
-                user_target_coords_list = list(user_target)
+                else:
+                    user_target_coords_list = list(user_target)
                 # check input is correct length
-                if len(user_target_coords_list) != 2:
-                    raise Exception
-                elif (not user_target_coords_list[0].isalpha()
-                        or not user_target_coords_list[1].isdigit()):
-                    raise Exception
-                # check target is a valid on board location
-                elif self.board.on_board_test(user_target_coords_list):
-                    a = (ord(user_target_coords_list[0].upper()) - 65)
-                    b = int(user_target_coords_list[1])
-                    shot = [a, b]
-                    while True:
-                        try:
-                            if shot in self.previous_shots:
-                                print(self.previous_shots)
-                                raise Exception
-                            else:
-                                self.previous_shots.append(shot)
-                                print(self.previous_shots)
-                                x += 1
-                                break
-                        except Exception:
-                            game.PrintBlankAndPlayerBoards()
-                            print('''
+                    if len(user_target_coords_list) != 2:
+                        raise Exception
+                    elif (not user_target_coords_list[0].isalpha()
+                            or not user_target_coords_list[1].isdigit()):
+                        raise Exception
+                    # check target is a valid on board location
+                    elif self.board.on_board_test(user_target_coords_list):
+                        a = (ord(user_target_coords_list[0].upper()) - 65)
+                        b = int(user_target_coords_list[1])
+                        shot = [a, b]
+                        while True:
+                            try:
+                                if shot in self.previous_shots:
+                                    print(self.previous_shots)
+                                    raise Exception
+                                else:
+                                    self.previous_shots.append(shot)
+                                    print(self.previous_shots)
+                                    x += 1
+                                    break
+                            except Exception:
+                                game.PrintBlankAndPlayerBoards()
+                                print('''
 You have already fired there, are you trying to waste our Cannonballs?
 You better get your head in the game pirate, lets try this again!''')
                             break
+        except TypeError:
+            print('''
+You have to choose a target location! Waving the white flag will just
+get your head to the gallows sooner. Try again, it needs to be in the format
+of 'E4' letter then number, no spaces, no dashes, no second chances!\n''')
         except Exception:
             print('''
 We've been through this already, it needs to be in the format of 'E4'
@@ -357,7 +370,8 @@ Letter then Number, this is not a time to act the fool, try again! ''')
         game.turn_loop(self, shot)
 
     def get_position_from_user(self, player, comp, game):
-        game.PrintBoards()
+        game.PrintBoards()  # remove this for finished game
+        # game.PrintPlayerBoard() switch to this line for finished game
         input('''
     Now we need to position our ships ready for battle! Are ye ready?
     Press 'Enter' to start!\n''')
@@ -372,11 +386,14 @@ Letter then Number, this is not a time to act the fool, try again! ''')
     def position_ship(self, ship, game):
         while True:
             try:
+                # display message informing user on next ship to be placed
+                # name and size
                 user_input_coords = input(f'''
     Please select the starting location for your {ship.name}, it is
     {ship.length} tiles long, in the format of row then column e.g. 'E4':\n''')
                 # convert input to list
                 user_input_coords_list = list(user_input_coords)
+                # user input of starting location for next ship
                 # check input is the correct length
                 if len(user_input_coords_list) != 2:
                     raise Exception
@@ -384,6 +401,7 @@ Letter then Number, this is not a time to act the fool, try again! ''')
                 elif (not user_input_coords_list[0].isalpha()
                         or not user_input_coords_list[1].isdigit()):
                     raise Exception
+                # input validation of starting location for next ship
                 # need to check if input is valid board coords.
                 elif self.board.on_board_test(user_input_coords_list):
                     # now need to check if ship can be placed Hor or Ver
@@ -462,6 +480,7 @@ Letter then Number, this is not a time to act the fool, try again! ''')
     vertically at this location. Try a different location\n''')
                 else:
                     raise Exception
+# display error message - repeat user input
             except Exception:
                 print('''
     The starting location needs to be entered in the format of row then
@@ -482,10 +501,6 @@ Letter then Number, this is not a time to act the fool, try again! ''')
 
 
 # GAME SETUP LOGIC
-# display message informing user on next ship to be placed - name and size
-# user input of starting location for next ship
-# input validation of starting location for next ship
-# display error message - repeat user input
 # validation of ship location - does ship fit starting in that location in
 #       either horizontal or vertical orientation?
 # if fails location validation - display error message to user informing them
@@ -528,6 +543,8 @@ Letter then Number, this is not a time to act the fool, try again! ''')
 #       - display error message to user and restart targetting process
 #   check target location for enemy ship
 #   hit or miss?
+
+# create blanked out version of board to display in game
 class Blank:
     '''
     class to hold a blank board to display to player
@@ -663,6 +680,7 @@ class Game:
         self.player.get_target_from_user(self)
 
 # manage the turn of each player
+# check board locations for ships
     def turn_loop(self, whichplayer, shot):
         print("start turn loop")
         if (whichplayer == self.player):
@@ -677,7 +695,7 @@ class Game:
     You missed! Nothing but water! What a waste of some perfectly good
     iron. You better hope we win or you'll be swimming for that later!
     Your turn is over!\n''')
-                time.sleep(5)
+                time.sleep(2)
                 self.comp.get_target_from_comp(self)
             else:
                 self.blank.board.board[shot[0]][shot[1]]\
@@ -687,7 +705,7 @@ class Game:
     Direct Hit!!! The sound of screams and breaking wood is unmistakable!''')
                 self.player.hit_counter += 1
                 # insert function call to check for player win
-                time.sleep(5)
+                time.sleep(2)
                 self.comp.get_target_from_comp(self)
         else:
             if self.player.board.board[shot[0]][shot[1]] == '~':
@@ -697,7 +715,7 @@ class Game:
     They missed! Nothing but water! Useless West India Co landlovers
     They would miss a bottle of rum if it was in their own hands.
     It's our turn again, let's do some damage argh!\n''')
-                time.sleep(5)
+                time.sleep(2)
                 self.player.get_target_from_user(self)
             else:
                 self.player.board.board[shot[0]][shot[1]] = '#'
@@ -708,7 +726,7 @@ class Game:
     our turn now!\n''')
                 self.comp.hit_counter += 1
                 # insert function call to check for player win
-                time.sleep(5)
+                time.sleep(2)
                 self.player.get_target_from_user(self)
 
 # display board
@@ -718,7 +736,7 @@ class Game:
         # prints five blank lines to create space
         # will need to be adjusted so that each time the PrintBoards is
         # called a fresh screen appears for the user, total line height = 24
-        print('\n\n\n\n\n')
+        print('\n\n\n\n\n\n\n\n')
         # prints first line of board with numbers for column reference
         print(' '*2, end='| ')
         for i in range(self.dimensions):
@@ -755,7 +773,7 @@ class Game:
         # prints five blank lines to create space
         # will need to be adjusted so that each time the PrintBoards is
         # called a fresh screen appears for the user, total line height = 24
-        print('\n\n\n\n\n')
+        print('\n\n\n\n\n\n\n\n')
         # prints first line of board with numbers for column reference
         print(' '*2, end='| ')
         for i in range(self.dimensions):
@@ -792,7 +810,7 @@ class Game:
         # prints five blank lines to create space
         # will need to be adjusted so that each time the PrintBoards is
         # called a fresh screen appears for the user, total line height = 24
-        print('\n\n\n\n\n')
+        print('\n\n\n\n\n\n\n\n')
         print("PLAYER BOARD")
         # prints first line of board with numbers for column reference
         print(' '*2, end='| ')
@@ -815,7 +833,7 @@ class Game:
         # prints five blank lines to create space
         # will need to be adjusted so that each time the PrintBoards is
         # called a fresh screen appears for the user, total line height = 24
-        print('\n\n\n\n\n')
+        print('\n\n\n\n\n\n\n\n')
         print("BLANK BOARD")
         # prints first line of board with numbers for column reference
         print(' '*2, end='| ')
