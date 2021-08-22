@@ -679,6 +679,46 @@ class Game:
         print("from the win_needs method")
         print(self.to_win)
 
+# check for a win
+    def check_for_win(self, whichplayer):
+        if whichplayer.hit_counter == self.to_win:
+            return True
+        else:
+            return False
+
+# end game and declare winner
+    def end_game(self, whichplayer):
+        spacer = int((72 - len(whichplayer.name))/2)
+        name = whichplayer.name
+        print("\n\n\n\n\n\n\n\n")
+        print(C.RED + '#' * 74 + C.END)
+        print(C.RED + '#' * 74 + C.END)
+        print(C.RED + '#' + ' ' * 72 + '#' + C.END)
+        print(C.RED + '#' + ' ' * 72 + '#' + C.END)
+        print(C.RED + '#' + ' ' * 32 + 'You Win!' + ' ' * 32 + '#' + C.END)
+        print(C.RED + '#' + ' ' * spacer + name + ' ' * spacer + '#' + C.END)
+        print(C.RED + '#' + ' ' * 72 + '#' + C.END)
+        print(C.RED + '#' * 74 + C.END)
+        print(C.RED + '#' * 74 + C.END)
+        print('\n\n\n\n')
+        again = 'N'
+        while again == 'N':
+            try:
+                again = input('''Would you like to play again me 'arty?
+    (enter 'Y' to play or 'N' to quit):\n''').lower()
+                if (again != 'y') and (again != 'n'):
+                    raise Exception()
+                elif again == "n":
+                    print('''
+        Goodbye''')
+                    quit()
+            except Exception:
+                print('''
+        Argh! all that for nothin... I should make ye walk the plank...
+        Wait, shall we try that again?\n''')
+                again = 'N'
+        setup()
+
 # setup the comp player
     def comp_setup(self):
         self.comp.place_ships(self)
@@ -713,8 +753,11 @@ class Game:
     Direct Hit!!! The sound of screams and breaking wood is unmistakable!''')
                 self.player.hit_counter += 1
                 # insert function call to check for player win
-                time.sleep(2)
-                self.comp.get_target_from_comp(self)
+                if self.check_for_win(whichplayer):
+                    self.end_game(whichplayer)
+                else:
+                    time.sleep(2)
+                    self.comp.get_target_from_comp(self)
         else:
             if self.player.board.board[shot[0]][shot[1]] == '~':
                 self.player.board.board[shot[0]][shot[1]] = C.YELLOW + 'M' + C.END
