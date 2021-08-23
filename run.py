@@ -44,11 +44,11 @@ def loading():
 #     #     sys.stdout.flush()
 #     # print
 #     all_progress = [0] * count
-#     sys.stdout.write("\n" * count)  # Make sure we have space to draw the bars
+#     sys.stdout.write("\n" * count)  # Make sure we have space 2 draw the bars
 #     while any(x < 100 for x in all_progress):
 #         time.sleep(0.01)
 #         # Randomly increment one of our progress values
-#         unfinished = [(i, v) for (i, v) in enumerate(all_progress) if v < 100]
+#         unfinished = [(i, v) for (i, v) in enumerate(all_progress) if v<100]
 #         index, _ = random.choice(unfinished)
 #         all_progress[index] += 1
 
@@ -353,7 +353,7 @@ Select the location in the format of row then column e.g. 'E4':\n''')
                                     x += 1
                                     break
                             except Exception:
-                                game.PrintBlankAndPlayerBoards()
+                                game.print_blank_and_player_boards()
                                 print('''
 You have already fired there, are you trying to waste our Cannonballs?
 You better get your head in the game pirate, lets try this again!''')
@@ -370,8 +370,8 @@ Letter then Number, this is not a time to act the fool, try again! ''')
         game.turn_loop(self, shot)
 
     def get_position_from_user(self, player, comp, game):
-        game.PrintBoards()  # remove this for finished game
-        # game.PrintPlayerBoard() switch to this line for finished game
+        game.print_boards()  # remove this for finished game
+        # game.print_player_board() switch to this line for finished game
         input('''
     Now we need to position our ships ready for battle! Are ye ready?
     Press 'Enter' to start!\n''')
@@ -472,7 +472,7 @@ Letter then Number, this is not a time to act the fool, try again! ''')
                         print('''
     Can not place ship, only option from this location is vertical
     which would hit another ship. Try a different location\n''')
-                        game.PrintBoards()
+                        game.print_boards()
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 8:
                         print('''
@@ -496,7 +496,7 @@ Letter then Number, this is not a time to act the fool, try again! ''')
         print(ship.x, ship.y, ship.orientation)
         self.board.set_ship_position(ship)
         print("ship added to board ok")
-        game.PrintBoards()
+        game.print_boards()
         print(self.board)  # so I can check the object against original value
 
 
@@ -645,7 +645,7 @@ class Comp:
         print(ship.x, ship.y, ship.orientation)
         self.board.set_ship_position(ship)
         print("ship added to board ok")
-        game.PrintBoards()
+        game.print_boards()
         print(self.board)  # so I can check the object against original value
 
 
@@ -695,8 +695,13 @@ class Game:
         print(C.RED + '#' * 74 + C.END)
         print(C.RED + '#' + ' ' * 72 + '#' + C.END)
         print(C.RED + '#' + ' ' * 72 + '#' + C.END)
-        print(C.RED + '#' + ' ' * 32 + 'You Win!' + ' ' * 32 + '#' + C.END)
-        print(C.RED + '#' + ' ' * spacer + name + ' ' * spacer + '#' + C.END)
+        if whichplayer == self.player:
+            print(C.RED + '#' + ' ' * 32 + 'You Win!' + ' ' * 32 + '#' + C.END)
+        else:
+            print(C.RED + '#' + ' ' * 32 + 'You Lose!' + ' ' * 31 + '#'
+                  + C.END)
+        print(C.RED + '#' + ' ' * spacer + name + ' ' * (spacer+1) + '#'
+              + C.END)
         print(C.RED + '#' + ' ' * 72 + '#' + C.END)
         print(C.RED + '#' * 74 + C.END)
         print(C.RED + '#' * 74 + C.END)
@@ -722,7 +727,7 @@ class Game:
 # setup the comp player
     def comp_setup(self):
         self.comp.place_ships(self)
-        self.PrintBlankAndPlayerBoards()
+        self.print_blank_and_player_boards()
         self.player.get_target_from_user(self)
 
     # def check_for_win(self):
@@ -737,18 +742,18 @@ class Game:
             if self.comp.board.board[shot[0]][shot[1]] == '~':
                 print("checked comp board ok")
                 self.blank.board.board[shot[0]][shot[1]]\
-                    = self.comp.board.board[shot[0]][shot[1]]
-                self.PrintBlankAndPlayerBoards()
+                    = C.BGBLUE + '~' + C.END
+                self.print_blank_and_player_boards()
                 print('''
     You missed! Nothing but water! What a waste of some perfectly good
     iron. You better hope we win or you'll be swimming for that later!
     Your turn is over!\n''')
-                time.sleep(2)
+                time.sleep(1)
                 self.comp.get_target_from_comp(self)
             else:
                 self.blank.board.board[shot[0]][shot[1]]\
-                    = self.comp.board.board[shot[0]][shot[1]]
-                self.PrintBlankAndPlayerBoards()
+                    = C.RED + '#' + C.END
+                self.print_blank_and_player_boards()
                 print('''
     Direct Hit!!! The sound of screams and breaking wood is unmistakable!''')
                 self.player.hit_counter += 1
@@ -756,36 +761,41 @@ class Game:
                 if self.check_for_win(whichplayer):
                     self.end_game(whichplayer)
                 else:
-                    time.sleep(2)
+                    time.sleep(1)
                     self.comp.get_target_from_comp(self)
         else:
             if self.player.board.board[shot[0]][shot[1]] == '~':
-                self.player.board.board[shot[0]][shot[1]] = C.YELLOW + 'M' + C.END
-                self.PrintBlankAndPlayerBoards()
+                self.player.board.board[shot[0]][shot[1]] = C.YELLOW + 'M'\
+                    + C.END
+                self.print_blank_and_player_boards()
                 print('''
     They missed! Nothing but water! Useless West India Co landlovers
     They would miss a bottle of rum if it was in their own hands.
     It's our turn again, let's do some damage argh!\n''')
-                time.sleep(2)
+                time.sleep(1)
                 self.player.get_target_from_user(self)
             else:
-                self.player.board.board[shot[0]][shot[1]] = '#'
-                self.PrintBlankAndPlayerBoards()
+                self.player.board.board[shot[0]][shot[1]] = C.RED + '#' + C.END
+                self.print_blank_and_player_boards()
                 print('''
     Direct Hit!!! We took damage! Don't just stand their you filthy rats,
     did you expect them to just send over rum and wenches for a party? It's
     our turn now!\n''')
                 self.comp.hit_counter += 1
                 # insert function call to check for player win
-                time.sleep(2)
-                self.player.get_target_from_user(self)
+                time.sleep(1)
+                if self.check_for_win(whichplayer):
+                    self.end_game(whichplayer)
+                else:
+                    time.sleep(1)
+                    self.player.get_target_from_user(self)
 
 # display board
 # display grids, one for targetting one for showing own ship locations
-    def PrintBoards(self):
+    def print_boards(self):
         letter = 0
         # prints five blank lines to create space
-        # will need to be adjusted so that each time the PrintBoards is
+        # will need to be adjusted so that each time the print_boards is
         # called a fresh screen appears for the user, total line height = 24
         print('\n\n\n\n\n\n\n\n')
         # prints first line of board with numbers for column reference
@@ -819,10 +829,10 @@ class Game:
             print('| ')
             letter += 1
 
-    def PrintBlankAndPlayerBoards(self):
+    def print_blank_and_player_boards(self):
         letter = 0
         # prints five blank lines to create space
-        # will need to be adjusted so that each time the PrintBoards is
+        # will need to be adjusted so that each time the print_boards is
         # called a fresh screen appears for the user, total line height = 24
         print('\n\n\n\n\n\n\n\n')
         # prints first line of board with numbers for column reference
@@ -856,10 +866,10 @@ class Game:
             print('| ')
             letter += 1
 
-    def PrintPlayerBoard(self):
+    def print_player_board(self):
         letter = 0
         # prints five blank lines to create space
-        # will need to be adjusted so that each time the PrintBoards is
+        # will need to be adjusted so that each time the print_boards is
         # called a fresh screen appears for the user, total line height = 24
         print('\n\n\n\n\n\n\n\n')
         print("PLAYER BOARD")
@@ -879,10 +889,10 @@ class Game:
             print('| ')
             letter += 1
 
-    def PrintBlankBoard(self):
+    def print_blank_board(self):
         letter = 0
         # prints five blank lines to create space
-        # will need to be adjusted so that each time the PrintBoards is
+        # will need to be adjusted so that each time the print_boards is
         # called a fresh screen appears for the user, total line height = 24
         print('\n\n\n\n\n\n\n\n')
         print("BLANK BOARD")
@@ -962,9 +972,9 @@ def create_players(dimensions, difficulty):
     comp = Comp('Jonathan Barnet', dimensions, difficulty)
     blank = Blank(dimensions, comp)
     game = Game(dimensions, player, comp, blank)
-    game.PrintBoards()
-    game.PrintPlayerBoard()
-    game.PrintBlankBoard()
+    game.print_boards()
+    game.print_player_board()
+    game.print_blank_board()
     print(player.board)  # so there is a visible reference of the object
     print(comp.board)  # so there is a visible reference of the object
     create_player_ships(dimensions, player, comp, game)
@@ -1065,14 +1075,14 @@ def start():
 
     print('''
       . .    . .  . . .  . .  . .     ,((/. .    . .  . . .  . .  . .    . .
-    . .    . .  . . .  . .  .@@@@@@@@@@@@@@@@@ . .  . . .  . .  . .    . .
-    . .    . .  . . .  . . @@@@@@@@@@@@@@@@@@@@@ .  . . .  . .  . .    . .
-    @ . .    . .  . . .  . .&@@@@@@@@@@@@@@@@@@@@@@   . . .  . .  . .    . ,
-    .@@ .    . .  . . .  .  @@*@@@@@@@@@@@@@@@@@@@@@  . . .  . .  . .    .@@
+    . .    . .  . . .  . .  .. @@@@@@@@@@@@@@@@ . .  . . .  . .  . .    . .
+    . .    . .  . . .  . . .@@@@@@@@@@@@@@@@@@@@@ .  . . .  . .  . .    . .
+    @ . .    . .  . . .   @@@@@@@@@@@@@@@@@@@@@@@@@   . . .  . .  . .    . ,
+    .@@ .    . .  . . .  .@@@@*@@@@@@@@@@@@@@@@@@@@@  . . .  . .  . .    .@@
     *@@@    . .  . . .  . .@/@@.     @@@/. .  %@ @@  . . .  . .  . .  /@@@
     .@@@@( . .  . . .  . .@/@@.    @@.@@@ .  @@ @.  . . .  . .  . .@@@.@ .
     . .@@@@@ .  . . .  . ..@@@@@@@@@ . /@@@@@@@@@.  . . .  . .  *@@@,@ . .
-    . .  @@@@@@ .   .  .        %@@@@@&@@@@@ *%. .  . . .  . .@@@@%@   . .
+    . .  @@@@@@ .   .  .    %@@@@@@@&@@@@@@@ *%. .  . . .  . .@@@@%@   . .
             &@@@@@@.          ,@( (@@@@@@@@  @@            #@@@@,@,
     . .    . @@@@@#@@  .     @@    . .. . ,@(  .    ..@@&@@@@(  . .  . .
     .  . .  . .    %@@@@.@@@   . @@@@@@@@@@@@@/ . . *@@&.@@@@,.    . .  . .
@@ -1083,8 +1093,7 @@ def start():
     .  . .@@@ @@(@@*@&%@@@@ &@@@@@@#. . .  .*@@@@@@@*/@@@@ @,@@ @@ @@@  . .
     .  . @@@@@ @@@@@@@@%@@ *   . .  . . .  . .  . . . @@@/@@@@@@@,*@@@@ . .
         ,@@/          @@@ (#                    *% /@@          (@@#
-                        @@@@@%                   @@@@@
-    ''')
+                        @@@@@%                   @@@@@''')
 
     play = 'N'
     while play == 'N':
