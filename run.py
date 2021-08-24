@@ -719,9 +719,9 @@ class Game:
 
     # def check_for_win(self):
 # identify if ship sunk, and return ship name
-    def identify_ship(self, whichplayer, shot):
+    def identify_ship(self, opponent, shot):
         # x = 1
-        for ship in whichplayer.ships:
+        for ship in opponent.ships:
             # print(f"checking ship {x}")
             # print(ship.name)
             # print(ship.location)
@@ -736,7 +736,10 @@ class Game:
                 ship.health -= 1
                 # print(ship.health)
                 if ship.health == 0:
-                    print(f'We sunk their {ship.name}!')
+                    if opponent == self.comp:
+                        print(f'We sunk their {ship.name}!')
+                    else:
+                        print(f'They sunk our {ship.name}!')
 
 # manage the turn of each player
 # check board locations for ships
@@ -793,6 +796,7 @@ class Game:
     did you expect them to just send over rum and wenches for a party? It's
     our turn now!\n''')
                 self.comp.hit_counter += 1
+                self.identify_ship(self.player, shot)
                 # insert function call to check for player win
                 time.sleep(1)
                 if self.check_for_win(whichplayer):
@@ -976,14 +980,6 @@ def create_player_ships(dimensions, player, comp, game):
         comp.ships.append(Boat(ship[0], ship[1]))
     print(player.ships)
     print(comp.ships)
-    for ship in comp.ships:
-        print(f' Ship name = {ship.name} which is a {type(ship.name)}')
-        print(f' Ship length = {ship.length} which is a {type(ship.length)}')
-        print(f' Ship x = {ship.x} which is a {type(ship.x)}')
-        print(f' Ship y = {ship.y} which is a {type(ship.y)}')
-        print(f' Ship orientation = {ship.orientation} which is a {type(ship.orientation)}')
-        print(f' Ship health = {ship.health} which is a {type(ship.health)}')
-        print(f' Ship location = {ship.location} which is a {type(ship.location)}')
 
 
 def create_players(dimensions, difficulty):
