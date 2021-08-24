@@ -8,7 +8,6 @@ import sys
 '''
 NOTE to self
 BUG in targetting on user input when they enter nothing
-need to add win condition
 need to reorganise starting menu to include instructions
 need to add backstory
 need to adjust formatting for deployed terminal emulator
@@ -21,7 +20,9 @@ possibly move some classes to other files to make things easier to find
 
 def loading():
     print("Loading...")
-    print(u"\u001b[1m\u001b[31m\n")
+    print(u"\u001b[1m\u001b[31m")
+    print('\n\n\n')
+    sys.stdout.write(u"\u001b[3A")
     for i in range(0, 100):
         time.sleep(0.01)
         width = int((i + 1) / 4)
@@ -33,32 +34,6 @@ def loading():
     print(u"\u001b[0m")
 
 
-# def loading(count):
-#     print("Loading...")
-#     print(u"\u001b[1m\u001b[31m")
-#     # for i in range(0, 100):
-#     #     time.sleep(0.1)
-#     #     width = int((i + 1) / 4)
-#     #     bar = "[" + "#" * width + " " * (25 - width) + "]"
-#     #     sys.stdout.write(u"\u001b[1000D" + bar)
-#     #     sys.stdout.flush()
-#     # print
-#     all_progress = [0] * count
-#     sys.stdout.write("\n" * count)  # Make sure we have space 2 draw the bars
-#     while any(x < 100 for x in all_progress):
-#         time.sleep(0.01)
-#         # Randomly increment one of our progress values
-#         unfinished = [(i, v) for (i, v) in enumerate(all_progress) if v<100]
-#         index, _ = random.choice(unfinished)
-#         all_progress[index] += 1
-
-#         # Draw the progress bars
-#         sys.stdout.write(u"\u001b[1000D")  # Move left
-#         sys.stdout.write(u"\u001b[" + str(count) + "A")  # Move up
-#         for progress in all_progress:
-#             width = int(progress / 4)
-#             print("[" + "#" * width + " " * (25 - width) + "]")
-#     print(u"\u001b[0m")
 class C:
     END = '\33[0m'
     BLACK = '\33[30m'
@@ -239,21 +214,28 @@ class Board:
                 print("scenario 8")
                 return 8
 
-    def set_ship_position(self, ship):
-        width = 1
-        height = 1
-        if ship.orientation == 'h':
-            width = ship.length
-            print("width set ok")
-            print(width)
-        else:
-            height = ship.length
-            print("height set ok")
+    # def set_ship_position(self, ship):
+    #     width = 1
+    #     height = 1
+    #     if ship.orientation == 'h':
+    #         width = ship.length
+    #         print("width set ok")
+    #         print(width)
+    #     else:
+    #         height = ship.length
+    #         print("height set ok")
 
-        for y in range(width):
-            for x in range(height):
-                self.board[ship.x + x][ship.y + y] = 'S'
-                print(self.board)  # check object value against original
+    #     for y in range(width):
+    #         for x in range(height):
+    #             self.board[ship.x + x][ship.y + y] = 'S'
+    #             print(self.board)  # check object value against original
+
+    def set_ship_position(self, ship):
+        for tile in ship.location:
+            x = tile[0]
+            y = tile[1]
+            self.board[x][y] = 'S'
+            print(self.board)
 
 
 # create grid and store player ship locations
@@ -290,11 +272,25 @@ class Boat:
         self.x = None
         self.y = None
         self.orientation = None
+        self.health = length
+        self.location = []
 
     def set_position(self, x, y, orientation):
         self.x = x
         self.y = y
         self.orientation = orientation
+        width = 1
+        height = 1
+        if self.orientation == 'h':
+            width = self.length
+        else:
+            height = self.length
+
+        for r in range(width):
+            for u in range(height):
+                self.location.append([self.x + u, self.y + r])
+        print("from Boat set_position")
+        print(self.location)
 
 
 class Player:
@@ -407,13 +403,6 @@ Letter then Number, this is not a time to act the fool, try again! ''')
                     # now need to check if ship can be placed Hor or Ver
                     # at location specified by user.
                     # check for space enough and clear
-                    '''
-                    NOTE TO SELF
-                    Placing of ships works, however it will not let you place
-                    ships in all squares. a7 for a three tile ship should
-                    work but gaves an error. Need to investigate why and
-                    remove bug
-                    '''
                     if self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 1:
                         try:
