@@ -232,9 +232,7 @@ class Board:
 
     def set_ship_position(self, ship):
         for tile in ship.location:
-            x = tile[0]
-            y = tile[1]
-            self.board[x][y] = 'S'
+            self.board[tile[0]][tile[1]] = 'S'
             print(self.board)
 
 
@@ -720,6 +718,25 @@ class Game:
         self.player.get_target_from_user(self)
 
     # def check_for_win(self):
+# identify if ship sunk, and return ship name
+    def identify_ship(self, whichplayer, shot):
+        # x = 1
+        for ship in whichplayer.ships:
+            # print(f"checking ship {x}")
+            # print(ship.name)
+            # print(ship.location)
+            # x += 1
+            # print(shot)
+            # print("about to enter if statement")
+            if shot in ship.location:
+                # print(type(ship.health))
+                # print(ship.name)
+                # print(ship.length)
+                # print(ship.health)
+                ship.health -= 1
+                # print(ship.health)
+                if ship.health == 0:
+                    print(f'We sunk their {ship.name}!')
 
 # manage the turn of each player
 # check board locations for ships
@@ -746,6 +763,11 @@ class Game:
                 print('''
     Direct Hit!!! The sound of screams and breaking wood is unmistakable!''')
                 self.player.hit_counter += 1
+                # check if ship sunk
+                # print(shot)
+                # print("checking ship from turn loop")
+                self.identify_ship(self.comp, shot)
+                # print("finished checking ship")
                 # insert function call to check for player win
                 if self.check_for_win(whichplayer):
                     self.end_game(whichplayer)
@@ -954,6 +976,14 @@ def create_player_ships(dimensions, player, comp, game):
         comp.ships.append(Boat(ship[0], ship[1]))
     print(player.ships)
     print(comp.ships)
+    for ship in comp.ships:
+        print(f' Ship name = {ship.name} which is a {type(ship.name)}')
+        print(f' Ship length = {ship.length} which is a {type(ship.length)}')
+        print(f' Ship x = {ship.x} which is a {type(ship.x)}')
+        print(f' Ship y = {ship.y} which is a {type(ship.y)}')
+        print(f' Ship orientation = {ship.orientation} which is a {type(ship.orientation)}')
+        print(f' Ship health = {ship.health} which is a {type(ship.health)}')
+        print(f' Ship location = {ship.location} which is a {type(ship.location)}')
 
 
 def create_players(dimensions, difficulty):
