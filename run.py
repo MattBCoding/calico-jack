@@ -214,22 +214,6 @@ class Board:
                 print("scenario 8")
                 return 8
 
-    # def set_ship_position(self, ship):
-    #     width = 1
-    #     height = 1
-    #     if ship.orientation == 'h':
-    #         width = ship.length
-    #         print("width set ok")
-    #         print(width)
-    #     else:
-    #         height = ship.length
-    #         print("height set ok")
-
-    #     for y in range(width):
-    #         for x in range(height):
-    #             self.board[ship.x + x][ship.y + y] = 'S'
-    #             print(self.board)  # check object value against original
-
     def set_ship_position(self, ship):
         for tile in ship.location:
             self.board[tile[0]][tile[1]] = 'S'
