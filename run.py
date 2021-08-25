@@ -564,63 +564,54 @@ class Comp:
         self.last_shot_hit = False
         self.target_list = []
 
-    def get_target_from_comp(self, game):
+    def generate_easy_shot(self):
         alpha = list(string.ascii_letters[:self.dimensions])
         shot = None
-        if self.difficulty == 'e':
-            x = 0
-            while x < 1:
-                coords = [random.choice(alpha),
-                          random.randint(0, (self.dimensions - 1))]
-                shot = [(ord(coords[0].upper()) - 65), int(coords[1])]
-                if shot in self.previous_shots:
-                    continue
-                else:
-                    self.previous_shots.append(shot)
-                    print("comp shot")
-                    print(shot)
-                    x += 1
-            game.turn_loop(self, shot)
-        # normal difficulty does not work, need to remove
-        # the coord type conversion from the check if on board function
-        # move it into its own function, then call where necessary
-        # then call the check on board func for the converted coords
-        elif self.difficulty == 'n':
-            if self.last_shot_hit:
-                neighbours = [[-1, 0], [0, 1], [1, 0], [0, -1]]
-                for x, y in neighbours:
-                    last = self.previous_shots[-1]
-                    temp = [last[0] + x, last[1] + y]
-                    if (temp[0] >= 0 and temp[0] < self.dimensions):
-                        if (temp[1] >= 0 and temp[1] < self.dimensions):
-                            if temp not in self.previous_shots:
-                                self.target_list.append(temp)
-                print(self.target_list)
-                shot = self.target_list[0]
-                self.previous_shots.append(shot)
-                self.target_list.pop(0)
-                game.turn_loop(self, shot)
-            elif len(self.target_list) > 0:
-                shot = self.target_list[0]
-                self.previous_shots.append(shot)
-                self.target_list.pop(0)
-                game.turn_loop(self, shot)
+        x = 0
+        while x < 1:
+            coords = [random.choice(alpha),
+                      random.randint(0, (self.dimensions - 1))]
+            shot = [(ord(coords[0].upper()) - 65), int(coords[1])]
+            if shot in self.previous_shots:
+                continue
             else:
-                # needs to be refactored, repetition of easy loop
-                # can be put into own function
-                x = 0
-                while x < 1:
-                    coords = [random.choice(alpha),
-                              random.randint(0, (self.dimensions - 1))]
-                    shot = [(ord(coords[0].upper()) - 65), int(coords[1])]
-                    if shot in self.previous_shots:
-                        continue
-                    else:
-                        self.previous_shots.append(shot)
-                        print("comp shot")
-                        print(shot)
-                        x += 1
-                game.turn_loop(self, shot)
+                self.previous_shots.append(shot)
+                print("comp shot")
+                print(shot)
+                x += 1
+        return shot
+
+    def generate_normal_shot(self):
+        if self.last_shot_hit:
+            neighbours = [[-1, 0], [0, 1], [1, 0], [0, -1]]
+            for x, y in neighbours:
+                last = self.previous_shots[-1]
+                temp = [last[0] + x, last[1] + y]
+                if (temp[0] >= 0 and temp[0] < self.dimensions):
+                    if (temp[1] >= 0 and temp[1] < self.dimensions):
+                        if temp not in self.previous_shots:
+                            self.target_list.append(temp)
+            print(self.target_list)
+            shot = self.target_list[0]
+            self.previous_shots.append(shot)
+            self.target_list.pop(0)
+            return shot
+        elif len(self.target_list) > 0:
+            shot = self.target_list[0]
+            self.previous_shots.append(shot)
+            self.target_list.pop(0)
+            return shot
+        else:
+            shot = self.generate_easy_shot()
+            return shot
+
+    def get_target_from_comp(self, game):
+        if self.difficulty == 'e':
+            shot = self.generate_easy_shot()
+            game.turn_loop(self, shot)
+        elif self.difficulty == 'n':
+            shot = self.generate_normal_shot()
+            game.turn_loop(self, shot)
 
     # def generate_target_locations(self, last_hit):
 
