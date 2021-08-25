@@ -219,17 +219,6 @@ class Board:
             self.board[tile[0]][tile[1]] = 'S'
             print(self.board)
 
-
-# create grid and store player ship locations
-# add ships to board
-
-# validation of ship location - does ship overlap any other ships?
-# display error message informing user
-#       - repeat user input to select alternative location
-# ship location ok
-# store ship location to ship, and to board
-
-
 # HIT LOGIC LOOP
 #   Record hit to board and ship record
 #   Did hit sink a ship?
@@ -243,6 +232,7 @@ class Board:
 #   Record miss to board and shot record
 #   display updated board
 #   start other player turn
+
 
 class Boat:
     '''
@@ -288,12 +278,6 @@ class Player:
         self.hit_counter = 0
 
     def get_target_from_user(self, game):
-        # BUG if user presses enter instead of inputting a coord
-        # system generates a TypeError: 'NoneType' object is not
-        # subscriptable. inserted a if statement to check for this
-        # which successfully generates the message, however as its
-        # out of a while loop, it no longer repeats the input
-        # need to fix
         x = 0
         shot = None
         try:
@@ -342,9 +326,11 @@ You have to choose a target location! Waving the white flag will just
 get your head to the gallows sooner. Try again, it needs to be in the format
 of 'E4' letter then number, no spaces, no dashes, no second chances!\n''')
         except Exception:
+            game.print_blank_and_player_boards()
             print('''
 We've been through this already, it needs to be in the format of 'E4'
 Letter then Number, this is not a time to act the fool, try again! ''')
+            self.get_target_from_user(game)
         game.turn_loop(self, shot)
 
     def get_position_from_user(self, player, comp, game):
