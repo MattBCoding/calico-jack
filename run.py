@@ -91,7 +91,7 @@ class Board:
             # print('coords on board')
             return True
         else:
-            clear_terminal()
+            os.system('clear')
             game.print_boards()  # remove this for finished game
             # game.print_player_board() switch to this line for finished game
             print('''
@@ -333,7 +333,7 @@ Select the location in the format of row then column e.g. 'E4':\n''')
                                     x += 1
                                     break
                             except Exception:
-                                clear_terminal()
+                                os.system('clear')
                                 game.print_blank_and_player_boards()
                                 print('''
 You have already fired there, are you trying to waste our Cannonballs?
@@ -345,7 +345,7 @@ You have to choose a target location! Waving the white flag will just
 get your head to the gallows sooner. Try again, it needs to be in the format
 of 'E4' letter then number, no spaces, no dashes, no second chances!\n''')
         except Exception:
-            clear_terminal()
+            os.system('clear')
             game.print_blank_and_player_boards()
             print('''
 We've been through this already, it needs to be in the format of 'E4'
@@ -405,7 +405,7 @@ Enter 'H' for horizontally, 'V' for vertically:\n''').lower()
                                               orientation, game)
                                 break
                         except Exception:
-                            clear_terminal()
+                            os.system('clear')
                             game.print_boards()  # remove this for game
                             # game.print_player_board() switch 2 this for game
                             print('''
@@ -436,7 +436,7 @@ There are no other options, try again!''')
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 5:
-                        clear_terminal()
+                        os.system('clear')
                         game.print_boards()  # remove this for finished game
                         # game.print_player_board() switch 2 this for game
                         print('''
@@ -452,7 +452,7 @@ Ship can only be placed vertically, so we placed it.''')
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 7:
-                        clear_terminal()
+                        os.system('clear')
                         game.print_boards()  # remove this for finished game
                         # game.print_player_board() switch 2 this for game
                         print('''
@@ -461,7 +461,7 @@ which would hit another ship. Try a different location\n''')
                         game.print_boards()
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 8:
-                        clear_terminal()
+                        os.system('clear')
                         game.print_boards()  # remove this for finished game
                         # game.print_player_board() switch 2 this for game
                         print('''
@@ -471,7 +471,7 @@ vertically at this location. Try a different location\n''')
                     raise Exception
 # display error message - repeat user input
             except Exception:
-                clear_terminal()
+                os.system('clear')
                 game.print_boards()  # remove this for finished game
                 # game.print_player_board() switch 2 this for finished game
                 print('''
@@ -719,7 +719,7 @@ class Game:
     def end_game(self, whichplayer):
         spacer = int((72 - len(whichplayer.name))/2)
         name = whichplayer.name
-        clear_terminal()
+        os.system('clear')
         print("\n\n\n\n\n\n\n\n")
         print(C.RED + '#' * 74 + C.END)
         print(C.RED + '#' * 74 + C.END)
@@ -757,7 +757,7 @@ class Game:
 # setup the comp player
     def comp_setup(self):
         self.comp.place_ships(self)
-        clear_terminal()
+        os.system('clear')
         self.print_blank_and_player_boards()
         self.player.get_target_from_user(self)
 
@@ -797,7 +797,7 @@ class Game:
                 self.blank.board.board[shot[0]][shot[1]]\
                     = C.BGBLUE + '~' + C.END
                 # self.print_blank_and_player_boards()
-                clear_terminal()
+                os.system('clear')
                 print('''
 Nothing but water! What a waste of some perfectly good iron.
 Your turn is over! You missed!\n''')
@@ -807,7 +807,7 @@ Your turn is over! You missed!\n''')
                 self.blank.board.board[shot[0]][shot[1]]\
                     = C.RED + '#' + C.END
                 # self.print_blank_and_player_boards()
-                clear_terminal()
+                os.system('clear')
                 print('''
 Direct Hit!!! The sound of screams and breaking wood is unmistakable!''')
                 self.player.hit_counter += 1
@@ -1053,7 +1053,7 @@ def create_players(dimensions, difficulty):
 
 # SETUP function - establishes parameters for game
 def setup():
-    clear_terminal()
+    os.system('clear')
     loading()
     print("Good on ya, argh, we'll make a pirate out of ye yet!")
 # USER OPTIONS LOGIC
@@ -1071,7 +1071,7 @@ Select a board size, enter '6' for a little one or '10' for normal:\n'''))
                 break
         # display error message if input fails vaidation
         except Exception:
-            clear_terminal()
+            os.system('clear')
             print('''
 Don't be getting all artistic with the choices like some scurvy landlover
 It's either '6' or '10' that be it. Just the number! Try again!\n''')
@@ -1104,7 +1104,7 @@ enter 'E' for easy, 'N' for normal or 'H' for hard:\n''').lower()
                 else:
                     break
         except Exception:
-            clear_terminal()
+            os.system('clear')
             print('''
 There ye go getting artistic, are ye a pirate or a West Indian spy?
 Try again, before we make ye walk the plank, it's 'E', 'N' or 'H'
@@ -1154,7 +1154,7 @@ enter 'Y' to play or 'Q' to quit:\n''').lower()
     Goodbye''')
                 quit()
         except Exception:
-            clear_terminal()
+            os.system('clear')
             print('''
     Argh! you woke me up for nothin... I should make ye walk the plank...
     Wait, shall we try that again?\n''')
