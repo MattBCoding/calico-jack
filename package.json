@@ -1,10 +1,23 @@
 {
-  "postinstall": "cd ci-xterm && npm install",
-  "dependencies": {
-    "node": "^15.8.0",
-    "node-static": "^0.7.11",
-    "python-shell": "^2.0.3",
-    "socket.io": "^3.1.2",
-    "xterm": "^4.10.0"
-  }
+    "name": "terminal",
+    "version": "1.0.0",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/lechien73/terminal.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/lechien73/terminal/issues"
+    },
+    "homepage": "https://github.com/lechien73/terminal#readme",
+    "dependencies": {
+        "node-static": "^0.7.11",
+        "node-pty": "^0.10.1",
+        "total4": "^0.0.45"
+    }
 }
