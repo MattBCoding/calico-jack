@@ -16,6 +16,17 @@ use color class to add colours to strings and boards
 need to add scoreboard
 could add leaderboard and link in a google sheet for highscores
 possibly move some classes to other files to make things easier to find
+change clear to subprocess.command
+import subprocess, time, os, sys
+cmd = ["clear"]
+
+p = subprocess.Popen(cmd,
+                     stdout=subprocess.PIPE,
+                     stderr=subprocess.STDOUT)
+subprocess.call("cls", shell = True)
+dir(p)
+
+print('We are the {} who say "{}!"'.format('knights', 'Ni'))
 '''
 
 
