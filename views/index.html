@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/addons/attach/attach.js"></script>
+    <title>Python Terminal by Code Institute</title>
+</head>
+
+<body>
+    <button onclick="window.location.reload()">Run Program</button>
+    <div id="terminal"></div>
+
+    <script>
+        var term = new Terminal({
+            cols: 80,
+            rows: 24
+        });
+        term.open(document.getElementById('terminal'));
+        term.writeln('Running startup command: python3 run.py');
+        term.writeln('');
+
+        var ws = new WebSocket(location.protocol.replace('http', 'ws') + '//' + location.hostname + (location.port ? (
+            ':' + location.port) : '') + '/');
+
+        ws.onopen = function () {
+            new attach.attach(term, ws);
+        };
+
+        ws.onerror = function (e) {
+            console.log(e);
+        };
+        // Set focus in the terminal
+        document.getElementsByClassName("xterm-helper-textarea")[0].focus();
+    </script>
+</body>
+
+</html>
