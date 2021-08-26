@@ -1053,6 +1053,7 @@ def create_players(dimensions, difficulty):
 
 # SETUP function - establishes parameters for game
 def setup():
+    print('\033[H\033[J', end='')
     os.system('clear')
     loading()
     print("Good on ya, argh, we'll make a pirate out of ye yet!")
