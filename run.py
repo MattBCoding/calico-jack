@@ -25,11 +25,11 @@ def clear_terminal():
     Original code from
     http://www.coding4you.at/inf_tag/beginners_python_cheat_sheet.pdf
     """
-    if os.name == 'nt':
-        os.system('cls')
-    else:
-        os.system('clear')
-    # os.system('cls' if os.name == 'nt' else 'clear')
+    # if os.name == 'nt':
+    #     os.system('cls')
+    # else:
+    #     os.system('clear')
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def loading():
