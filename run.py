@@ -4,6 +4,7 @@ import random
 import string
 import time
 import sys
+import os
 # python code goes here
 '''
 NOTE to self
@@ -18,10 +19,23 @@ possibly move some classes to other files to make things easier to find
 '''
 
 
+def clear_terminal():
+    """
+    Clears the terminal window prior to new content.
+    Original code from
+    http://www.coding4you.at/inf_tag/beginners_python_cheat_sheet.pdf
+    """
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+    # os.system('cls' if os.name == 'nt' else 'clear')
+
+
 def loading():
     print("Loading...")
     print(u"\u001b[1m\u001b[31m")
-    print('\n\n\n')
+    print('\n')
     sys.stdout.write(u"\u001b[3A")
     for i in range(0, 100):
         time.sleep(0.01)
@@ -70,16 +84,19 @@ class Board:
             for i in range(self.dimensions)
         ]
 
-    def on_board_test(self, coords):
+    def on_board_test(self, coords, game):
         row_test = ((ord(coords[0].upper()) - 65) < self.dimensions)
         column_test = (int(coords[1]) < self.dimensions)
         if(row_test and column_test):
-            print('coords on board')
+            # print('coords on board')
             return True
         else:
+            clear_terminal()
+            game.print_boards()  # remove this for finished game
+            # game.print_player_board() switch to this line for finished game
             print('''
-    The location entered is not on the board! The format is row then column,
-    e.g. 'A2' or 'C5'. Try Again!''')
+The location entered is not on the board! The format is row then column,
+e.g. 'A2' or 'C5'. Try Again!''')
             return False
 
     def can_ship_be_placed(self, coords, ship):
@@ -100,12 +117,12 @@ class Board:
         clear_space_horizontal = []
         # vertical orientation from row check
         vertical_check = (self.dimensions - row_coord_value - ship.length >= 0)
-        print(vertical_check)
+        # print(vertical_check)
         # horizontal orientation from column check
         horizontal_check = (self.dimensions
                             - column_coord_value
                             - ship.length >= 0)
-        print(horizontal_check)
+        # print(horizontal_check)
         if horizontal_check:
             if vertical_check:
                 # Ship fits both horizontally and vertically
@@ -114,15 +131,15 @@ class Board:
                 # horizontal
                 i = 0
                 while i < ship.length:
-                    print(i)
+                    # print(i)
                     if self.board[row_coord_value][column_coord_value] == '~':
-                        print("if")
+                        # print("if")
                         clear_space_horizontal.append((row_coord_value,
                                                       column_coord_value))
                         column_coord_value += 1
                         i += 1
                     else:
-                        print("else")
+                        # print("else")
                         column_coord_value += 1
                         i += 1
                 # vertical
@@ -131,33 +148,33 @@ class Board:
                 row_coord_value = (ord(coords[0].upper()) - 65)
                 column_coord_value = int(coords[1])
                 while j < ship.length:
-                    print("starting second while loop")
+                    # print("starting second while loop")
                     if self.board[row_coord_value][column_coord_value] == '~':
-                        print("v if")
+                        # print("v if")
                         clear_space_vertical.append((row_coord_value,
                                                     column_coord_value))
                         row_coord_value += 1
                         j += 1
                     else:
-                        print("v else")
+                        # print("v else")
                         row_coord_value += 1
                         j += 1
 
                 if ship.length == len(clear_space_horizontal):
                     if ship.length == len(clear_space_vertical):
-                        print(len(clear_space_horizontal))
-                        print("^^^ length of clear space horizontal")
-                        print(len(clear_space_vertical))
-                        print("^^^ length of clear space vertical")
-                        print("scenario 1")
+                        # print(len(clear_space_horizontal))
+                        # print("^^^ length of clear space horizontal")
+                        # print(len(clear_space_vertical))
+                        # print("^^^ length of clear space vertical")
+                        # print("scenario 1")
                         return 1
                     else:
-                        print("scenario 2")
+                        # print("scenario 2")
                         return 2
                 elif ship.length == len(clear_space_vertical):
-                    print(len(clear_space_vertical))
-                    print("^^^ length of clear space vertical")
-                    print("scenario 3")
+                    # print(len(clear_space_vertical))
+                    # print("^^^ length of clear space vertical")
+                    # print("scenario 3")
                     return 3
                 else:
                     return 8
@@ -176,14 +193,14 @@ class Board:
                         column_coord_value += 1
                         i += 1
                 if ship.length == len(clear_space_horizontal):
-                    print(len(clear_space_horizontal))
-                    print("^^^ length of clear space horizontal")
-                    print("scenario 4")
+                    # print(len(clear_space_horizontal))
+                    # print("^^^ length of clear space horizontal")
+                    # print("scenario 4")
                     return 4
                 else:
-                    print(len(clear_space_horizontal))
-                    print("^^^ length of clear space horizontal")
-                    print("scenario 5")
+                    # print(len(clear_space_horizontal))
+                    # print("^^^ length of clear space horizontal")
+                    # print("scenario 5")
                     return 5
 
         else:
@@ -201,23 +218,23 @@ class Board:
                         row_coord_value += 1
                         i += 1
                 if ship.length == len(clear_space_vertical):
-                    print(len(clear_space_vertical))
-                    print("^^^ length of clear space vertical")
-                    print("scenario 6")
+                    # print(len(clear_space_vertical))
+                    # print("^^^ length of clear space vertical")
+                    # print("scenario 6")
                     return 6
                 else:
-                    print(len(clear_space_vertical))
-                    print("^^^ length of clear space vertical")
-                    print("scenario 7")
+                    # print(len(clear_space_vertical))
+                    # print("^^^ length of clear space vertical")
+                    # print("scenario 7")
                     return 7
             else:
-                print("scenario 8")
+                # print("scenario 8")
                 return 8
 
     def set_ship_position(self, ship):
         for tile in ship.location:
             self.board[tile[0]][tile[1]] = 'S'
-            print(self.board)
+            # print(self.board)
 
 # HIT LOGIC LOOP
 #   Record hit to board and ship record
@@ -261,8 +278,8 @@ class Boat:
         for r in range(width):
             for u in range(height):
                 self.location.append([self.x + u, self.y + r])
-        print("from Boat set_position")
-        print(self.location)
+        # print("from Boat set_position")
+        # print(self.location)
 
 
 class Player:
@@ -300,21 +317,23 @@ Select the location in the format of row then column e.g. 'E4':\n''')
                             or not user_target_coords_list[1].isdigit()):
                         raise Exception
                     # check target is a valid on board location
-                    elif self.board.on_board_test(user_target_coords_list):
+                    elif self.board.on_board_test(user_target_coords_list,
+                                                  game):
                         a = (ord(user_target_coords_list[0].upper()) - 65)
                         b = int(user_target_coords_list[1])
                         shot = [a, b]
                         while True:
                             try:
                                 if shot in self.previous_shots:
-                                    print(self.previous_shots)
+                                    # print(self.previous_shots)
                                     raise Exception
                                 else:
                                     self.previous_shots.append(shot)
-                                    print(self.previous_shots)
+                                    # print(self.previous_shots)
                                     x += 1
                                     break
                             except Exception:
+                                clear_terminal()
                                 game.print_blank_and_player_boards()
                                 print('''
 You have already fired there, are you trying to waste our Cannonballs?
@@ -326,6 +345,7 @@ You have to choose a target location! Waving the white flag will just
 get your head to the gallows sooner. Try again, it needs to be in the format
 of 'E4' letter then number, no spaces, no dashes, no second chances!\n''')
         except Exception:
+            clear_terminal()
             game.print_blank_and_player_boards()
             print('''
 We've been through this already, it needs to be in the format of 'E4'
@@ -337,14 +357,14 @@ Letter then Number, this is not a time to act the fool, try again! ''')
         game.print_boards()  # remove this for finished game
         # game.print_player_board() switch to this line for finished game
         input('''
-    Now we need to position our ships ready for battle! Are ye ready?
-    Press 'Enter' to start!\n''')
+Now we need to position our ships ready for battle! Are ye ready?
+Press 'Enter' to start!\n''')
         for ship in self.ships:
             self.position_ship(ship, game)
         print('''
-    THERE HERE!!! THERE HERE!!! MAN THE CANNONS!!!
-    Wait?? Where is everyone?? You'll have to fight them on your own while I
-    go and wake that drunken rabble up! Do not let Calico Jack down!\n''')
+THERE HERE!!! THERE HERE!!! MAN THE CANNONS!!!
+Wait?? Where is everyone?? You'll have to fight them on your own while I
+go and wake that drunken rabble up! Do not let Calico Jack down!\n''')
         game.comp_setup()
 
     def position_ship(self, ship, game):
@@ -353,8 +373,8 @@ Letter then Number, this is not a time to act the fool, try again! ''')
                 # display message informing user on next ship to be placed
                 # name and size
                 user_input_coords = input(f'''
-    Please select the starting location for your {ship.name}, it is
-    {ship.length} tiles long, in the format of row then column e.g. 'E4':\n''')
+Please select the starting location for your {ship.name}, it is
+{ship.length} tiles long, in the format of row then column e.g. 'E4':\n''')
                 # convert input to list
                 user_input_coords_list = list(user_input_coords)
                 # user input of starting location for next ship
@@ -367,7 +387,7 @@ Letter then Number, this is not a time to act the fool, try again! ''')
                     raise Exception
                 # input validation of starting location for next ship
                 # need to check if input is valid board coords.
-                elif self.board.on_board_test(user_input_coords_list):
+                elif self.board.on_board_test(user_input_coords_list, game):
                     # now need to check if ship can be placed Hor or Ver
                     # at location specified by user.
                     # check for space enough and clear
@@ -375,9 +395,9 @@ Letter then Number, this is not a time to act the fool, try again! ''')
                             user_input_coords_list, ship) == 1:
                         try:
                             orientation = input('''
-    Would you like to place this ship horizontally, left to right
-    or vertically, downwards from starting location?
-    Enter 'H' for horizontally, 'V' for vertically:\n''').lower()
+Would you like to place this ship horizontally, left to right
+or vertically, downwards from starting location?
+Enter 'H' for horizontally, 'V' for vertically:\n''').lower()
                             if (orientation != 'h') and (orientation != 'v'):
                                 raise Exception
                             else:
@@ -385,20 +405,23 @@ Letter then Number, this is not a time to act the fool, try again! ''')
                                               orientation, game)
                                 break
                         except Exception:
+                            clear_terminal()
+                            game.print_boards()  # remove this for game
+                            # game.print_player_board() switch 2 this for game
                             print('''
-    It can only be 'H' for horizontally or 'V' for vertically
-    There are no other options, try again!''')
+It can only be 'H' for horizontally or 'V' for vertically
+There are no other options, try again!''')
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 2:
-                        print("Can only be H, V hits another ship")
+                        # print("Can only be H, V hits another ship")
                         orientation = 'h'
                         self.add_ship(ship, user_input_coords_list,
                                       orientation, game)
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 3:
-                        print("Can only be V, H hits another ship")
+                        # print("Can only be V, H hits another ship")
                         orientation = 'v'
                         self.add_ship(ship, user_input_coords_list,
                                       orientation, game)
@@ -413,48 +436,59 @@ Letter then Number, this is not a time to act the fool, try again! ''')
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 5:
+                        clear_terminal()
+                        game.print_boards()  # remove this for finished game
+                        # game.print_player_board() switch 2 this for game
                         print('''
-    Can not place ship, only option from this location is horizontal
-    which would hit another ship. Try a different location''')
+Can not place ship, only option from this location is horizontal
+which would hit another ship. Try a different location''')
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 6:
                         orientation = 'v'
                         self.add_ship(ship, user_input_coords_list,
                                       orientation, game)
                         print('''
-    Ship can only be placed vertically, so we placed it.''')
+Ship can only be placed vertically, so we placed it.''')
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 7:
+                        clear_terminal()
+                        game.print_boards()  # remove this for finished game
+                        # game.print_player_board() switch 2 this for game
                         print('''
-    Can not place ship, only option from this location is vertical
-    which would hit another ship. Try a different location\n''')
+Can not place ship, only option from this location is vertical
+which would hit another ship. Try a different location\n''')
                         game.print_boards()
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 8:
+                        clear_terminal()
+                        game.print_boards()  # remove this for finished game
+                        # game.print_player_board() switch 2 this for game
                         print('''
-    Can not place ship, it will not fit either horizontally or
-    vertically at this location. Try a different location\n''')
+Can not place ship, it will not fit either horizontally or
+vertically at this location. Try a different location\n''')
                 else:
                     raise Exception
 # display error message - repeat user input
             except Exception:
+                clear_terminal()
+                game.print_boards()  # remove this for finished game
+                # game.print_player_board() switch 2 this for finished game
                 print('''
-    The starting location needs to be entered in the format of row then
-    column, e.g. 'F4' or 'A2' a letter followed by a number,
-    no spaces, dashes, dots or bottles of rum before after or in the
-    middle. Try again!\n''')
+The starting location needs to be entered in the format of row then
+column, e.g. 'F4' or 'A2' a letter followed by a number, no spaces, dashes,
+dots or bottles of rum before after or in the middle. Try again!''')
 
     def add_ship(self, ship, coords, orientation, game):
         x = (ord(coords[0].upper()) - 65)
         y = int(coords[1])
         ship.set_position(x, y, orientation)
-        print("ship position just set")
-        print(ship.x, ship.y, ship.orientation)
+        # print("ship position just set")
+        # print(ship.x, ship.y, ship.orientation)
         self.board.set_ship_position(ship)
-        print("ship added to board ok")
+        # print("ship added to board ok")
         game.print_boards()
-        print(self.board)  # so I can check the object against original value
+        # print(self.board)  # so I can check the object against original value
 
 
 # GAME SETUP LOGIC
@@ -546,8 +580,8 @@ class Comp:
                 continue
             else:
                 self.previous_shots.append(shot)
-                print("comp shot")
-                print(shot)
+                # print("comp shot")
+                # print(shot)
                 x += 1
         return shot
 
@@ -561,7 +595,7 @@ class Comp:
                     if (temp[1] >= 0 and temp[1] < self.dimensions):
                         if temp not in self.previous_shots:
                             self.target_list.append(temp)
-            print(self.target_list)
+            # print(self.target_list)
             shot = self.target_list[0]
             self.previous_shots.append(shot)
             self.target_list.pop(0)
@@ -633,12 +667,12 @@ class Comp:
         x = (ord(coords[0].upper()) - 65)
         y = int(coords[1])
         ship.set_position(x, y, orientation)
-        print("ship position just set")
-        print(ship.x, ship.y, ship.orientation)
+        # print("ship position just set")
+        # print(ship.x, ship.y, ship.orientation)
         self.board.set_ship_position(ship)
-        print("ship added to board ok")
+        # print("ship added to board ok")
         game.print_boards()
-        print(self.board)  # so I can check the object against original value
+        # print(self.board)  # so I can check the object against original value
 
 
 # AI SELECT LOCATIONS FOR SHIPS LOGIC
@@ -664,12 +698,15 @@ class Game:
         self.player = player
         self.comp = comp
         self.blank = blank
+        self.scoreboard = [
+                          ['']
+        ]
 
 # setup the winning condition
     def win_needs(self, hits):
         self.to_win = hits
-        print("from the win_needs method")
-        print(self.to_win)
+        # print("from the win_needs method")
+        # print(self.to_win)
 
 # check for a win
     def check_for_win(self, whichplayer):
@@ -682,6 +719,7 @@ class Game:
     def end_game(self, whichplayer):
         spacer = int((72 - len(whichplayer.name))/2)
         name = whichplayer.name
+        clear_terminal()
         print("\n\n\n\n\n\n\n\n")
         print(C.RED + '#' * 74 + C.END)
         print(C.RED + '#' * 74 + C.END)
@@ -719,6 +757,7 @@ class Game:
 # setup the comp player
     def comp_setup(self):
         self.comp.place_ships(self)
+        clear_terminal()
         self.print_blank_and_player_boards()
         self.player.get_target_from_user(self)
 
@@ -749,27 +788,28 @@ class Game:
 # manage the turn of each player
 # check board locations for ships
     def turn_loop(self, whichplayer, shot):
-        print("start turn loop")
+        # print("start turn loop")
         if (whichplayer == self.player):
-            print("matched player")
+            # print("matched player")
             print(self.comp.board.board[shot[0]][shot[1]])
             if self.comp.board.board[shot[0]][shot[1]] == '~':
-                print("checked comp board ok")
+                # print("checked comp board ok")
                 self.blank.board.board[shot[0]][shot[1]]\
                     = C.BGBLUE + '~' + C.END
-                self.print_blank_and_player_boards()
+                # self.print_blank_and_player_boards()
+                clear_terminal()
                 print('''
-    You missed! Nothing but water! What a waste of some perfectly good
-    iron. You better hope we win or you'll be swimming for that later!
-    Your turn is over!\n''')
+Nothing but water! What a waste of some perfectly good iron.
+Your turn is over! You missed!\n''')
                 time.sleep(1)
                 self.comp.get_target_from_comp(self)
             else:
                 self.blank.board.board[shot[0]][shot[1]]\
                     = C.RED + '#' + C.END
-                self.print_blank_and_player_boards()
+                # self.print_blank_and_player_boards()
+                clear_terminal()
                 print('''
-    Direct Hit!!! The sound of screams and breaking wood is unmistakable!''')
+Direct Hit!!! The sound of screams and breaking wood is unmistakable!''')
                 self.player.hit_counter += 1
                 # check if ship sunk
                 # print(shot)
@@ -789,9 +829,9 @@ class Game:
                 self.print_blank_and_player_boards()
                 self.comp.last_shot_hit = False
                 print('''
-    They missed! Nothing but water! Useless West India Co landlovers
-    They would miss a bottle of rum if it was in their own hands.
-    It's our turn again, let's do some damage argh!\n''')
+They missed! Nothing but water! Useless West India Co landlovers
+They would miss a bottle of rum if it was in their own hands.
+It's our turn again, let's do some damage argh!''')
                 time.sleep(1)
                 self.player.get_target_from_user(self)
             else:
@@ -799,9 +839,9 @@ class Game:
                 self.print_blank_and_player_boards()
                 self.comp.last_shot_hit = True
                 print('''
-    Direct Hit!!! We took damage! Don't just stand their you filthy rats,
-    did you expect them to just send over rum and wenches for a party? It's
-    our turn now!\n''')
+Direct Hit!!! We took damage! Don't just stand their you filthy rats,
+did you expect them to just send over rum and wenches for a party? It's
+our turn now! Unleash Hell!''')
                 self.comp.hit_counter += 1
                 self.identify_ship(self.player, shot)
                 # insert function call to check for player win
@@ -856,8 +896,15 @@ class Game:
         # prints five blank lines to create space
         # will need to be adjusted so that each time the print_boards is
         # called a fresh screen appears for the user, total line height = 24
-        print('\n\n\n\n\n\n\n\n')
+        # print('\n\n\n\n\n\n\n\n')
         # prints first line of board with numbers for column reference
+        x = ' '
+        print(x * 5
+              + 'TARGETTING RADAR'
+              + x * 35
+              + 'YOUR BOARD'
+              + x * 7
+              + '\n')
         print(' '*2, end='| ')
         for i in range(self.dimensions):
             # print('    ')
@@ -893,8 +940,8 @@ class Game:
         # prints five blank lines to create space
         # will need to be adjusted so that each time the print_boards is
         # called a fresh screen appears for the user, total line height = 24
-        print('\n\n\n\n\n\n\n\n')
-        print("PLAYER BOARD")
+        # print('\n\n\n\n\n\n\n\n')
+        # print("PLAYER BOARD")
         # prints first line of board with numbers for column reference
         print(' '*2, end='| ')
         for i in range(self.dimensions):
@@ -916,8 +963,8 @@ class Game:
         # prints five blank lines to create space
         # will need to be adjusted so that each time the print_boards is
         # called a fresh screen appears for the user, total line height = 24
-        print('\n\n\n\n\n\n\n\n')
-        print("BLANK BOARD")
+        # print('\n\n\n\n\n\n\n\n')
+        # print("BLANK BOARD")
         # prints first line of board with numbers for column reference
         print(' '*2, end='| ')
         for i in range(self.dimensions):
@@ -960,7 +1007,7 @@ def create_player_ships(dimensions, player, comp, game):
     ]
     # calculate number of ships based on board dimensions
     number_of_ships = math.floor(dimensions * number_of_ships_ratio)
-    print(number_of_ships)
+    # print(number_of_ships)
     fleet = []
     x = 0
     hits = 0
@@ -969,14 +1016,14 @@ def create_player_ships(dimensions, player, comp, game):
         v = x % len(ships)
         fleet.append(ships[v])
         x += 1
-        print(fleet)
+        # print(fleet)
     # reverse order of ships so players can assign them in
     # the order of largest ship first. It is needed due to
     # the list of ships being generated based on board size
     # this way small boards don't get three large ships.
     fleet = sorted(fleet, reverse=True, key=lambda x: x[1])
-    print(fleet)
-    print(len(fleet))
+    # print(fleet)
+    # print(len(fleet))
     # takes sum of the length of each ship to create win condition
     for ship in fleet:
         hits += ship[1]
@@ -985,8 +1032,8 @@ def create_player_ships(dimensions, player, comp, game):
     for ship in fleet:
         player.ships.append(Boat(ship[0], ship[1]))
         comp.ships.append(Boat(ship[0], ship[1]))
-    print(player.ships)
-    print(comp.ships)
+    # print(player.ships)
+    # print(comp.ships)
 
 
 def create_players(dimensions, difficulty):
@@ -994,28 +1041,29 @@ def create_players(dimensions, difficulty):
     comp = Comp('Jonathan Barnet', dimensions, difficulty)
     blank = Blank(dimensions, comp)
     game = Game(dimensions, player, comp, blank)
-    game.print_boards()
-    game.print_player_board()
-    game.print_blank_board()
-    print(player.board)  # so there is a visible reference of the object
-    print(comp.board)  # so there is a visible reference of the object
+    # print(player.board.board)
+    # game.print_boards()
+    # game.print_player_board()
+    # game.print_blank_board()
+    # print(player.board)  # so there is a visible reference of the object
+    # print(comp.board)  # so there is a visible reference of the object
     create_player_ships(dimensions, player, comp, game)
     player.get_position_from_user(player, comp, game)
 
 
 # SETUP function - establishes parameters for game
 def setup():
+    clear_terminal()
     loading()
-    print('''
-    Good on ya, argh, we'll make a pirate out of ye yet!''')
+    print("Good on ya, argh, we'll make a pirate out of ye yet!")
 # USER OPTIONS LOGIC
 # Grid dimension selection 6x6 or 10x10 message
     while True:
         try:
             # user input of desired dimension for board
             dimensions = int(input('''
-    How brave are ye? Shall we play a full game or a little one?
-    Select a board size, enter '6' for a little one or '10' for normal:\n'''))
+How brave are ye? Shall we play a full game or a little one?
+Select a board size, enter '6' for a little one or '10' for normal:\n'''))
             #   validation of user input
             if (dimensions != 6) and (dimensions != 10):
                 raise Exception()
@@ -1023,9 +1071,10 @@ def setup():
                 break
         # display error message if input fails vaidation
         except Exception:
+            clear_terminal()
             print('''
-    Don't be getting all artistic with the choices like some scurvy landlover
-    It's either '6' or '10' that be it. Try again!\n''')
+Don't be getting all artistic with the choices like some scurvy landlover
+It's either '6' or '10' that be it. Just the number! Try again!\n''')
 
 # Difficulty options
 # easy - comp selects tiles at random
@@ -1035,56 +1084,31 @@ def setup():
         try:
             if dimensions == 6:
                 difficulty = input('''
-    A little one, suppose you want it easy as well? Select your difficulty,
-    enter 'E' for easy, 'N' for normal or 'H' for hard:\n''').lower()
+A little one, suppose you want it easy as well? Select your difficulty,
+enter 'E' for easy, 'N' for normal or 'H' for hard:\n''').lower()
                 if ((difficulty != 'e')
                         and (difficulty != 'n')
                         and (difficulty != 'h')):
                     raise Exception()
-                elif difficulty == 'e':
-                    print('difficulty set to easy, dim=6')
-# passes information on difficulty and dimensions to classes
-                    # player = Player('Calico Jack', dimensions)
-                    # comp = Comp('Jonathan Barnet', dimensions, difficulty)
-                    break
-                elif difficulty == 'n':
-                    print('difficulty set to normal, dim=6')
-                    # player = Player('Calico Jack', dimensions)
-                    # comp = Comp('Jonathan Barnet', dimensions, difficulty)
-                    break
-                elif difficulty == 'h':
-                    print('difficulty set to hard, dim=6')
-                    # player = Player('Calico Jack', dimensions)
-                    # comp = Comp('Jonathan Barnet', dimensions, difficulty)
+                else:
                     break
             elif dimensions == 10:
                 difficulty = input('''
-    Hmm a full one, ye be a brave pirate to tryin to impress me? If you really
-    want to impress me, you should try it on hard Select your difficulty,
-    enter 'E' for easy, 'N' for normal or 'H' for hard:\n''').lower()
+Hmm a full one, ye be a brave pirate to tryin to impress me? If you really
+want to impress me, you should try it on hard Select your difficulty,
+enter 'E' for easy, 'N' for normal or 'H' for hard:\n''').lower()
                 if ((difficulty != 'e')
                         and (difficulty != 'n')
                         and (difficulty != 'h')):
                     raise Exception()
-                elif difficulty == 'e':
-                    print('difficulty set to easy, dim=10')
-                    # player = Player('Calico Jack', dimensions)
-                    # comp = Comp('Jonathan Barnet', dimensions, difficulty)
-                    break
-                elif difficulty == 'n':
-                    print('difficulty set to normal, dim=10')
-                    # player = Player('Calico Jack', dimensions)
-                    # comp = Comp('Jonathan Barnet', dimensions, difficulty)
-                    break
-                elif difficulty == 'h':
-                    print('difficulty set to hard, dim=10')
-                    # player = Player('Calico Jack', dimensions)
-                    # comp = Comp('Jonathan Barnet', dimensions, difficulty)
+                else:
                     break
         except Exception:
+            clear_terminal()
             print('''
-    There ye go getting artistic, are ye a pirate or a West Indian spy?
-    Try again, before we make ye walk the plank, it's 'E', 'N' or 'H'\n''')
+There ye go getting artistic, are ye a pirate or a West Indian spy?
+Try again, before we make ye walk the plank, it's 'E', 'N' or 'H'
+Just the letters, no dots, dashs or bottles of rum\n''')
     create_players(dimensions, difficulty)
 
 
@@ -1121,7 +1145,8 @@ def start():
     while play == 'N':
         try:
             play = input('''Would you like to play a game me 'arty?
-(enter 'Y' to play or 'Q' to quit):\n''').lower()
+Click inside the terminal window and then
+enter 'Y' to play or 'Q' to quit:\n''').lower()
             if (play != 'y') and (play != 'q'):
                 raise Exception()
             elif play == "q":
@@ -1129,6 +1154,7 @@ def start():
     Goodbye''')
                 quit()
         except Exception:
+            clear_terminal()
             print('''
     Argh! you woke me up for nothin... I should make ye walk the plank...
     Wait, shall we try that again?\n''')
