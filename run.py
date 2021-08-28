@@ -554,10 +554,10 @@ class Blank:
     a ship has been hit.
     '''
 
-    def __init__(self, dimensions, comp):
+    def __init__(self, dimensions, opponent):
         self.dimensions = dimensions
         self.board = Board(dimensions)
-        self.reference_board = comp.board
+        self.reference_board = opponent.board
         self.board.turn_into_blank_board()
 
 
@@ -620,12 +620,36 @@ class Comp:
             shot = self.generate_easy_shot()
             return shot
 
+    def generate_hard_shot(self, game):
+        self.probability_list = [[0 for y in range(self.dimensions)]
+                                 for x in range(self.dimensions)]
+        max_value = 0
+        location = [0, 0]
+        for x in range(self.dimensions):
+            for y in range(self.dimensions):
+                for ship in game.player.ships:
+                    if ship.health > 0:
+                        # check if ship fits for each tile
+                        # add 1 to each tile ship would take
+                        # do for vertical and horizontal orientations
+        print(self.probability_list)
+        for x in range(self.dimensions):
+            for y in range(self.dimensions):
+                if self.probability_list[x][y] > max_value:
+                    max_value = self.probability_list[x][y]
+                    location = [x, y]
+                    print(location)
+        return location
+
     def get_target_from_comp(self, game):
         if self.difficulty == 'e':
             shot = self.generate_easy_shot()
             game.turn_loop(self, shot)
         elif self.difficulty == 'n':
             shot = self.generate_normal_shot()
+            game.turn_loop(self, shot)
+        elif self.difficulty == 'h':
+            shot = self.generate_hard_shot(game)
             game.turn_loop(self, shot)
 
     # def generate_target_locations(self, last_hit):
