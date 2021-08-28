@@ -8,6 +8,10 @@ import os
 # python code goes here
 '''
 NOTE to self
+BUG BUG BUG
+when placing ships, if user inputs coords instead of h or v
+for orientation, ship gets skipped. which means user has
+less ships than needed
 BUG in targetting on user input when they enter nothing
 need to reorganise starting menu to include instructions
 need to add backstory
@@ -644,6 +648,19 @@ class Comp:
             else:
                 return False
 
+    def find_rest_of_ship(self, x, y, game):
+        miss_or_hit = ('\x1b[93mM\x1b[0m', '\x1b[91m#\x1b[0m')
+        neighbours = [[-1, 0], [0, 1], [1, 0], [0, -1]]
+        temp = []
+        for a, d in neighbours:
+            if (x + a >= 0 and x + a < self.dimensions):
+                if (y + d >= 0 and y + d < self.dimensions):
+                    if (game.player.board.board[x + a][y + d]
+                       not in miss_or_hit):
+                        temp.append([x + a, y + d])
+                        print("added something to temp")
+        return temp
+
     def generate_hard_shot(self, game):
         self.probability_list = [[0 for y in range(self.dimensions)]
                                  for x in range(self.dimensions)]
@@ -663,6 +680,16 @@ class Comp:
                         if self.does_ship_fit(ship.length, x, y, 'h', game):
                             for i in range(y, y + ship.length):
                                 self.probability_list[x][i] += 1
+        print(self.probability_list)
+        # check for hits - update list for surrounding tiles
+        for x in range(self.dimensions):
+            for y in range(self.dimensions):
+                if game.player.board.board[x][y] == '\x1b[91m#\x1b[0m':
+                    temp = self.find_rest_of_ship(x, y, game)
+                    print("temp is...")
+                    print(temp)
+                    for x, y in temp:
+                        self.probability_list[x][y] *= 10
         print(self.probability_list)
         for x in range(self.dimensions):
             for y in range(self.dimensions):
