@@ -623,7 +623,7 @@ class Comp:
     # x is each row, x + 1 moves down one row
     # y is each column within a row, y + 1 moves right one column
     def does_ship_fit(self, length, x, y, orientation, game):
-        miss_or_hit = ('M', '#')
+        miss_or_hit = ('\x1b[93mM\x1b[0m', '\x1b[91m#\x1b[0m')
         if orientation == 'v':
             if x + length <= self.dimensions:
                 # check each tile for a miss or hit marker for length of ship
@@ -649,6 +649,7 @@ class Comp:
                                  for x in range(self.dimensions)]
         max_value = 0
         location = [0, 0]
+        miss_or_hit = ('\x1b[93mM\x1b[0m', '\x1b[91m#\x1b[0m')
         for x in range(self.dimensions):
             for y in range(self.dimensions):
                 for ship in game.player.ships:
@@ -659,13 +660,18 @@ class Comp:
                                 self.probability_list[i][y] += 1
                         # add 1 to each tile ship would take
                         # do for vertical and horizontal orientations
+                        if self.does_ship_fit(ship.length, x, y, 'h', game):
+                            for i in range(y, y + ship.length):
+                                self.probability_list[x][i] += 1
         print(self.probability_list)
         for x in range(self.dimensions):
             for y in range(self.dimensions):
-                if self.probability_list[x][y] > max_value:
+                if ((self.probability_list[x][y] > max_value)
+                   and (self.probability_list[x][y] not in miss_or_hit)):
                     max_value = self.probability_list[x][y]
                     location = [x, y]
                     print(location)
+        print(game.player.board.board)
         return location
 
     def get_target_from_comp(self, game):
