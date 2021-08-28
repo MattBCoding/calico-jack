@@ -620,6 +620,24 @@ class Comp:
             shot = self.generate_easy_shot()
             return shot
 
+    # x is each row, x + 1 moves down one row
+    # y is each column within a row, y + 1 moves right one column
+    def does_ship_fit(self, length, x, y, orientation, game):
+        miss_or_hit = ('M', '#')
+        if orientation == 'v':
+            if x + length <= self.dimensions:
+                # check each tile for a miss or hit marker for length of ship
+                return True
+            else:
+                return False
+        # if not 'v'ertical must be horizontal
+        else:
+            if y + length <= self.dimensions:
+                # check each tile for a miss or hit market for length of ship
+                return True
+            else:
+                return False
+
     def generate_hard_shot(self, game):
         self.probability_list = [[0 for y in range(self.dimensions)]
                                  for x in range(self.dimensions)]
@@ -630,6 +648,9 @@ class Comp:
                 for ship in game.player.ships:
                     if ship.health > 0:
                         # check if ship fits for each tile
+                        if self.does_ship_fit(ship.length, x, y, 'v', game):
+                            for i in range(x, x + ship.length):
+                                self.probability_list[i][y] += 1
                         # add 1 to each tile ship would take
                         # do for vertical and horizontal orientations
         print(self.probability_list)
