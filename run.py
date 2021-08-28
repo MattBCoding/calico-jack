@@ -627,6 +627,9 @@ class Comp:
         if orientation == 'v':
             if x + length <= self.dimensions:
                 # check each tile for a miss or hit marker for length of ship
+                for i in range(x, x + length):
+                    if game.player.board.board[i][y] in miss_or_hit:
+                        return False
                 return True
             else:
                 return False
@@ -634,6 +637,9 @@ class Comp:
         else:
             if y + length <= self.dimensions:
                 # check each tile for a miss or hit market for length of ship
+                for i in range(y, y + length):
+                    if game.player.board.board[x][i] in miss_or_hit:
+                        return False
                 return True
             else:
                 return False
