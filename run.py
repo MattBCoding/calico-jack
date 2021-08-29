@@ -11,12 +11,12 @@ NOTE to self
 BUG BUG BUG
 when placing ships, if user inputs coords instead of h or v
 for orientation, ship gets skipped. which means user has
-less ships than needed
-BUG in targetting on user input when they enter nothing
-need to reorganise starting menu to include instructions
-need to add backstory
-need to adjust formatting for deployed terminal emulator
-use color class to add colours to strings and boards
+less ships than needed - FIXED
+BUG in targetting on user input when they enter nothing - FIXED
+need to reorganise starting menu to include instructions - DONE
+need to add backstory - DONE
+need to adjust formatting for deployed terminal emulator - DONE
+use color class to add colours to strings and boards - DONE
 need to add scoreboard
 could add leaderboard and link in a google sheet for highscores
 possibly move some classes to other files to make things easier to find
@@ -107,8 +107,8 @@ class Board:
             return True
         else:
             clear_terminal()
-            game.print_boards()  # remove this for finished game
-            # game.print_player_board() switch to this line for finished game
+            # game.print_boards()  # remove this for finished game
+            game.print_player_board()  # switch to this line for finished game
             print('''
 The location entered is not on the board! The format is row then column,
 e.g. 'A2' or 'C5'. Try Again!''')
@@ -369,8 +369,8 @@ Letter then Number, this is not a time to act the fool, try again! ''')
         game.turn_loop(self, shot)
 
     def get_position_from_user(self, player, comp, game):
-        game.print_boards()  # remove this for finished game
-        # game.print_player_board() switch to this line for finished game
+        # game.print_boards()  # remove this for finished game
+        game.print_player_board()  # switch to this line for finished game
         input('''
 Now we need to position our ships ready for battle! Are ye ready?
 Press 'Enter' to start!\n''')
@@ -380,6 +380,7 @@ Press 'Enter' to start!\n''')
 THERE HERE!!! THERE HERE!!! MAN THE CANNONS!!!
 Wait?? Where is everyone?? You'll have to fight them on your own while I
 go and wake that drunken rabble up! Do not let Calico Jack down!\n''')
+        time.sleep(1)
         game.comp_setup()
 
     def position_ship(self, ship, game):
@@ -421,8 +422,8 @@ Enter 'H' for horizontally, 'V' for vertically:\n''').lower()
                                 break
                         except Exception:
                             clear_terminal()
-                            game.print_boards()  # remove this for game
-                            # game.print_player_board() switch 2 this for game
+                            # game.print_boards()  # remove this for game
+                            game.print_player_board()  # switch 2 this for game
                             print('''
 It can only be 'H' for horizontally or 'V' for vertically
 There are no other options, try again!''')
@@ -452,8 +453,8 @@ There are no other options, try again!''')
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 5:
                         clear_terminal()
-                        game.print_boards()  # remove this for finished game
-                        # game.print_player_board() switch 2 this for game
+                        # game.print_boards()  # remove this for finished game
+                        game.print_player_board()  # switch 2 this for game
                         print('''
 Can not place ship, only option from this location is horizontal
 which would hit another ship. Try a different location''')
@@ -468,8 +469,8 @@ Ship can only be placed vertically, so we placed it.''')
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 7:
                         clear_terminal()
-                        game.print_boards()  # remove this for finished game
-                        # game.print_player_board() switch 2 this for game
+                        # game.print_boards()  # remove this for finished game
+                        game.print_player_board()  # switch 2 this for game
                         print('''
 Can not place ship, only option from this location is vertical
 which would hit another ship. Try a different location\n''')
@@ -477,8 +478,8 @@ which would hit another ship. Try a different location\n''')
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 8:
                         clear_terminal()
-                        game.print_boards()  # remove this for finished game
-                        # game.print_player_board() switch 2 this for game
+                        # game.print_boards()  # remove this for finished game
+                        game.print_player_board()  # switch 2 this for game
                         print('''
 Can not place ship, it will not fit either horizontally or
 vertically at this location. Try a different location\n''')
@@ -487,8 +488,8 @@ vertically at this location. Try a different location\n''')
 # display error message - repeat user input
             except Exception:
                 clear_terminal()
-                game.print_boards()  # remove this for finished game
-                # game.print_player_board() switch 2 this for finished game
+                # game.print_boards()  # remove this for finished game
+                game.print_player_board()  # switch 2 this for finished game
                 print('''
 The starting location needs to be entered in the format of row then
 column, e.g. 'F4' or 'A2' a letter followed by a number, no spaces, dashes,
@@ -502,7 +503,8 @@ dots or bottles of rum before after or in the middle. Try again!''')
         # print(ship.x, ship.y, ship.orientation)
         self.board.set_ship_position(ship)
         # print("ship added to board ok")
-        game.print_boards()
+        # game.print_boards()
+        game.print_player_board()
         # print(self.board)  # so I can check the object against original value
 
 
@@ -658,7 +660,7 @@ class Comp:
                     if (game.player.board.board[x + a][y + d]
                        not in miss_or_hit):
                         temp.append([x + a, y + d])
-                        print("added something to temp")
+                        # print("added something to temp")
         return temp
 
     def generate_hard_shot(self, game):
@@ -680,25 +682,25 @@ class Comp:
                         if self.does_ship_fit(ship.length, x, y, 'h', game):
                             for i in range(y, y + ship.length):
                                 self.probability_list[x][i] += 1
-        print(self.probability_list)
+        # print(self.probability_list)
         # check for hits - update list for surrounding tiles
         for x in range(self.dimensions):
             for y in range(self.dimensions):
                 if game.player.board.board[x][y] == '\x1b[91m#\x1b[0m':
                     temp = self.find_rest_of_ship(x, y, game)
-                    print("temp is...")
-                    print(temp)
+                    # print("temp is...")
+                    # print(temp)
                     for x, y in temp:
-                        self.probability_list[x][y] *= 10
-        print(self.probability_list)
+                        self.probability_list[x][y] += 100
+        # print(self.probability_list)
         for x in range(self.dimensions):
             for y in range(self.dimensions):
                 if ((self.probability_list[x][y] > max_value)
                    and (self.probability_list[x][y] not in miss_or_hit)):
                     max_value = self.probability_list[x][y]
                     location = [x, y]
-                    print(location)
-        print(game.player.board.board)
+                    # print(location)
+        # print(game.player.board.board)
         return location
 
     def get_target_from_comp(self, game):
@@ -766,7 +768,8 @@ class Comp:
         # print(ship.x, ship.y, ship.orientation)
         self.board.set_ship_position(ship)
         # print("ship added to board ok")
-        game.print_boards()
+        # game.print_boards()
+        game.print_blank_and_player_boards()
         # print(self.board)  # so I can check the object against original value
 
 
@@ -886,7 +889,7 @@ class Game:
         # print("start turn loop")
         if (whichplayer == self.player):
             # print("matched player")
-            print(self.comp.board.board[shot[0]][shot[1]])
+            # print(self.comp.board.board[shot[0]][shot[1]])
             if self.comp.board.board[shot[0]][shot[1]] == '~':
                 # print("checked comp board ok")
                 self.blank.board.board[shot[0]][shot[1]]\
