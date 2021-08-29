@@ -426,7 +426,7 @@ Enter 'H' for horizontally, 'V' for vertically:\n''').lower()
                             print('''
 It can only be 'H' for horizontally or 'V' for vertically
 There are no other options, try again!''')
-                        break
+                        # break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 2:
                         # print("Can only be H, V hits another ship")
