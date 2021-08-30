@@ -380,7 +380,7 @@ Press 'Enter' to start!\n''')
 THERE HERE!!! THERE HERE!!! MAN THE CANNONS!!!
 Wait?? Where is everyone?? You'll have to fight them on your own while I
 go and wake that drunken rabble up! Do not let Calico Jack down!\n''')
-        time.sleep(1)
+        time.sleep(3)
         game.comp_setup()
 
     def position_ship(self, ship, game):
@@ -474,7 +474,7 @@ Ship can only be placed vertically, so we placed it.''')
                         print('''
 Can not place ship, only option from this location is vertical
 which would hit another ship. Try a different location\n''')
-                        game.print_boards()
+                        # game.print_boards()
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 8:
                         clear_terminal()
@@ -856,6 +856,14 @@ class Game:
     def comp_setup(self):
         self.comp.place_ships(self)
         clear_terminal()
+        print('This is the target selection screen, use the targetting radar \
+to determine')
+        print(f'where to shoot. If you miss a {C.BGBLUE + "~" + C.END} will \
+appear')
+        print(f'If you hit a {C.RED + "#" + C.END} will appear. The enemies \
+shots will appear on your board.')
+        print(f'If they miss a {C.YELLOW + "M" + C.END} will appear a hit \
+will be marked with a {C.RED + "#" + C.END}')
         self.print_blank_and_player_boards()
         self.player.get_target_from_user(self)
 
@@ -1172,7 +1180,7 @@ Select a board size, enter '6' for a little one or '10' for normal:\n'''))
         except Exception:
             clear_terminal()
             print('''
-Don't be getting all artistic with the choices like some scurvy landlover
+Don't be getting all artistic with the choices like some scurvy landlover.
 It's either '6' or '10' that be it. Just the number! Try again!\n''')
 
 # Difficulty options
@@ -1193,8 +1201,8 @@ enter 'E' for easy, 'N' for normal or 'H' for hard:\n''').lower()
                     break
             elif dimensions == 10:
                 difficulty = input('''
-Hmm a full one, ye be a brave pirate to tryin to impress me? If you really
-want to impress me, you should try it on hard Select your difficulty,
+Hmm a full one, ye be a brave pirate tryin to impress me? If you really
+want to impress me, you should try it on hard. Select your difficulty,
 enter 'E' for easy, 'N' for normal or 'H' for hard:\n''').lower()
                 if ((difficulty != 'e')
                         and (difficulty != 'n')
