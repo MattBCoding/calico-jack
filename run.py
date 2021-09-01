@@ -796,24 +796,21 @@ class Game:
 
 # end game and declare winner
     def end_game(self, whichplayer):
-        spacer = int((72 - len(whichplayer.name))/2)
-        name = whichplayer.name
         clear_terminal()
         print("\n\n\n\n\n\n\n\n")
-        print(C.RED + '#' * 74 + C.END)
-        print(C.RED + '#' * 74 + C.END)
-        print(C.RED + '#' + ' ' * 72 + '#' + C.END)
-        print(C.RED + '#' + ' ' * 72 + '#' + C.END)
+        print(C.RED + '#' * 80 + C.END)
+        print(C.RED + '#' * 80 + C.END)
+        print(C.RED + '#' + ' ' * 78 + '#' + C.END)
+        print(C.RED + '#' + ' ' * 78 + '#' + C.END)
         if whichplayer == self.player:
-            print(C.RED + '#' + ' ' * 32 + 'You Win!' + ' ' * 32 + '#' + C.END)
+            print(C.RED + '#' + ' ' * 35 + 'You Win!' + ' ' * 35 + '#' + C.END)
         else:
-            print(C.RED + '#' + ' ' * 32 + 'You Lose!' + ' ' * 31 + '#'
+            print(C.RED + '#' + ' ' * 35 + 'You Lose!' + ' ' * 34 + '#'
                   + C.END)
-        print(C.RED + '#' + ' ' * spacer + name + ' ' * (spacer+1) + '#'
-              + C.END)
-        print(C.RED + '#' + ' ' * 72 + '#' + C.END)
-        print(C.RED + '#' * 74 + C.END)
-        print(C.RED + '#' * 74 + C.END)
+        print(C.RED + '#' + ' ' * 78 + '#' + C.END)
+        print(C.RED + '#' + ' ' * 78 + '#' + C.END)
+        print(C.RED + '#' * 80 + C.END)
+        print(C.RED + '#' * 80 + C.END)
         print('\n\n\n\n')
         again = 'N'
         while again == 'N':
