@@ -11,7 +11,7 @@ BUG BUG BUG
 when placing ships, if user inputs coords instead of h or v
 for orientation, ship gets skipped. which means user has
 less ships than needed - FIXED
-BUG in targetting on user input when they enter nothing - FIXED
+BUG in targeting on user input when they enter nothing - FIXED
 need to reorganise starting menu to include instructions - DONE
 need to add backstory - DONE
 need to adjust formatting for deployed terminal emulator - DONE
@@ -238,7 +238,7 @@ e.g. 'A2' or 'C5'. Try Again!''')
 #   if yes, display ship that sunk message
 #   are there any other ships remaining?
 #   if no, player wins game - game over
-#   if yes, display refreshed board and restart targetting loop
+#   if yes, display refreshed board and restart targeting loop
 #       - user gets another go.
 
 # MISS LOGIC
@@ -529,7 +529,7 @@ dots or bottles of rum before after or in the middle. Try again!''')
 #       - display error message and have user repeat input
 #   validated target location check - has target been selected before?
 #   if target previously been entered
-#       - display error message to user and restart targetting process
+#       - display error message to user and restart targeting process
 #   check target location for enemy ship
 #   hit or miss?
 
@@ -834,7 +834,7 @@ class Game:
     def comp_setup(self):
         self.comp.place_ships(self)
         clear_terminal()
-        print('This is the target selection screen, use the targetting radar \
+        print('This is the target selection screen, use the targeting radar \
 to determine')
         print(f'where to shoot. If you miss a {C.BGBLUE + "~" + C.END} will \
 appear. If you hit a {C.RED + "#" + C.END} will appear.')
@@ -936,7 +936,7 @@ our turn now! Unleash Hell!''')
                     self.player.get_target_from_user(self)
 
 # display board
-# display grids, one for targetting one for showing own ship locations
+# display grids, one for targeting one for showing own ship locations
     def print_boards(self):
         letter = 0
         # prints five blank lines to create space
@@ -983,14 +983,14 @@ our turn now! Unleash Hell!''')
         # prints first line of board with numbers for column reference
         x = ' '
         if self.dimensions == 6:
-            print(x + 'TARGETTING RADAR'
+            print(x + 'TARGETING RADAR'
                   + x * 27
                   + 'YOUR BOARD'
                   + x * 5
                   + '\n')
         else:
             print(x * 5
-                  + 'TARGETTING RADAR'
+                  + 'TARGETING RADAR'
                   + x * 35
                   + 'YOUR BOARD'
                   + x * 7
