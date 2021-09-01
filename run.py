@@ -3,7 +3,6 @@ import math
 import random
 import string
 import time
-import sys
 import os
 # python code goes here
 '''
@@ -39,28 +38,10 @@ def clear_terminal():
     Clears the terminal window prior to new content.
     Original code from
     http://www.coding4you.at/inf_tag/beginners_python_cheat_sheet.pdf
+    Recommended to me by Goran Sigeskog
+    https://github.com/gorsig
     """
-    # if os.name == 'nt':
-    #     os.system('cls')
-    # else:
-    #     os.system('clear')
     os.system('cls' if os.name == 'nt' else 'clear')
-
-
-def loading():
-    print("Loading...")
-    print(u"\u001b[1m\u001b[31m")
-    print('\n')
-    sys.stdout.write(u"\u001b[3A")
-    for i in range(0, 100):
-        time.sleep(0.01)
-        width = int((i + 1) / 4)
-        bar = "[" + "#" * width + " " * (25 - width) + "]"
-        sys.stdout.write(u"\u001b[1000D" + bar)
-        sys.stdout.flush()
-    sys.stdout.write(u"\u001b[" + "A")
-    print
-    print(u"\u001b[0m")
 
 
 class C:
@@ -769,7 +750,7 @@ class Comp:
         self.board.set_ship_position(ship)
         # print("ship added to board ok")
         # game.print_boards()
-        game.print_blank_and_player_boards()
+        # game.print_blank_and_player_boards()
         # print(self.board)  # so I can check the object against original value
 
 
@@ -859,11 +840,10 @@ class Game:
         print('This is the target selection screen, use the targetting radar \
 to determine')
         print(f'where to shoot. If you miss a {C.BGBLUE + "~" + C.END} will \
-appear')
-        print(f'If you hit a {C.RED + "#" + C.END} will appear. The enemies \
-shots will appear on your board.')
+appear. If you hit a {C.RED + "#" + C.END} will appear.')
+        print('The enemies shots will appear on your board.')
         print(f'If they miss a {C.YELLOW + "M" + C.END} will appear a hit \
-will be marked with a {C.RED + "#" + C.END}')
+will be marked with a {C.RED + "#" + C.END}\n')
         self.print_blank_and_player_boards()
         self.player.get_target_from_user(self)
 
@@ -1161,7 +1141,6 @@ def create_players(dimensions, difficulty):
 def setup():
     print('\033[H\033[J', end='')
     clear_terminal()
-    loading()
     print("Good on ya, argh, we'll make a pirate out of ye yet!")
 # USER OPTIONS LOGIC
 # Grid dimension selection 6x6 or 10x10 message
