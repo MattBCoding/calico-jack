@@ -982,12 +982,19 @@ our turn now! Unleash Hell!''')
         # print('\n\n\n\n\n\n\n\n')
         # prints first line of board with numbers for column reference
         x = ' '
-        print(x * 5
-              + 'TARGETTING RADAR'
-              + x * 35
-              + 'YOUR BOARD'
-              + x * 7
-              + '\n')
+        if self.dimensions == 6:
+            print(x + 'TARGETTING RADAR'
+                  + x * 27
+                  + 'YOUR BOARD'
+                  + x * 5
+                  + '\n')
+        else:
+            print(x * 5
+                  + 'TARGETTING RADAR'
+                  + x * 35
+                  + 'YOUR BOARD'
+                  + x * 7
+                  + '\n')
         print(' '*2, end='| ')
         for i in range(self.dimensions):
             # print('    ')
