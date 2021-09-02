@@ -777,9 +777,7 @@ class Game:
         self.player = player
         self.comp = comp
         self.blank = blank
-        self.scoreboard = [
-                          ['']
-        ]
+        self.scoreboard = []
 
 # setup the winning condition
     def win_needs(self, hits):
@@ -878,10 +876,10 @@ class Game:
             self.scoreboard = [
                               ['C.J', 'ACK', '   ', 'J.B', 'ARN', 'ET '],
                               ['   ', ' SH', 'IPS', ' LE', 'FT ', '   '],
-                              [' ' + player_schooner + ' ', '  S', 'CHO', 'ONE', 'R  ', ' ' + comp_schooner + ' '],
-                              [' ' + player_lugger + ' ', '   ', 'LUG', 'GER', '   ', ' ' + comp_lugger + ' '],
-                              [' ' + player_brigantine + ' ', ' BR', 'IGA', 'NTI', 'NE ', ' ' + comp_brigantine + ' '],
-                              [' ' + sum(player_schooner + player_lugger + player_brigantine) + ' ', '   ', 'TOT', 'AL ', '   ', ' ' + sum(comp_schooner + comp_lugger + comp_brigantine) + ' ']
+                              [' ' + str(player_schooner) + ' ', '  S', 'CHO', 'ONE', 'R  ', ' ' + str(comp_schooner) + ' '],
+                              [' ' + str(player_lugger) + ' ', '   ', 'LUG', 'GER', '   ', ' ' + str(comp_lugger) + ' '],
+                              [' ' + str(player_brigantine) + ' ', ' BR', 'IGA', 'NTI', 'NE ', ' ' + str(comp_brigantine) + ' '],
+                              [' ' + str(player_schooner + player_lugger + player_brigantine) + ' ', '   ', 'TOT', 'AL ', '   ', ' ' + str(comp_schooner + comp_lugger + comp_brigantine) + ' ']
                               ]
 
 
@@ -1030,6 +1028,7 @@ our turn now! Unleash Hell!''')
             letter += 1
 
     def print_blank_and_player_boards(self):
+        self.create_scoreboard()
         letter = 0
         # prints five blank lines to create space
         # will need to be adjusted so that each time the print_boards is
@@ -1071,9 +1070,13 @@ our turn now! Unleash Hell!''')
                 print(self.blank.board.board[letter][column], end=' ')
         # prints ending character for numbers area and gap to new board
         # MIDDLE TABLE information needs to go in here
-            print('|', ' '*20, end='  ')
+            print('|', end='  ')
+            for column in range(len(self.scoreboard[letter])):
+                print(self.scoreboard[letter][column], end='')
+            # print('|', ' '*20, end='  ')
         # prints comp board to screen,
             # puts a capital letter in front of each row of board
+            print('  ', end=' ')
             print(chr(letter + 65), end=' | ')
             for column in range(len(self.player.board.board[letter])):
                 print(self.player.board.board[letter][column], end=' ')
