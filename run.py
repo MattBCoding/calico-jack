@@ -830,7 +830,62 @@ class Game:
                 again = 'N'
         setup()
 
-# setup the comp player
+    def create_scoreboard(self):
+        player_pinnace = 0
+        player_sloop = 0
+        player_schooner = 0
+        player_lugger = 0
+        player_brigantine = 0
+        comp_pinnace = 0
+        comp_sloop = 0
+        comp_schooner = 0
+        comp_lugger = 0
+        comp_brigantine = 0
+        if self.dimensions == 6:
+            for ship in self.player.ships:
+                if ship.name == 'Schooner':
+                    if ship.health > 0:
+                        player_schooner = 1
+                    else:
+                        player_schooner = 0
+                elif ship.name == 'Lugger':
+                    if ship.health > 0:
+                        player_lugger = 1
+                    else:
+                        player_lugger = 0
+                elif ship.name == 'Brigantine':
+                    if ship.health > 0:
+                        player_brigantine = 1
+                    else:
+                        player_brigantine = 0
+            for ship in self.comp.ships:
+                if ship.name == 'Schooner':
+                    if ship.health > 0:
+                        comp_schooner = 1
+                    else:
+                        comp_schooner = 0
+                elif ship.name == 'Lugger':
+                    if ship.health > 0:
+                        comp_lugger = 1
+                    else:
+                        comp_lugger = 0
+                elif ship.name == 'Brigantine':
+                    if ship.health > 0:
+                        comp_brigantine = 1
+                    else:
+                        comp_brigantine = 0
+
+            self.scoreboard = [
+                              ['C.J', 'ACK', '   ', 'J.B', 'ARN', 'ET '],
+                              ['   ', ' SH', 'IPS', ' LE', 'FT ', '   '],
+                              [' ' + player_schooner + ' ', '  S', 'CHO', 'ONE', 'R  ', ' ' + comp_schooner + ' '],
+                              [' ' + player_lugger + ' ', '   ', 'LUG', 'GER', '   ', ' ' + comp_lugger + ' '],
+                              [' ' + player_brigantine + ' ', ' BR', 'IGA', 'NTI', 'NE ', ' ' + comp_brigantine + ' '],
+                              [' ' + sum(player_schooner + player_lugger + player_brigantine) + ' ', '   ', 'TOT', 'AL ', '   ', ' ' + sum(comp_schooner + comp_lugger + comp_brigantine) + ' ']
+                              ]
+
+
+# setup the comp player and starts turn loop
     def comp_setup(self):
         self.comp.place_ships(self)
         clear_terminal()
@@ -1143,7 +1198,6 @@ def create_players(dimensions, difficulty):
 
 # SETUP function - establishes parameters for game
 def setup():
-    print('\033[H\033[J', end='')
     clear_terminal()
     print("Good on ya, argh, we'll make a pirate out of ye yet!")
 # USER OPTIONS LOGIC
