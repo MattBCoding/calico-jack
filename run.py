@@ -874,14 +874,112 @@ class Game:
                         comp_brigantine = 0
 
             self.scoreboard = [
-                              ['C.J', 'ACK', '   ', 'J.B', 'ARN', 'ET '],
-                              ['   ', ' SH', 'IPS', ' LE', 'FT ', '   '],
-                              [' ' + str(player_schooner) + ' ', '  S', 'CHO', 'ONE', 'R  ', ' ' + str(comp_schooner) + ' '],
-                              [' ' + str(player_lugger) + ' ', '   ', 'LUG', 'GER', '   ', ' ' + str(comp_lugger) + ' '],
-                              [' ' + str(player_brigantine) + ' ', ' BR', 'IGA', 'NTI', 'NE ', ' ' + str(comp_brigantine) + ' '],
-                              [' ' + str(player_schooner + player_lugger + player_brigantine) + ' ', '   ', 'TOT', 'AL ', '   ', ' ' + str(comp_schooner + comp_lugger + comp_brigantine) + ' ']
+                              ['   C.J', 'ACK', '   ', 'J.B', 'ARN', 'ET  '],
+                              ['      ', ' SH', 'IPS', ' LE', 'FT ', '    '],
+                              ['    ' + str(player_schooner) + ' ', '  S',
+                               'CHO', 'ONE', 'R  ', ' ' + str(comp_schooner)
+                               + '  '],
+                              ['    ' + str(player_lugger) + ' ', '   ', 'LUG',
+                               'GER', '   ', ' ' + str(comp_lugger) + '  '],
+                              ['    ' + str(player_brigantine) + ' ', ' BR',
+                               'IGA', 'NTI', 'NE ', ' ' + str(comp_brigantine)
+                               + '  '],
+                              ['    ' + str(player_schooner + player_lugger
+                               + player_brigantine) + ' ', '   ', 'TOT', 'AL ',
+                               '   ', ' ' + str(comp_schooner + comp_lugger
+                                                + comp_brigantine) + '  ']
                               ]
+        else:
+            for ship in self.player.ships:
+                if ship.name == 'Pinnace':
+                    if ship.health > 0:
+                        player_pinnace = 1
+                    else:
+                        player_pinnace = 0
+                elif ship.name == 'Sloop':
+                    if ship.health > 0:
+                        player_sloop = 1
+                    else:
+                        player_sloop = 0
+                elif ship.name == 'Schooner':
+                    if ship.health > 0:
+                        player_schooner = 1
+                    else:
+                        player_schooner = 0
+                elif ship.name == 'Lugger':
+                    if ship.health > 0:
+                        player_lugger = 1
+                    else:
+                        player_lugger = 0
+                elif ship.name == 'Brigantine':
+                    if ship.health > 0:
+                        player_brigantine += 1
+                    # else:
+                    #     player_brigantine = 0
+            for ship in self.comp.ships:
+                if ship.name == 'Pinnace':
+                    if ship.health > 0:
+                        comp_pinnace = 1
+                    else:
+                        comp_pinnace = 0
+                elif ship.name == 'Sloop':
+                    if ship.health > 0:
+                        comp_sloop = 1
+                    else:
+                        comp_sloop = 0
+                elif ship.name == 'Schooner':
+                    if ship.health > 0:
+                        comp_schooner = 1
+                    else:
+                        comp_schooner = 0
+                elif ship.name == 'Lugger':
+                    if ship.health > 0:
+                        comp_lugger = 1
+                    else:
+                        comp_lugger = 0
+                elif ship.name == 'Brigantine':
+                    if ship.health > 0:
+                        comp_brigantine += 1
+                    # else:
+                    #     comp_brigantine = 0
 
+            self.scoreboard = [
+                              ['  C', 'AL', 'IC', 'O ', '  ', ' J', 'ON', 'AT',
+                               'HA', 'N  '],
+                              ['   ', 'JA', 'CK', '  ', '  ', '  ', 'BA', 'RN',
+                               'ET', '   '],
+                              ['   ', '  ', '  ', '  ', '  ', '  ', '  ', '  ',
+                               '  ', '   '],
+                              ['   ', '  ', ' S', 'HI', 'PS', ' L', 'EF', 'T ',
+                               '  ', '   '],
+                              ['  ' + str(player_pinnace), '  ', '  ', 'PI',
+                               'NN', 'AC', 'E ', '  ', '  ', str(comp_pinnace)
+                               + '  '],
+                              ['  ' + str(player_sloop), '  ', '  ', ' S',
+                               'LO', 'OP', '  ', '  ', '  ', str(comp_sloop)
+                               + '  '],
+                              ['  ' + str(player_schooner), '  ', '  ', 'SC',
+                               'HO', 'ON', 'ER', '  ', '  ', str(comp_schooner)
+                               + '  '],
+                              ['  ' + str(player_lugger), '  ', '  ', ' L',
+                               'UG', 'GE', 'R ', '  ', '  ', str(comp_lugger)
+                               + '  '],
+                              ['  ' + str(player_brigantine), '  ', ' B', 'RI',
+                               'GA', 'NT', 'IN', 'E ', '  ',
+                               str(comp_brigantine) + '  '],
+                              ['  ' + str(player_pinnace
+                                          + player_sloop
+                                          + player_schooner
+                                          + player_lugger
+                                          + player_brigantine),
+                               '  ', '  ', ' T', 'OT', 'AL', '  ', '  ', '  ',
+                               str(comp_pinnace
+                                   + comp_sloop
+                                   + comp_schooner
+                                   + comp_lugger
+                                   + comp_brigantine)
+                               + '  ']
+                              ]
 
 # setup the comp player and starts turn loop
     def comp_setup(self):
@@ -1038,14 +1136,14 @@ our turn now! Unleash Hell!''')
         x = ' '
         if self.dimensions == 6:
             print(x + 'TARGETING RADAR'
-                  + x * 27
+                  + x * 32
                   + 'YOUR BOARD'
                   + x * 5
                   + '\n')
         else:
             print(x * 5
                   + 'TARGETING RADAR'
-                  + x * 35
+                  + x * 40
                   + 'YOUR BOARD'
                   + x * 7
                   + '\n')
@@ -1054,7 +1152,7 @@ our turn now! Unleash Hell!''')
             # print('    ')
             print(i, end=' ')
         # prints ending character for numbers area and gap to new board
-        print('| ', ' '*20, end=' ')
+        print('| ', ' '*24, end=' ')
         # prints first line of board with numbers for column reference board 2
         print(' '*2, end='| ')
         for i in range(self.dimensions):
