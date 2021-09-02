@@ -7,29 +7,9 @@ import os
 # python code goes here
 '''
 NOTE to self
-BUG BUG BUG
-when placing ships, if user inputs coords instead of h or v
-for orientation, ship gets skipped. which means user has
-less ships than needed - FIXED
-BUG in targeting on user input when they enter nothing - FIXED
-need to reorganise starting menu to include instructions - DONE
-need to add backstory - DONE
-need to adjust formatting for deployed terminal emulator - DONE
-use color class to add colours to strings and boards - DONE
-need to add scoreboard
-could add leaderboard and link in a google sheet for highscores
+
 possibly move some classes to other files to make things easier to find
-change clear to subprocess.command
-import subprocess, time, os, sys
-cmd = ["clear"]
 
-p = subprocess.Popen(cmd,
-                     stdout=subprocess.PIPE,
-                     stderr=subprocess.STDOUT)
-subprocess.call("cls", shell = True)
-dir(p)
-
-print('We are the {} who say "{}!"'.format('knights', 'Ni'))
 '''
 
 
@@ -84,12 +64,10 @@ class Board:
         row_test = ((ord(coords[0].upper()) - 65) < self.dimensions)
         column_test = (int(coords[1]) < self.dimensions)
         if(row_test and column_test):
-            # print('coords on board')
             return True
         else:
             clear_terminal()
-            # game.print_boards()  # remove this for finished game
-            game.print_player_board()  # switch to this line for finished game
+            game.print_player_board()
             print('''
 The location entered is not on the board! The format is row then column,
 e.g. 'A2' or 'C5'. Try Again!''')
@@ -113,12 +91,10 @@ e.g. 'A2' or 'C5'. Try Again!''')
         clear_space_horizontal = []
         # vertical orientation from row check
         vertical_check = (self.dimensions - row_coord_value - ship.length >= 0)
-        # print(vertical_check)
         # horizontal orientation from column check
         horizontal_check = (self.dimensions
                             - column_coord_value
                             - ship.length >= 0)
-        # print(horizontal_check)
         if horizontal_check:
             if vertical_check:
                 # Ship fits both horizontally and vertically
@@ -127,15 +103,12 @@ e.g. 'A2' or 'C5'. Try Again!''')
                 # horizontal
                 i = 0
                 while i < ship.length:
-                    # print(i)
                     if self.board[row_coord_value][column_coord_value] == '~':
-                        # print("if")
                         clear_space_horizontal.append((row_coord_value,
                                                       column_coord_value))
                         column_coord_value += 1
                         i += 1
                     else:
-                        # print("else")
                         column_coord_value += 1
                         i += 1
                 # vertical
@@ -144,33 +117,21 @@ e.g. 'A2' or 'C5'. Try Again!''')
                 row_coord_value = (ord(coords[0].upper()) - 65)
                 column_coord_value = int(coords[1])
                 while j < ship.length:
-                    # print("starting second while loop")
                     if self.board[row_coord_value][column_coord_value] == '~':
-                        # print("v if")
                         clear_space_vertical.append((row_coord_value,
                                                     column_coord_value))
                         row_coord_value += 1
                         j += 1
                     else:
-                        # print("v else")
                         row_coord_value += 1
                         j += 1
 
                 if ship.length == len(clear_space_horizontal):
                     if ship.length == len(clear_space_vertical):
-                        # print(len(clear_space_horizontal))
-                        # print("^^^ length of clear space horizontal")
-                        # print(len(clear_space_vertical))
-                        # print("^^^ length of clear space vertical")
-                        # print("scenario 1")
                         return 1
                     else:
-                        # print("scenario 2")
                         return 2
                 elif ship.length == len(clear_space_vertical):
-                    # print(len(clear_space_vertical))
-                    # print("^^^ length of clear space vertical")
-                    # print("scenario 3")
                     return 3
                 else:
                     return 8
@@ -189,14 +150,8 @@ e.g. 'A2' or 'C5'. Try Again!''')
                         column_coord_value += 1
                         i += 1
                 if ship.length == len(clear_space_horizontal):
-                    # print(len(clear_space_horizontal))
-                    # print("^^^ length of clear space horizontal")
-                    # print("scenario 4")
                     return 4
                 else:
-                    # print(len(clear_space_horizontal))
-                    # print("^^^ length of clear space horizontal")
-                    # print("scenario 5")
                     return 5
 
         else:
@@ -214,37 +169,15 @@ e.g. 'A2' or 'C5'. Try Again!''')
                         row_coord_value += 1
                         i += 1
                 if ship.length == len(clear_space_vertical):
-                    # print(len(clear_space_vertical))
-                    # print("^^^ length of clear space vertical")
-                    # print("scenario 6")
                     return 6
                 else:
-                    # print(len(clear_space_vertical))
-                    # print("^^^ length of clear space vertical")
-                    # print("scenario 7")
                     return 7
             else:
-                # print("scenario 8")
                 return 8
 
     def set_ship_position(self, ship):
         for tile in ship.location:
             self.board[tile[0]][tile[1]] = 'S'
-            # print(self.board)
-
-# HIT LOGIC LOOP
-#   Record hit to board and ship record
-#   Did hit sink a ship?
-#   if yes, display ship that sunk message
-#   are there any other ships remaining?
-#   if no, player wins game - game over
-#   if yes, display refreshed board and restart targeting loop
-#       - user gets another go.
-
-# MISS LOGIC
-#   Record miss to board and shot record
-#   display updated board
-#   start other player turn
 
 
 class Boat:
@@ -274,8 +207,6 @@ class Boat:
         for r in range(width):
             for u in range(height):
                 self.location.append([self.x + u, self.y + r])
-        # print("from Boat set_position")
-        # print(self.location)
 
 
 class Player:
@@ -321,11 +252,9 @@ Select the location in the format of row then column e.g. 'E4':\n''')
                         while True:
                             try:
                                 if shot in self.previous_shots:
-                                    # print(self.previous_shots)
                                     raise Exception
                                 else:
                                     self.previous_shots.append(shot)
-                                    # print(self.previous_shots)
                                     x += 1
                                     break
                             except Exception:
@@ -350,8 +279,7 @@ Letter then Number, this is not a time to act the fool, try again! ''')
         game.turn_loop(self, shot)
 
     def get_position_from_user(self, player, comp, game):
-        # game.print_boards()  # remove this for finished game
-        game.print_player_board()  # switch to this line for finished game
+        game.print_player_board()
         input('''
 Now we need to position our ships ready for battle! Are ye ready?
 Press 'Enter' to start!\n''')
@@ -403,30 +331,24 @@ Enter 'H' for horizontally, 'V' for vertically:\n''').lower()
                                 break
                         except Exception:
                             clear_terminal()
-                            # game.print_boards()  # remove this for game
-                            game.print_player_board()  # switch 2 this for game
+                            game.print_player_board()
                             print('''
 It can only be 'H' for horizontally or 'V' for vertically
 There are no other options, try again!''')
-                        # break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 2:
-                        # print("Can only be H, V hits another ship")
                         orientation = 'h'
                         self.add_ship(ship, user_input_coords_list,
                                       orientation, game)
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 3:
-                        # print("Can only be V, H hits another ship")
                         orientation = 'v'
                         self.add_ship(ship, user_input_coords_list,
                                       orientation, game)
                         break
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 4:
-                        # scenario 4 = ship can only be placed horizontally
-                        # being used as a test case to assign ship to board
                         orientation = 'h'
                         self.add_ship(ship, user_input_coords_list,
                                       orientation, game)
@@ -434,8 +356,7 @@ There are no other options, try again!''')
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 5:
                         clear_terminal()
-                        # game.print_boards()  # remove this for finished game
-                        game.print_player_board()  # switch 2 this for game
+                        game.print_player_board()
                         print('''
 Can not place ship, only option from this location is horizontal
 which would hit another ship. Try a different location''')
@@ -450,17 +371,14 @@ Ship can only be placed vertically, so we placed it.''')
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 7:
                         clear_terminal()
-                        # game.print_boards()  # remove this for finished game
-                        game.print_player_board()  # switch 2 this for game
+                        game.print_player_board()
                         print('''
 Can not place ship, only option from this location is vertical
 which would hit another ship. Try a different location\n''')
-                        # game.print_boards()
                     elif self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 8:
                         clear_terminal()
-                        # game.print_boards()  # remove this for finished game
-                        game.print_player_board()  # switch 2 this for game
+                        game.print_player_board()
                         print('''
 Can not place ship, it will not fit either horizontally or
 vertically at this location. Try a different location\n''')
@@ -469,8 +387,7 @@ vertically at this location. Try a different location\n''')
 # display error message - repeat user input
             except Exception:
                 clear_terminal()
-                # game.print_boards()  # remove this for finished game
-                game.print_player_board()  # switch 2 this for finished game
+                game.print_player_board()
                 print('''
 The starting location needs to be entered in the format of row then
 column, e.g. 'F4' or 'A2' a letter followed by a number, no spaces, dashes,
@@ -480,58 +397,9 @@ dots or bottles of rum before after or in the middle. Try again!''')
         x = (ord(coords[0].upper()) - 65)
         y = int(coords[1])
         ship.set_position(x, y, orientation)
-        # print("ship position just set")
-        # print(ship.x, ship.y, ship.orientation)
         self.board.set_ship_position(ship)
-        # print("ship added to board ok")
-        # game.print_boards()
         game.print_player_board()
-        # print(self.board)  # so I can check the object against original value
 
-
-# GAME SETUP LOGIC
-# validation of ship location - does ship fit starting in that location in
-#       either horizontal or vertical orientation?
-# if fails location validation - display error message to user informing them
-#       why and repeat user input
-# display message asking user if ship horizontal or vertical
-# user choice h = horizontal v = vertical
-# user input for ship orientation
-# input validation for ship orientation
-# display error message if wrong type of input inserted by user
-#       - repeat user input
-# validation of ship location - does ship fit in selected location
-# display error message if ship does not fit, informing user why
-#       - repeat user input
-# validation of ship location - does ship overlap any other ships?
-# display error message informing user
-#       - repeat user input to select alternative location
-# ship location ok
-# store ship location to ship, and to board
-# check to see if more ships still to be placed
-# if needed repeat earlier steps for other ships
-
-# display message to user about selecting firing location
-#   display message to user to select which column
-#   user input of column - should be integer
-#   user input validation
-#       - column selection
-#       - will come in as string
-#       - convert to int
-#   if value fails validation display error message and have user repeat input
-#   display message to user to select row
-#   user input of row - should be string - letter
-#   user input validation
-#       - row selection
-#       - will come in as string
-#       - convert to lowercase using .lower()
-#   if value fails validation
-#       - display error message and have user repeat input
-#   validated target location check - has target been selected before?
-#   if target previously been entered
-#       - display error message to user and restart targeting process
-#   check target location for enemy ship
-#   hit or miss?
 
 # create blanked out version of board to display in game
 class Blank:
@@ -578,8 +446,6 @@ class Comp:
                 continue
             else:
                 self.previous_shots.append(shot)
-                # print("comp shot")
-                # print(shot)
                 x += 1
         return shot
 
@@ -593,7 +459,6 @@ class Comp:
                     if (temp[1] >= 0 and temp[1] < self.dimensions):
                         if temp not in self.previous_shots:
                             self.target_list.append(temp)
-            # print(self.target_list)
             shot = self.target_list[0]
             self.previous_shots.append(shot)
             self.target_list.pop(0)
@@ -641,7 +506,6 @@ class Comp:
                     if (game.player.board.board[x + a][y + d]
                        not in miss_or_hit):
                         temp.append([x + a, y + d])
-                        # print("added something to temp")
         return temp
 
     def generate_hard_shot(self, game):
@@ -663,25 +527,19 @@ class Comp:
                         if self.does_ship_fit(ship.length, x, y, 'h', game):
                             for i in range(y, y + ship.length):
                                 self.probability_list[x][i] += 1
-        # print(self.probability_list)
         # check for hits - update list for surrounding tiles
         for x in range(self.dimensions):
             for y in range(self.dimensions):
                 if game.player.board.board[x][y] == '\x1b[91m#\x1b[0m':
                     temp = self.find_rest_of_ship(x, y, game)
-                    # print("temp is...")
-                    # print(temp)
                     for x, y in temp:
                         self.probability_list[x][y] += 100
-        # print(self.probability_list)
         for x in range(self.dimensions):
             for y in range(self.dimensions):
                 if ((self.probability_list[x][y] > max_value)
                    and (self.probability_list[x][y] not in miss_or_hit)):
                     max_value = self.probability_list[x][y]
                     location = [x, y]
-                    # print(location)
-        # print(game.player.board.board)
         return location
 
     def get_target_from_comp(self, game):
@@ -694,8 +552,6 @@ class Comp:
         elif self.difficulty == 'h':
             shot = self.generate_hard_shot(game)
             game.turn_loop(self, shot)
-
-    # def generate_target_locations(self, last_hit):
 
     def place_ships(self, game):
         for ship in self.ships:
@@ -745,26 +601,7 @@ class Comp:
         x = (ord(coords[0].upper()) - 65)
         y = int(coords[1])
         ship.set_position(x, y, orientation)
-        # print("ship position just set")
-        # print(ship.x, ship.y, ship.orientation)
         self.board.set_ship_position(ship)
-        # print("ship added to board ok")
-        # game.print_boards()
-        # game.print_blank_and_player_boards()
-        # print(self.board)  # so I can check the object against original value
-
-
-# AI SELECT LOCATIONS FOR SHIPS LOGIC
-
-# AI SHOT LOGIC
-#   AI selects firing location
-#       - easy mode fully random selection
-#       - normal mode AI will pick neighbouring tiles on hit
-#       - hard mode AI uses algorithm to select targets
-#   check location not previously selected
-#   check if location a hit or miss
-#   if hit - run hit logic loop
-#   if miss - run miss logic loop
 
 
 class Game:
@@ -782,8 +619,6 @@ class Game:
 # setup the winning condition
     def win_needs(self, hits):
         self.to_win = hits
-        # print("from the win_needs method")
-        # print(self.to_win)
 
 # check for a win
     def check_for_win(self, whichplayer):
@@ -914,8 +749,6 @@ class Game:
                 elif ship.name == 'Brigantine':
                     if ship.health > 0:
                         player_brigantine += 1
-                    # else:
-                    #     player_brigantine = 0
             for ship in self.comp.ships:
                 if ship.name == 'Pinnace':
                     if ship.health > 0:
@@ -940,8 +773,6 @@ class Game:
                 elif ship.name == 'Brigantine':
                     if ship.health > 0:
                         comp_brigantine += 1
-                    # else:
-                    #     comp_brigantine = 0
 
             self.scoreboard = [
                               ['  C', 'AL', 'IC', 'O ', '  ', ' J', 'ON', 'AT',
@@ -995,24 +826,11 @@ will be marked with a {C.RED + "#" + C.END}\n')
         self.print_blank_and_player_boards()
         self.player.get_target_from_user(self)
 
-    # def check_for_win(self):
 # identify if ship sunk, and return ship name
     def identify_ship(self, opponent, shot):
-        # x = 1
         for ship in opponent.ships:
-            # print(f"checking ship {x}")
-            # print(ship.name)
-            # print(ship.location)
-            # x += 1
-            # print(shot)
-            # print("about to enter if statement")
             if shot in ship.location:
-                # print(type(ship.health))
-                # print(ship.name)
-                # print(ship.length)
-                # print(ship.health)
                 ship.health -= 1
-                # print(ship.health)
                 if ship.health == 0:
                     if opponent == self.comp:
                         print(f'We sunk their {ship.name}!')
@@ -1022,15 +840,10 @@ will be marked with a {C.RED + "#" + C.END}\n')
 # manage the turn of each player
 # check board locations for ships
     def turn_loop(self, whichplayer, shot):
-        # print("start turn loop")
         if (whichplayer == self.player):
-            # print("matched player")
-            # print(self.comp.board.board[shot[0]][shot[1]])
             if self.comp.board.board[shot[0]][shot[1]] == '~':
-                # print("checked comp board ok")
                 self.blank.board.board[shot[0]][shot[1]]\
                     = C.BGBLUE + '~' + C.END
-                # self.print_blank_and_player_boards()
                 clear_terminal()
                 print('''
 Nothing but water! What a waste of some perfectly good iron.
@@ -1040,17 +853,12 @@ Your turn is over! You missed!\n''')
             else:
                 self.blank.board.board[shot[0]][shot[1]]\
                     = C.RED + '#' + C.END
-                # self.print_blank_and_player_boards()
                 clear_terminal()
                 print('''
 Direct Hit!!! The sound of screams and breaking wood is unmistakable!''')
                 self.player.hit_counter += 1
                 # check if ship sunk
-                # print(shot)
-                # print("checking ship from turn loop")
                 self.identify_ship(self.comp, shot)
-                # print("finished checking ship")
-                # insert function call to check for player win
                 if self.check_for_win(whichplayer):
                     self.end_game(whichplayer)
                 else:
@@ -1078,7 +886,6 @@ did you expect them to just send over rum and wenches for a party? It's
 our turn now! Unleash Hell!''')
                 self.comp.hit_counter += 1
                 self.identify_ship(self.player, shot)
-                # insert function call to check for player win
                 time.sleep(1)
                 if self.check_for_win(whichplayer):
                     self.end_game(whichplayer)
@@ -1090,21 +897,16 @@ our turn now! Unleash Hell!''')
 # display grids, one for targeting one for showing own ship locations
     def print_boards(self):
         letter = 0
-        # prints five blank lines to create space
-        # will need to be adjusted so that each time the print_boards is
-        # called a fresh screen appears for the user, total line height = 24
         print('\n\n\n\n\n\n\n\n')
         # prints first line of board with numbers for column reference
         print(' '*2, end='| ')
         for i in range(self.dimensions):
-            # print('    ')
             print(i, end=' ')
         # prints ending character for numbers area and gap to new board
         print('| ', ' '*20, end=' ')
         # prints first line of board with numbers for column reference board 2
         print(' '*2, end='| ')
         for i in range(self.dimensions):
-            # print('    ')
             print(i, end=' ')
         print('| ')
 
@@ -1128,11 +930,6 @@ our turn now! Unleash Hell!''')
     def print_blank_and_player_boards(self):
         self.create_scoreboard()
         letter = 0
-        # prints five blank lines to create space
-        # will need to be adjusted so that each time the print_boards is
-        # called a fresh screen appears for the user, total line height = 24
-        # print('\n\n\n\n\n\n\n\n')
-        # prints first line of board with numbers for column reference
         x = ' '
         if self.dimensions == 6:
             print(x + 'TARGETING RADAR'
@@ -1149,14 +946,12 @@ our turn now! Unleash Hell!''')
                   + '\n')
         print(' '*2, end='| ')
         for i in range(self.dimensions):
-            # print('    ')
             print(i, end=' ')
         # prints ending character for numbers area and gap to new board
         print('| ', ' '*24, end=' ')
         # prints first line of board with numbers for column reference board 2
         print(' '*2, end='| ')
         for i in range(self.dimensions):
-            # print('    ')
             print(i, end=' ')
         print('| ')
 
@@ -1171,8 +966,6 @@ our turn now! Unleash Hell!''')
             print('|', end='  ')
             for column in range(len(self.scoreboard[letter])):
                 print(self.scoreboard[letter][column], end='')
-            # print('|', ' '*20, end='  ')
-        # prints comp board to screen,
             # puts a capital letter in front of each row of board
             print('  ', end=' ')
             print(chr(letter + 65), end=' | ')
@@ -1183,15 +976,9 @@ our turn now! Unleash Hell!''')
 
     def print_player_board(self):
         letter = 0
-        # prints five blank lines to create space
-        # will need to be adjusted so that each time the print_boards is
-        # called a fresh screen appears for the user, total line height = 24
-        # print('\n\n\n\n\n\n\n\n')
-        # print("PLAYER BOARD")
         # prints first line of board with numbers for column reference
         print(' '*2, end='| ')
         for i in range(self.dimensions):
-            # print('    ')
             print(i, end=' ')
         # prints ending character for numbers area and gap to new board
         print('| ')
@@ -1206,15 +993,9 @@ our turn now! Unleash Hell!''')
 
     def print_blank_board(self):
         letter = 0
-        # prints five blank lines to create space
-        # will need to be adjusted so that each time the print_boards is
-        # called a fresh screen appears for the user, total line height = 24
-        # print('\n\n\n\n\n\n\n\n')
-        # print("BLANK BOARD")
         # prints first line of board with numbers for column reference
         print(' '*2, end='| ')
         for i in range(self.dimensions):
-            # print('    ')
             print(i, end=' ')
         # prints ending character for numbers area and gap to new board
         print('| ')
@@ -1226,17 +1007,6 @@ our turn now! Unleash Hell!''')
                 print(self.blank.board.board[letter][column], end=' ')
             print('| ')
             letter += 1
-# PLAY GAME LOGIC
-
-# END OF GAME LOGIC
-#   Display end of game screen
-#   display message to user showing who won and final score
-#   display thank you for playing message
-#   ask user if they would like to play again
-#   user input y for yes n for no
-#   user input validation
-#   if yes - restart game
-#   if no - display a thank you for playing message and exit app
 
 
 def create_player_ships(dimensions, player, comp, game):
@@ -1253,7 +1023,6 @@ def create_player_ships(dimensions, player, comp, game):
     ]
     # calculate number of ships based on board dimensions
     number_of_ships = math.floor(dimensions * number_of_ships_ratio)
-    # print(number_of_ships)
     fleet = []
     x = 0
     hits = 0
@@ -1262,14 +1031,11 @@ def create_player_ships(dimensions, player, comp, game):
         v = x % len(ships)
         fleet.append(ships[v])
         x += 1
-        # print(fleet)
     # reverse order of ships so players can assign them in
     # the order of largest ship first. It is needed due to
     # the list of ships being generated based on board size
     # this way small boards don't get three large ships.
     fleet = sorted(fleet, reverse=True, key=lambda x: x[1])
-    # print(fleet)
-    # print(len(fleet))
     # takes sum of the length of each ship to create win condition
     for ship in fleet:
         hits += ship[1]
@@ -1278,8 +1044,6 @@ def create_player_ships(dimensions, player, comp, game):
     for ship in fleet:
         player.ships.append(Boat(ship[0], ship[1]))
         comp.ships.append(Boat(ship[0], ship[1]))
-    # print(player.ships)
-    # print(comp.ships)
 
 
 def create_players(dimensions, difficulty):
@@ -1287,12 +1051,6 @@ def create_players(dimensions, difficulty):
     comp = Comp('Jonathan Barnet', dimensions, difficulty)
     blank = Blank(dimensions, comp)
     game = Game(dimensions, player, comp, blank)
-    # print(player.board.board)
-    # game.print_boards()
-    # game.print_player_board()
-    # game.print_blank_board()
-    # print(player.board)  # so there is a visible reference of the object
-    # print(comp.board)  # so there is a visible reference of the object
     create_player_ships(dimensions, player, comp, game)
     player.get_position_from_user(player, comp, game)
 
