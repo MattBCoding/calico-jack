@@ -7,7 +7,7 @@ import os
 # python code goes here
 '''
 NOTE to self
-
+added this line so could push the movement of assets directory
 possibly move some classes to other files to make things easier to find
 
 '''
