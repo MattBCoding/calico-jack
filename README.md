@@ -1,3 +1,64 @@
+# Calico Jack
+
+## Introduction
+
+Calico Jack is a browser based game built in Python. It is based on the classic game of Battleships and is themed loosely around the infamous pirate Calico Jack and the night he was captured by Jonathan Barnet.
+
+As the game was developed in Python for use in the terminal, it utilises the Code Institute Python Template to generate a "terminal" onto the page, making it available within a web browser.
+
+## Insert screenshot of game
+
+[View the live website on Heroku](https://calico-jack.herokuapp.com/)
+Please note: To open any links in this document in a new browser tab, please press CTRL + Click.
+
+## Table of Contents
+
+
+## UX
+### The Strategy Plane
+
+#### Site Goals
+
+### User Stories
+
+### The Scope Plane
+
+### The Structure Plane
+
+#### Opportunities
+
+### The Skeleton Plane
+
+#### Wireframe mockups
+
+### The Surface Plane
+
+#### Design
+
+## Features
+
+## Future Enhancements
+
+## Testing
+
+### Testing Strategy
+
+#### Testing Overview
+
+#### Validator Testing
+
+#### Notable Bugs
+
+## Deployment
+
+## Credits
+
+### Content
+
+### Acknowledgements
+
+
+
 ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
 Welcome MattBCoding,
