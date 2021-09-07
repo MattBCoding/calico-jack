@@ -16,16 +16,66 @@ Please note: To open any links in this document in a new browser tab, please pre
 
 ## UX
 ### The Strategy Plane
+* Calico Jack is intended to be a fun strategy battleships game, suitable for individual users looking to play a game for short or medium periods of time. Given the limitations of the terminal based interface, care will need to be taken to incorporate visual stimulous, along with an engaging narrative to convey an element of fun to the user. 
 
 #### Site Goals
+* To provide users with a fun and simple strategy game to play.
+* To provide users with alternative board dimensions to increase or decrease the time commitment required to complete a game.
+* To provide users with alternative difficulty levels to increase or decrease the challenge offered.
 
 ### User Stories
+* As a user I want an online version of battleships to play
+* As a user I want to be able to control the amount of time it takes to play the game.
+* As a user I want to challenge myself against a tough computer opponent.
 
 ### The Scope Plane
+**Features planned:**
+* As there are certain restrictions in the scope of the development of the application, such as the terminal confines and methods of deployment. It will be important to ensure all functionality is contained within the game terminal screen.
+* Despite the confines of the terminal emulator, the site should site be visually stimulating and clear to the user that it is a game.
+* Three difficulty levels should be available to the user.
+    * Easy - Normal - Hard
+* Two different size boards should be available to the user.
+    * The traditional 10 tile by 10 tile board size along with a smaller board for quicker gameplay.
 
 ### The Structure Plane
 
+User Story:
+
+> As a user, I want a fun and simple strategy game to play
+
+Acceptance Criteria:
+* It should be clear to the user that this is a game, what it is about and how to play.
+
+Implementation:
+* The layout, use of colour and in game narrative will all be designed to immerse the user into the game world. Conveying a sense of fun to the user through out the interactions with the game. Instructions on how to play will be available at the start of the game, along with clear prompts and validation for each user input.
+
+User Story:
+
+> As a user, I want to be able to control the amount of time it takes to play the game.
+
+Acceptance Criteria:
+* The user should be able to control the amount of time it takes to play a game.
+
+Implementation:
+* The user will have the ability to choose between two different board sizes. The smaller board will contain a smaller number of potential target tiles, along with a smaller number of ships to potentially hit, thus reducing the amount of time required to complete the game. The larger board size will contain more ships, which combined with the larger number of potential tile targets will extend the game play. The three difficulty levels offered will also impact the game time due to the algorithm controling how the AI selects its targets. Harder difficulty levels will potentially result in shorter time periods required to play the game.
+
+User Story:
+
+> As a user, I want to challenge myself against a tough computer opponent.
+
+Acceptance Criteria:
+* The user should have the option to play the game on different difficulty level settings.
+
+Implementation:
+* The user will have the ability to choose between three different difficulty levels. Each level will alter the challenge that the AI player provides.
+
 #### Opportunities
+Arising from user stories
+| Opportunities | Importance | Viability / Feasibility
+| ------ | :------: | :------: |
+| ** Provide a fun game environment ** | 5 | 5 |
+| ** Provide different difficulty levels ** | 5 | 5 |
+| ** Provide ability to control the time the game takes ** | 5 | 5 |
 
 ### The Skeleton Plane
 
