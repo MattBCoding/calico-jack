@@ -78,12 +78,39 @@ Arising from user stories
 | ** Provide ability to control the time the game takes ** | 5 | 5 |
 
 ### The Skeleton Plane
-
 #### Wireframe mockups
+Given that the application will be run within a terminal emulator provided within the template, there are limited options available with regards to the layout of the webpage itself. Early on within the development of the theme, I located a suitable background graphic on iStock. In order to position the terminal appropriately for the background graphic, and keeping user experience in mind, I decided to center the terminal horizontally on the screen. This positions the terminal window within the lower part of the rail around the ship in the background graphic. The run program button was centrally positioned to above the terminal window to emphasis its importance.
+
+![Home Page Wireframe](/assets/wireframes/homepage-wireframe-900.png)
+
+For the terminal window itself, I also produced a wireframe in the well known design package Microsoft Excel. Whilst not tradionally used for this purpose, the terminal window dimensions of 80 columns wide by 24 rows high provided a restriction that I could duplicate in excel easily. This enabled me to work out the spacing requirements and dimensions of the elements on screen during the gameplay. Given that all the elements that would be displayed in the terminal are ASCII characters, creating a 80 x 24 grid in excel with one character per tile it enabled me to easily see if I could fit the total information required on each line. This was especially useful whilst calculating how to print the two game boards with a scoreboard in between them, given the line by line method in which the terminal prints.
+
+![Terminal Game Play Wireframe](/assets/wireframes/wireframe-game-screen.png)
+
+#### Logic Flow
+In order to figure out the logical steps required within the game, along with gaining an understanding of how the different game elements would interact, I created a flow chart detailing the individual steps for the game. Given the scope of the game logic involved the full flow chart resulted in a large image. The full image can be viewed here [Logic Flow Diagram](/assets/logic/logic-flow-full.png)
+
+The game logic can be broken down into three distinction sections. The initial setup of the game, taking a turn and checking the turn result before moving to the next player. For ease of reference I have broken up the logic flow diagram into these three sections.
+
+##### Setup Logic
+
+![Setup Logic](/assets/logic/logic-flow-setup.png)
+
+##### Target Selection and Validation
+
+![Target Logic](/assets/logic/logic-flow-target-validation.png)
+
+##### Game Loop
+
+![Game Turn Loop](/assets/logic/logic-flow-game-loop.png)
 
 ### The Surface Plane
 
 #### Design
+
+Once I was happy with the overall layout of the page, I created a full colour mockup within Adobe XD.
+
+![Full Colour Mockup](/assets/wireframes/full-colour-mockup-900.png)
 
 ## Features
 
