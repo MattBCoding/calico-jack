@@ -6,7 +6,7 @@ Calico Jack is a browser based game built in Python. It is based on the classic 
 
 As the game was developed in Python for use in the terminal, it utilises the Code Institute Python Template to generate a "terminal" onto the page, making it available within a web browser.
 
-## Insert screenshot of game
+![Screenshot of homepage](/assets/screenshots/main-menu-zoomed-in.png)
 
 [View the live website on Heroku](https://calico-jack.herokuapp.com/)
 Please note: To open any links in this document in a new browser tab, please press CTRL + Click.
@@ -104,6 +104,16 @@ The game logic can be broken down into three distinction sections. The initial s
 
 ![Game Turn Loop](/assets/logic/logic-flow-game-loop.png)
 
+#### Programming Paradigm
+
+I utilised an Object Orientated Programming approach to developing the game. Two initial functions will be utilised to establish the game parameters such as the board size and the difficulty. This data will then be used to establish the game instance. The game instance will be utilised to control the flow of the game, present data to the user and establish other objects as needed. The game instance will establish the two players of the game, the player and the computer. It will also establish a blank board for the player to use when playing the game.
+
+![Class Overview](/assets/logic/class-structure.png)
+
+The player object and the comp object will establish their own instances of the objects they require such as playing boards and ships. I intend on keeping the playing boards and the ships as seperate objects. This will allow me to track placement of individual ships on the individual boards. It should also enable me to track the health of each ship for use in a scoreboard which will be displayed to the user.
+
+I will utilise a variety of methods on each class in order to play the game. The Game class will contain methods for the general running of the game itself. The Player class will contain methods that will manipulate the data inputted by the user into game actions such as placing ships or taking shots. The Comp class will contain methods associated with similar actions as the Player class however they will need to be automated actions that are calculated by the computer and not as a result of user input. The Board and Boat classes will contain methods used to manage the objects they create.
+
 ### The Surface Plane
 
 #### Design
@@ -111,6 +121,8 @@ The game logic can be broken down into three distinction sections. The initial s
 Once I was happy with the overall layout of the page, I created a full colour mockup within Adobe XD.
 
 ![Full Colour Mockup](/assets/wireframes/full-colour-mockup-900.png)
+
+
 
 ## Features
 
