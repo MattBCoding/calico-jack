@@ -122,11 +122,94 @@ Once I was happy with the overall layout of the page, I created a full colour mo
 
 ![Full Colour Mockup](/assets/wireframes/full-colour-mockup-900.png)
 
-
-
 ## Features
+#### Welcome Screen
+
+![Welcome Screen](/assets/screenshots/welcome-screen.png)
+
+At the start of game users are greeted with a welcome screen showing the game logo of the skull and crossed swords pirate flag. The game asks the user if they would like to play a game, with instructions on how to start the game, or access the instructions
+
+#### Instructions Screen
+
+![Instructions Screen](/assets/screenshots/instructions.png)
+
+If users select the instructions option from the main menu the screen will display an overview of the story behind the game and the objective for the user. They are then presented the same message as the welcome screen asking if they would like to play a game.
+
+#### Dimension Selection Screen
+
+![Dimension Selection Screen](/assets/screenshots/dimension-selection.png)
+
+When the user confirms that they would like to play the game, they are greeted by a message asking them what size board they would like to use.
+
+#### Difficulty Selection Screen
+
+![Difficulty Selection Screen](/assets/screenshots/difficulty-selection.png)
+
+Once the board size is selected the user is prompted to decide what difficulty level they would like.
+
+#### Transition to Ship Placement Screen
+
+![Transition to Ship Placement Screen](/assets/screenshots/transition-to-ship-placement.png)
+
+The game will then progress to the ship placement phase of the setup, with the user required to press enter to start. Once the user has indicated that they are ready, they are prompted with the details of the first ship to be placed, and asked where they would like to place the ship.
+
+#### Orientation Selection Screen
+
+![Orientation Selection Screen](/assets/screenshots/orientation-selection.png)
+
+If the ship is able to be placed in both horizontal and vertical orientations the user will get the choice over orientation, however if the ship can only be placed in one orientation, the game will place the ship automatically and move onto the next ship to be placed. If the ship can not be placed at the location specified, they will be prompted with a message informing them as to why, and asked to pick a different location.
+
+#### One Ship Placed Screen
+
+![One Ship Placed Screen](/assets/screenshots/one-ship-placed.png)
+
+Once the ship has been successfully placed, the user will see an updated game board showing the location of the ship, along with a message asking them to place the next ship.
+
+#### Two Ships Placed Screen
+
+![Two Ships Placed Screen](/assets/screenshots/two-ships-placed.png)
+
+This loop will continue until all the ships required have been placed by the user.
+
+#### Game Start Screen
+
+![6x6 Game Start Screen](/assets/screenshots/6x6-game-start.png)
+
+Once all the ships have been placed, the user receives a message informing them of the arrival of the enemy. Following the message the game will change to a new screen showing a targetting board, a scoreboard and a copy of their own board. There is also an additional message explaining to the user the information on the screen. The game will then prompt the user for the location of their first shot.
+
+#### Shot Result Screen - Miss
+
+![Both Missed Screen](/assets/screenshots/both-missed.png)
+
+Once the user has inputted a valid target location, the game will update the screen with the result of the user shot, along with the result of the AI shot. The boards will be updated to display the shots previously taken. On the users targetting board the result of the user shot is shown either as a ~ with a blue background, or a red # showing a hit. The result of the AI shot is shown on the player board itself, a miss being shown as a yellow M with a hit being shown as a red #.
+
+#### Shot Result Screen - Hit
+
+![Damage Taken Screen](/assets/screenshots/damage-taken.png)
+
+Users are also provided with a message informing them of the result of the AI hit, the messaging is different for each potential shot result.
+
+#### Scoreboard
+
+![Scoreboard Start Screen](/assets/screenshots/hard-scoreboard-pre-sink.png)
+
+In the middle of the game screen a scoreboard displays the number of ships remaining for each player. It also shows the user the number and type of ship remaining. 
+
+#### Updated Scoreboard
+
+![Scoreboard Post Sink Screen](/assets/screenshots/hard-scoreboard-post-sink.png)
+
+The scoreboard will update to display the correct number of ships remaining as and when a ship is sunk.
+
+#### End Game Screen
+
+![You Win Screen](/assets/screenshots/you-win.png)
+
+Once the user (or the AI) has sunk all of the opponents ships, they will win the game and be presented with a message to that effect. The user is then prompted to play again.
 
 ## Future Enhancements
+
+High scores
 
 ## Testing
 
