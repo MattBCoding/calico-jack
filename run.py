@@ -86,12 +86,11 @@ e.g. 'A2' or 'C5'. Try Again!''')
         horizontal_check = (self.dimensions
                             - column_coord_value
                             - ship.length >= 0)
+        # Check board to see if locations are clear
         if horizontal_check:
             if vertical_check:
                 # Ship fits both horizontally and vertically
-                # check board to see if locations are clear
-                # both vertically and horizontally
-                # horizontal
+                # horizontal clear
                 i = 0
                 while i < ship.length:
                     if self.board[row_coord_value][column_coord_value] == '~':
@@ -102,7 +101,7 @@ e.g. 'A2' or 'C5'. Try Again!''')
                     else:
                         column_coord_value += 1
                         i += 1
-                # vertical
+                # vertical clear
                 j = 0
                 # reset values back to original after while loop
                 row_coord_value = (ord(coords[0].upper()) - 65)
@@ -129,7 +128,6 @@ e.g. 'A2' or 'C5'. Try Again!''')
 
             else:
                 # Ship fits horizontally but not vertically
-                # check board to see if locations are clear (only contain ~)
                 i = 0
                 while i < ship.length:
                     if self.board[row_coord_value][column_coord_value] == '~':
@@ -148,7 +146,6 @@ e.g. 'A2' or 'C5'. Try Again!''')
         else:
             if vertical_check:
                 # ship fits vertically but not horizontally
-                # check board to see if locations are clear (only contain ~)
                 i = 0
                 while i < ship.length:
                     if self.board[row_coord_value][column_coord_value] == '~':
@@ -173,7 +170,8 @@ e.g. 'A2' or 'C5'. Try Again!''')
 
 class Boat:
     '''
-    Constructor for Boat objects
+    Constructor for Boat objects holds details
+    such as name, location, health, orientation
     '''
     def __init__(self, name, length):
         self.name = name
@@ -202,7 +200,10 @@ class Boat:
 
 class Player:
     '''
-    Player object
+    Player object controls inputs from user
+    for shots, ship placement. Stores details
+    such as ships in fleet, previous hits
+    links ships player and board
     '''
 
     def __init__(self, name, dimensions):
@@ -222,10 +223,6 @@ What are your orders? Where do you want to target?
 Select the location in the format of row then column e.g. 'E4':\n''')
                 if user_target is None:
                     raise TypeError
-                # THIS NEEDS REFACTORING IS DUPLICATED CODE
-                # DUPLICATED IN SHIP PLACEMENT AS WELL
-                # MOVE INTO OWN FUNCTION
-                # convert to a list
                 else:
                     user_target_coords_list = list(user_target)
                 # check input is correct length
@@ -293,7 +290,6 @@ Please select the starting location for your {ship.name}, it is
 {ship.length} tiles long, in the format of row then column e.g. 'E4':\n''')
                 # convert input to list
                 user_input_coords_list = list(user_input_coords)
-                # user input of starting location for next ship
                 # check input is the correct length
                 if len(user_input_coords_list) != 2:
                     raise Exception
@@ -305,8 +301,6 @@ Please select the starting location for your {ship.name}, it is
                 # need to check if input is valid board coords.
                 elif self.board.on_board_test(user_input_coords_list, game):
                     # now need to check if ship can be placed Hor or Ver
-                    # at location specified by user.
-                    # check for space enough and clear
                     if self.board.can_ship_be_placed(
                             user_input_coords_list, ship) == 1:
                         try:
@@ -397,7 +391,7 @@ class Blank:
     '''
     class to hold a blank board to display to player
     blank board will reference comp board to determine if
-    a ship has been hit.
+    a ship has been hit. Used for targetting
     '''
 
     def __init__(self, dimensions, opponent):
@@ -409,7 +403,7 @@ class Blank:
 
 class Comp:
     '''
-    AI player - will need shot selection
+    AI player - controls shot selection
     setting ship locations
     difficulty algorithms
     '''
@@ -588,7 +582,6 @@ class Comp:
                 pass
 
     def add_ship(self, ship, coords, orientation, game):
-        # copied from player class
         x = (ord(coords[0].upper()) - 65)
         y = int(coords[1])
         ship.set_position(x, y, orientation)
@@ -597,7 +590,9 @@ class Comp:
 
 class Game:
     '''
-    game object
+    game instance, controls player turns
+    displays information to user
+    prints boards to screen
     '''
 
     def __init__(self, dimensions, player, comp, blank):
@@ -953,7 +948,7 @@ our turn now! Unleash Hell!''')
             for column in range(len(self.blank.board.board[letter])):
                 print(self.blank.board.board[letter][column], end=' ')
         # prints ending character for numbers area and gap to new board
-        # MIDDLE TABLE information needs to go in here
+        # Inserts Scoreboard information in here
             print('|', end='  ')
             for column in range(len(self.scoreboard[letter])):
                 print(self.scoreboard[letter][column], end='')
@@ -1071,9 +1066,6 @@ Don't be getting all artistic with the choices like some scurvy landlover.
 It's either '6' or '10' that be it. Just the number! Try again!\n''')
 
 # Difficulty options
-# easy - comp selects tiles at random
-# normal - comp selects tiles at random until a hit then targets nearby tiles
-# hard - comp works on algorithm to determine next tile to target
     while True:
         try:
             if dimensions == 6:
@@ -1109,8 +1101,6 @@ Just the letters, no dots, dashs or bottles of rum\n''')
 # START function - first function - welcome through to setup()
 # Game start
 # Display Welcome Message
-
-
 def start():
 
     print('''
