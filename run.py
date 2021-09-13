@@ -879,40 +879,6 @@ our turn now! Unleash Hell!''')
                     time.sleep(1)
                     self.player.get_target_from_user(self)
 
-# display board
-# display grids, one for targeting one for showing own ship locations
-    def print_boards(self):
-        letter = 0
-        print('\n\n\n\n\n\n\n\n')
-        # prints first line of board with numbers for column reference
-        print(' '*2, end='| ')
-        for i in range(self.dimensions):
-            print(i, end=' ')
-        # prints ending character for numbers area and gap to new board
-        print('| ', ' '*20, end=' ')
-        # prints first line of board with numbers for column reference board 2
-        print(' '*2, end='| ')
-        for i in range(self.dimensions):
-            print(i, end=' ')
-        print('| ')
-
-        # prints player board to screen,
-        for letter in range(self.dimensions):
-            # puts a capital letter in front of each row of board
-            print(chr(letter + 65), end=' | ')
-            for column in range(len(self.player.board.board[letter])):
-                print(self.player.board.board[letter][column], end=' ')
-        # prints ending character for numbers area and gap to new board
-        # MIDDLE TABLE information needs to go in here
-            print('|', ' '*20, end='  ')
-        # prints comp board to screen,
-            # puts a capital letter in front of each row of board
-            print(chr(letter + 65), end=' | ')
-            for column in range(len(self.comp.board.board[letter])):
-                print(self.comp.board.board[letter][column], end=' ')
-            print('| ')
-            letter += 1
-
     def print_blank_and_player_boards(self):
         self.create_scoreboard()
         letter = 0
@@ -977,23 +943,6 @@ our turn now! Unleash Hell!''')
             print('| ')
             letter += 1
 
-    def print_blank_board(self):
-        letter = 0
-        # prints first line of board with numbers for column reference
-        print(' '*2, end='| ')
-        for i in range(self.dimensions):
-            print(i, end=' ')
-        # prints ending character for numbers area and gap to new board
-        print('| ')
-        # prints player board to screen,
-        for letter in range(self.dimensions):
-            # puts a capital letter in front of each row of board
-            print(chr(letter + 65), end=' | ')
-            for column in range(len(self.blank.board.board[letter])):
-                print(self.blank.board.board[letter][column], end=' ')
-            print('| ')
-            letter += 1
-
 
 def create_player_ships(dimensions, player, comp, game):
     # pre-determined ratio so number of ships is appropriate
@@ -1032,6 +981,7 @@ def create_player_ships(dimensions, player, comp, game):
         comp.ships.append(Boat(ship[0], ship[1]))
 
 
+# Function to initialise game, players and ships
 def create_players(dimensions, difficulty):
     player = Player('Calico Jack', dimensions)
     comp = Comp('Jonathan Barnet', dimensions, difficulty)
