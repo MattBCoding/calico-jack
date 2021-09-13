@@ -221,7 +221,7 @@ class Player:
                 user_target = input('''
 What are your orders? Where do you want to target?
 Select the location in the format of row then column e.g. 'E4':\n''')
-                if user_target is None:
+                if user_target == '':
                     raise TypeError
                 else:
                     user_target_coords_list = list(user_target)
@@ -253,10 +253,13 @@ You have already fired there, are you trying to waste our Cannonballs?
 You better get your head in the game pirate, lets try this again!''')
                             break
         except TypeError:
+            clear_terminal()
+            game.print_blank_and_player_boards()
             print('''
 You have to choose a target location! Waving the white flag will just
 get your head to the gallows sooner. Try again, it needs to be in the format
 of 'E4' letter then number, no spaces, no dashes, no second chances!\n''')
+            self.get_target_from_user(game)
         except Exception:
             clear_terminal()
             game.print_blank_and_player_boards()
