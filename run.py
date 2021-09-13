@@ -26,18 +26,9 @@ def clear_terminal():
 
 class C:
     END = '\33[0m'
-    BLACK = '\33[30m'
     RED = '\33[91m'
-    GREEN = '\33[92m'
     YELLOW = '\33[93m'
-    BLUE = '\33[94m'
-    BGBLACK = '\33[40m'
-    BGRED = '\33[41m'
-    BGGREEN = '\33[42m'
-    BGYELLOW = '\33[43m'
     BGBLUE = '\33[44m'
-    BGVIOLET = '\33[45m'
-    BGWHITE = '\33[47m'
 
 
 class Board:
