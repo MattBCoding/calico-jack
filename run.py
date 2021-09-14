@@ -57,11 +57,6 @@ class Board:
         if(row_test and column_test):
             return True
         else:
-            clear_terminal()
-            game.print_player_board()
-            print('''
-The location entered is not on the board! The format is row then column,
-e.g. 'A2' or 'C5'. Try Again!''')
             return False
 
     def can_ship_be_placed(self, coords, ship):
@@ -232,6 +227,13 @@ Select the location in the format of row then column e.g. 'E4':\n''')
                             or not user_target_coords_list[1].isdigit()):
                         raise Exception
                     # check target is a valid on board location
+                    elif (self.board.on_board_test(user_target_coords_list,
+                                                   game)) is False:
+                        clear_terminal()
+                        game.print_blank_and_player_boards()
+                        print('''
+The location entered is not on the board! Try again!
+Are you trying to hit their ships or the mainland?''')
                     elif self.board.on_board_test(user_target_coords_list,
                                                   game):
                         a = (ord(user_target_coords_list[0].upper()) - 65)
@@ -302,6 +304,13 @@ Please select the starting location for your {ship.name}, it is
                     raise Exception
                 # input validation of starting location for next ship
                 # need to check if input is valid board coords.
+                elif (self.board.on_board_test(user_input_coords_list, game)
+                      ) is False:
+                    clear_terminal()
+                    game.print_player_board()
+                    print('''
+The location entered is not on the board. Try again!
+Remembering the correct format e.g. E4 letter then number.''')
                 elif self.board.on_board_test(user_input_coords_list, game):
                     # now need to check if ship can be placed Hor or Ver
                     if self.board.can_ship_be_placed(
