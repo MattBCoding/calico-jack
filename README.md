@@ -221,6 +221,16 @@ Multiplayer - It would also be a nice addition to the game to enable users to pl
 
 #### Validator Testing
 
+* pep8online.com - I utilised [pep8online.com](http://pep8online.com/) to validate my python code. All python files were checked with no errors reported.
+* The following files however did include warnings regarding a line break before binary operator
+    * board.py - 2 warnings
+    * comp.py - 1 warning
+    * game.py - 27 warnings
+    * player.py - 2 warnings
+    * setup.py - 4 warnings
+    * The warning suggests that there should not be a line break before a binary operator, however on checking with the python pep 8 guidelines it explicitly states that the line break should be before the binary operator. The point in the PEP8 guidelines can be found [here](https://www.python.org/dev/peps/pep-0008/#should-a-line-break-before-or-after-a-binary-operator)
+* Screenshots of the validator reports are here [blank.py file](/assets/screenshots/blank.png) [board.py file](/assets/screenshots/board.png) [boat.py file](/assets/screenshots/boat.png) [comp.py file](/assets/screenshots/comp.png) [editscreen.py file](/assets/screenshots/editscreen.png) [game.py file top](/assets/screenshots/game1.png) [game.py file lower](/assets/screenshots/game2.png) [player.py file](/assets/screenshots/player.png) [run.py file](/assets/screenshots/run.png) [setup.py file](/assets/screenshots/setup.png) [start.py file](/assets/screenshots/start.png)
+
 #### Notable Bugs
 
 ## Deployment
