@@ -256,4 +256,19 @@ To deploy the project through Heroku I followed these steps:
 
 ### Content
 
+#### Background Image
+Whilst searching the various free image sites for the perfect pirate themed background image I came across the image I eventually used on an iStock banner ad. Whilst I typically avoid the paid service sites, I thought this image was perfect for the theme so bit the bullet and paid the €9.00.
+The image can be found on [iStock](https:\\www.istockphoto.com)
+Stock illustration ID:1303787798
+Artist: klyaksun
+
+#### Stack Overflow
+Stack overflow was useful a number of times whilst I developed my understanding and grasp of 2d arrays, and overcoming circular references. One particular post I referenced to develop using colours within the terminal window and can be found [here](https://stackoverflow.com/questions/287871/how-to-print-colored-text-to-the-terminal)
+
+#### Haoyi's Programming Blog
+Whilst further researching utilising different colours within the terminal I discovered Haoyi's programming blog. Whilst ultimately I did not use the techniques detailed in the finished app, it did provide me with several ideas on how I could incorporate colours within the terminal. It is worth a read if you are looking at animating or using colour within a terminal window and can be found [here](https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html)
+
+#### Wikipedia
+Wikipedia was used as a reference point for details of the history and tales surrounding Calico Jack, the infamous pirate our user is defending. [Calico Jack](https://en.wikipedia.org/wiki/Calico_Jack)
+
 ### Acknowledgements
