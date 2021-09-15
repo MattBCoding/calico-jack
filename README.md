@@ -12,23 +12,42 @@ As the game was developed in Python for use in the terminal, it utilises the Cod
 Please note: To open any links in this document in a new browser tab, please press CTRL + Click.
 
 ## Table of Contents
-
+* [User Experience Design (UX)](#UX)
+    * [The Strategy Plane](#The-Strategy-Plane)
+        * [Site Goals](#Site-Goals)
+        * [User Stories](#User-Stories)
+    * [The Scope Plane](#The-Scope-Plane)
+    * [The Structure Plane](#The-Structure-Plane)
+        * [Opportunities](#Opportunities)
+    * [The Skeleton Plane](#The-Skeleton-Plane)
+        * [Wireframes](#Wireframe-mockups)
+        * [Logic Flow](#Logic-flow)
+    * [The Surface Plane](#The-Surface-Plane)
+* [Features](#features)
+* [Future Enhancements](#future-enhancements)
+* [Testing](#testing)
+* [Deployment](#deployment)
+* [Credits](#credits)
 
 ## UX
 ### The Strategy Plane
+
 * Calico Jack is intended to be a fun strategy battleships game, suitable for individual users looking to play a game for short or medium periods of time. Given the limitations of the terminal based interface, care will need to be taken to incorporate visual stimulous, along with an engaging narrative to convey an element of fun to the user. 
 
 #### Site Goals
+
 * To provide users with a fun and simple strategy game to play.
 * To provide users with alternative board dimensions to increase or decrease the time commitment required to complete a game.
 * To provide users with alternative difficulty levels to increase or decrease the challenge offered.
 
 ### User Stories
+
 * As a user I want an online version of battleships to play
 * As a user I want to be able to control the amount of time it takes to play the game.
 * As a user I want to challenge myself against a tough computer opponent.
 
 ### The Scope Plane
+
 **Features planned:**
 * As there are certain restrictions in the scope of the development of the application, such as the terminal confines and methods of deployment. It will be important to ensure all functionality is contained within the game terminal screen.
 * Despite the confines of the terminal emulator, the site should site be visually stimulating and clear to the user that it is a game.
@@ -70,6 +89,7 @@ Implementation:
 * The user will have the ability to choose between three different difficulty levels. Each level will alter the challenge that the AI player provides.
 
 #### Opportunities
+
 Arising from user stories
 | Opportunities | Importance | Viability / Feasibility
 | ------ | :------: | :------: |
@@ -79,6 +99,7 @@ Arising from user stories
 
 ### The Skeleton Plane
 #### Wireframe mockups
+
 Given that the application will be run within a terminal emulator provided within the template, there are limited options available with regards to the layout of the webpage itself. Early on within the development of the theme, I located a suitable background graphic on iStock. In order to position the terminal appropriately for the background graphic, and keeping user experience in mind, I decided to center the terminal horizontally on the screen. This positions the terminal window within the lower part of the rail around the ship in the background graphic. The run program button was centrally positioned to above the terminal window to emphasis its importance.
 
 ![Home Page Wireframe](/assets/wireframes/homepage-wireframe-900.png)
@@ -88,6 +109,7 @@ For the terminal window itself, I also produced a wireframe in the well known de
 ![Terminal Game Play Wireframe](/assets/wireframes/wireframe-game-screen.png)
 
 #### Logic Flow
+
 In order to figure out the logical steps required within the game, along with gaining an understanding of how the different game elements would interact, I created a flow chart detailing the individual steps for the game. Given the scope of the game logic involved the full flow chart resulted in a large image. The full image can be viewed here [Logic Flow Diagram](/assets/logic/logic-flow-full.png)
 
 The game logic can be broken down into three distinction sections. The initial setup of the game, taking a turn and checking the turn result before moving to the next player. For ease of reference I have broken up the logic flow diagram into these three sections.
@@ -233,6 +255,8 @@ Multiplayer - It would also be a nice addition to the game to enable users to pl
 
 #### Notable Bugs
 
+There were no real bugs of note within the project. I encountered a few difficulties in working with 2d arrays and remembering which way round the indexing would reference which I eventually overcame. The only other bug or issue encountered was including a favicon due to the way the template and terminal emulator works. To overcome this with the help of Sean in CI tutor support I switched the favicon from an image file stored within the site files to a file located on a cloud hosting site. This solution overcame the issues with importing local files into the template.
+
 ## Deployment
 
 The site was deployed via Heroku and the live link can be found here - [Calico Jack Battleship Game](https://calico-jack.herokuapp.com/)
@@ -265,26 +289,36 @@ To deploy the project through Heroku I followed these steps:
 ## Credits
 
 ### Code
-I was advised of a way to clear the terminal by another student on the course Goran Sigeskog who had found the method in a Python cheatsheet provided by [coding4you](http://www.coding4you.at/inf_tag/beginners_python_cheat_sheet.pdf). Goran had used the method successfully within his project. The code is credited within the editscreen.py file. Goran's Github can be found [here](https://github.com/gorsig).    
+
+I was advised of a way to clear the terminal by another student on the course Goran Sigeskog who had found the method in a Python cheatsheet provided by [coding4you](http://www.coding4you.at/inf_tag/beginners_python_cheat_sheet.pdf). Goran had used the method successfully within his project. The code is credited within the editscreen.py file. Goran's Github can be found [here](https://github.com/gorsig).
+
+#### Difficulty Levels
+
+For the different difficulty levels I referenced an article I discovered about the game and the best strategies to win. The author broke down the statistical probability of winning at battleships using a random shot approach, a random approach and then targetting the neighbouring tiles when you get a hit, and finally a strategic approach on how to choose initial target tiles. Whilst the article does not discuss how you would code or create the algorithms needed, I did base the algorithms I created heavily on these three different approaches to the game. The original article can be found here on the [Data Genetics site](https://www.datagenetics.com/blog/december32011/index.html). Ultimately I did not fully implement the splitting the board in two and only targetting every other tile. Whilst I had originally intended on incorporating this, I deemed the hard difficulty level hard enough without it and did not want to make it unbeatable.
 
 ### Content
 
 #### Background Image
+
 Whilst searching the various free image sites for the perfect pirate themed background image I came across the image I eventually used on an iStock banner ad. Whilst I typically avoid the paid service sites, I thought this image was perfect for the theme so bit the bullet and paid the €9.00.
 The image can be found on [iStock](https:\\www.istockphoto.com)
 Stock illustration ID:1303787798
 Artist: klyaksun
 
 #### Stack Overflow
+
 Stack overflow was useful a number of times whilst I developed my understanding and grasp of 2d arrays, and overcoming circular references. One particular post I referenced to develop using colours within the terminal window and can be found [here](https://stackoverflow.com/questions/287871/how-to-print-colored-text-to-the-terminal)
 
 #### Haoyi's Programming Blog
+
 Whilst further researching utilising different colours within the terminal I discovered Haoyi's programming blog. Whilst ultimately I did not use the techniques detailed in the finished app, it did provide me with several ideas on how I could incorporate colours within the terminal. It is worth a read if you are looking at animating or using colour within a terminal window and can be found [here](https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html)
 
 #### Wikipedia
+
 Wikipedia was used as a reference point for details of the history and tales surrounding Calico Jack, the infamous pirate our user is defending. [Calico Jack](https://en.wikipedia.org/wiki/Calico_Jack)
 
 ### Acknowledgements
+
 I'd like to thank the following:
 * My mentor Rahul Lakhanpal for encouraging me throughout the project.
 * Daisy McGirr and Ben Kavanagh for helping me understand OOP and Python Classes better.
