@@ -264,6 +264,9 @@ To deploy the project through Heroku I followed these steps:
 
 ## Credits
 
+### Code
+I was advised of a way to clear the terminal by another student on the course Goran Sigeskog who had found the method in a Python cheatsheet provided by [coding4you](http://www.coding4you.at/inf_tag/beginners_python_cheat_sheet.pdf). Goran had used the method successfully within his project. The code is credited within the editscreen.py file. Goran's Github can be found [here](https://github.com/gorsig).    
+
 ### Content
 
 #### Background Image
@@ -282,3 +285,7 @@ Whilst further researching utilising different colours within the terminal I dis
 Wikipedia was used as a reference point for details of the history and tales surrounding Calico Jack, the infamous pirate our user is defending. [Calico Jack](https://en.wikipedia.org/wiki/Calico_Jack)
 
 ### Acknowledgements
+I'd like to thank the following:
+* My mentor Rahul Lakhanpal for encouraging me throughout the project.
+* Daisy McGirr and Ben Kavanagh for helping me understand OOP and Python Classes better.
+* Sean and John at CI Tutor support for their patience and pointing me in the right direction when I went off course.
