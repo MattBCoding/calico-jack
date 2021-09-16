@@ -239,7 +239,19 @@ Multiplayer - It would also be a nice addition to the game to enable users to pl
 
 ### Testing Strategy
 
+I took a two stage approach to testing the application. The first stage was continuous testing as the application was being developed. With the application being based within the terminal, it was straight forward to test functions and print statements as they were being developed using the terminal within the IDE.
+
+For the second stage of testing, I utilised a more formal structured approach and created a test schedule for the application which covered each logical cycle. I then proceeded to run through the manual tests I'd developed one at a time noting the result and recording any errors found. Where unexpected behaviour was encountered the code was altered to correct the behaviour. Whilst in finally testing no major bugs were found, I did discover a few validation requirements that I did not think about whilst initially developing the application.  These were easily corrected by adding the required validation rules within the validation loops already created. One such situation was during user input for target locations, if the user entered nothing the wrong error message would display.
+
+The individual python files were also validated using [pep8online.com](http://pep8online.com/) further details are below.
+
 #### Testing Overview
+
+Testing was divided into different sections to ensure everything was tested individually with test cases developed for each area.
+
+![Testing Schedule Overview](/assets/screenshots/testing-schedule.png)
+
+A full detailed breakdown of the testing procedures and methodology can be found in the testing.md file [here](TESTING.md)
 
 #### Validator Testing
 
@@ -301,7 +313,7 @@ For the different difficulty levels I referenced an article I discovered about t
 #### Background Image
 
 Whilst searching the various free image sites for the perfect pirate themed background image I came across the image I eventually used on an iStock banner ad. Whilst I typically avoid the paid service sites, I thought this image was perfect for the theme so bit the bullet and paid the €9.00.
-The image can be found on [iStock](https:\\www.istockphoto.com)
+The image can be found on [iStock](https://www.istockphoto.com/vector/pirate-ship-wooden-deck-onboard-night-view-vector-gm1303787798-395138389?clarity=false)
 Stock illustration ID:1303787798
 Artist: klyaksun
 
