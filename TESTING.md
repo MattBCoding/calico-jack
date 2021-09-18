@@ -1,6 +1,7 @@
 # Test Cases and Execution Report
 
 To navigate back to the main README click [here](README.md)
+The full testing spreadsheet containing all the tests performed during the testing phase of development can be found [here](/assets/testing/test-schedule.pdf)
 
 ## Test Case 001
 
