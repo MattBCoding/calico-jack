@@ -6,7 +6,7 @@ Calico Jack is a browser based game built in Python. It is based on the classic 
 
 As the game was developed in Python for use in the terminal, it utilises the Code Institute Python Template to generate a "terminal" onto the page, making it available within a web browser.
 
-![Screenshot of homepage](/assets/screenshots/main-menu-zoomed-in.png)
+![Screenshot of homepage](./assets/screenshots/main-menu-zoomed-in.png)
 
 [View the live website on Heroku](https://calico-jack.herokuapp.com/)
 Please note: To open any links in this document in a new browser tab, please press CTRL + Click.
