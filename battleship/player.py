@@ -97,6 +97,7 @@ go and wake that drunken rabble up! Do not let Calico Jack down!\n''')
         game.comp_setup()
 
     def position_ship(self, ship, game):
+        from battleship.start import start
         while True:
             try:
                 # display message informing user on next ship to be placed
@@ -104,6 +105,13 @@ go and wake that drunken rabble up! Do not let Calico Jack down!\n''')
                 user_input_coords = input(f'''
 Please select the starting location for your {ship.name}, it is
 {ship.length} tiles long, in the format of row then column e.g. 'E4':\n''')
+                # ability to quit out of game
+                if user_input_coords.lower() == 'quit':
+                    print('''
+I knew you were just a landlover, I could smell the scurvy from here!
+Men, get the plank, we'll have some fun before we fight!''')
+                    time.sleep(3)
+                    start()
                 # convert input to list
                 user_input_coords_list = list(user_input_coords)
                 # check input is the correct length
