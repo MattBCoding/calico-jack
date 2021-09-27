@@ -1,4 +1,4 @@
-# terminal file to contain colours class and clear terminal function
+# editscreen file to contain colours class and clear terminal function
 import os
 
 
@@ -14,6 +14,10 @@ def clear_terminal():
 
 
 class C:
+    '''
+    C class contains the terminal color shortcuts
+    for use when printing things to the terminal
+    '''
     END = '\33[0m'
     RED = '\33[91m'
     YELLOW = '\33[93m'

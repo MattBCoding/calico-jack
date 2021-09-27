@@ -28,8 +28,10 @@ class Player:
                 user_target = input('''
 What are your orders? Where do you want to target?
 Select the location in the format of row then column e.g. 'E4':\n''')
+                # check for empty input
                 if user_target == '':
                     raise TypeError
+                # check for user quit
                 elif user_target.lower() == 'quit':
                     print('''
 What? Are you scared of the noise a cannon makes? Fine, get out of here!

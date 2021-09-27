@@ -29,7 +29,7 @@ Time for you to walk the plank!''')
                     raise Exception()
                 elif (dimensions == 6) or (dimensions == 10):
                     break
-                
+
         # display error message if input fails vaidation
         except Exception:
             clear_terminal()
