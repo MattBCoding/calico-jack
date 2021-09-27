@@ -1,6 +1,7 @@
 from battleship.editscreen import clear_terminal
 from battleship.editscreen import C
 from battleship.setup import create_players
+import time
 
 
 # SETUP function - establishes parameters for game
@@ -16,10 +17,16 @@ def setup():
 How brave are ye? Shall we play a full game or a little one?
 Select a board size, enter '6' for a little one or '10' for normal:\n'''))
             #   validation of user input
-            if (dimensions != 6) and (dimensions != 10):
+            if (dimensions != 6) and (dimensions != 10) and (dimensions.lower() != 'quit'):
                 raise Exception()
             elif (dimensions == 6) or (dimensions == 10):
                 break
+            elif (dimensions.lower() == 'quit'):
+                print('''
+Argh! I see, you are not a true pirate, just a wannabe!
+Time for you to walk the plank!''')
+                time.sleep(3)
+                start()
         # display error message if input fails vaidation
         except Exception:
             clear_terminal()
@@ -116,6 +123,11 @@ keeping watch and defending the ships in the cove, when you hear Barnet callout
 With surrender not an option, you know you must defend the ships and Jack!''')
                 print(C.RED + 'Objective' + C.END)
                 print("Sink all Barnet's ships before he sinks all of Jacks")
+                print(C.RED + 'Controls' + C.END)
+                print('''Follow the prompts that appear on the screen to
+position your ships or to take shots. If you wish to turn and run at any
+point you can, just enter 'quit' into any of the input fields. Be warned,
+quitters do not get a second chance!''')
                 print()
                 play = 'N'
         except Exception:
