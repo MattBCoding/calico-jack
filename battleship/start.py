@@ -13,20 +13,23 @@ def setup():
     while True:
         try:
             # user input of desired dimension for board
-            dimensions = int(input('''
+            dimension_input = input('''
 How brave are ye? Shall we play a full game or a little one?
-Select a board size, enter '6' for a little one or '10' for normal:\n'''))
-            #   validation of user input
-            if (dimensions != 6) and (dimensions != 10) and (dimensions.lower() != 'quit'):
-                raise Exception()
-            elif (dimensions == 6) or (dimensions == 10):
-                break
-            elif (dimensions.lower() == 'quit'):
+Select a board size, enter '6' for a little one or '10' for normal:\n''')
+            if dimension_input.lower() == 'quit':
                 print('''
 Argh! I see, you are not a true pirate, just a wannabe!
 Time for you to walk the plank!''')
                 time.sleep(3)
                 start()
+            else:
+                dimensions = int(dimension_input)
+                #   validation of user input
+                if (dimensions != 6) and (dimensions != 10):
+                    raise Exception()
+                elif (dimensions == 6) or (dimensions == 10):
+                    break
+                
         # display error message if input fails vaidation
         except Exception:
             clear_terminal()
@@ -41,7 +44,13 @@ It's either '6' or '10' that be it. Just the number! Try again!\n''')
                 difficulty = input('''
 A little one, suppose you want it easy as well? Select your difficulty,
 enter 'E' for easy, 'N' for normal or 'H' for hard:\n''').lower()
-                if ((difficulty != 'e')
+                if (difficulty == 'quit'):
+                    print('''
+Hmm, did things just get a little too real for you? Gentlemen,
+PREPARE the PLANK!!''')
+                    time.sleep(3)
+                    start()
+                elif ((difficulty != 'e')
                         and (difficulty != 'n')
                         and (difficulty != 'h')):
                     raise Exception()
