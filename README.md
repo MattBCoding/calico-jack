@@ -263,7 +263,8 @@ A full detailed breakdown of the testing procedures and methodology can be found
     * game.py - 27 warnings
     * player.py - 2 warnings
     * setup.py - 4 warnings
-    * The warning suggests that there should not be a line break before a binary operator, however on checking with the python pep 8 guidelines it explicitly states that the line break should be before the binary operator. The point in the PEP8 guidelines can be found [here](https://www.python.org/dev/peps/pep-0008/#should-a-line-break-before-or-after-a-binary-operator)
+    * The warning suggests that there should not be a line break before a binary operator, however on checking with the python pep 8 guidelines it states that the line break should be before the binary operator. The point in the PEP8 guidelines can be found [here](https://www.python.org/dev/peps/pep-0008/#should-a-line-break-before-or-after-a-binary-operator). As the guidelines may have been updated more recently than the validator, the warning message regarding the binary operators was ignored.
+
 * Screenshots of the validator reports are here:
     * [blank.py file](/assets/screenshots/blank.png)
     * [board.py file](/assets/screenshots/board.png)

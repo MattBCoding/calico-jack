@@ -145,3 +145,7 @@ For each round of testing the game was completed to ensure the scoreboard update
 Test cases 8 through 10 were repeated for the 6x6 board to ensure no differences were detected in the responses received. 
 
 To navigate back to the main README click [here](README.md)
+
+## Additional Manual Testing
+
+The test cases were performed multiple times during the development of the application. Late in the project the ability to quit the game without quitting the application was added. This required the testing to be repeated once more to ensure that the new functionality performed as expected whilst no previous functionality was affected. 
