@@ -1,6 +1,7 @@
 # player file to contain player class
 from battleship.board import Board
 from battleship.editscreen import clear_terminal
+from battleship.editscreen import restart
 import time
 
 
@@ -29,6 +30,13 @@ What are your orders? Where do you want to target?
 Select the location in the format of row then column e.g. 'E4':\n''')
                 if user_target == '':
                     raise TypeError
+                elif user_target.lower() == 'quit':
+                    print('''
+What? Are you scared of the noise a cannon makes? Fine, get out of here!
+HAHAHAHA you didn't really think we let quitters off that easily did you?
+Boy's get the PLANK!!!''')
+                    time.sleep(3)
+                    restart()
                 else:
                     user_target_coords_list = list(user_target)
                 # check input is correct length
@@ -97,7 +105,6 @@ go and wake that drunken rabble up! Do not let Calico Jack down!\n''')
         game.comp_setup()
 
     def position_ship(self, ship, game):
-        from battleship.start import start
         while True:
             try:
                 # display message informing user on next ship to be placed
@@ -111,7 +118,7 @@ Please select the starting location for your {ship.name}, it is
 I knew you were just a landlover, I could smell the scurvy from here!
 Men, get the plank, we'll have some fun before we fight!''')
                     time.sleep(3)
-                    start()
+                    restart()
                 # convert input to list
                 user_input_coords_list = list(user_input_coords)
                 # check input is the correct length

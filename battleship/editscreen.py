@@ -18,3 +18,8 @@ class C:
     RED = '\33[91m'
     YELLOW = '\33[93m'
     BGBLUE = '\33[44m'
+
+
+def restart():
+    from battleship.start import start
+    start()
