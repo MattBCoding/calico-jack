@@ -77,6 +77,7 @@ Acceptance Criteria:
 
 Implementation:
 * The user will have the ability to choose between two different board sizes. The smaller board will contain a smaller number of potential target tiles, along with a smaller number of ships to potentially hit, thus reducing the amount of time required to complete the game. The larger board size will contain more ships, which combined with the larger number of potential tile targets will extend the game play. The three difficulty levels offered will also impact the game time due to the algorithm controlling how the AI selects its targets. Harder difficulty levels will potentially result in shorter time periods required to play the game.
+* The user will also have the ability to exit a game at any point without quitting the application. This will allow the user to further control the time within the game. 
 
 User Story:
 

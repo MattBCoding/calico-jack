@@ -148,7 +148,15 @@ Remembering the correct format e.g. E4 letter then number.''')
 Would you like to place this ship horizontally, left to right
 or vertically, downwards from starting location?
 Enter 'H' for horizontally, 'V' for vertically:\n''').lower()
-                            if (orientation != 'h') and (orientation != 'v'):
+                            if (orientation == 'quit'):
+                                print('''
+Hmm, sending one of our ships over there and then running away before
+telling them which direction to face, you probably just sent them to
+their deaths. Men, prepare the plank, this land lover needs to sleep
+with the fishes!''')
+                                time.sleep(3)
+                                restart()
+                            elif (orientation != 'h') and (orientation != 'v'):
                                 raise Exception
                             else:
                                 self.add_ship(ship, user_input_coords_list,
