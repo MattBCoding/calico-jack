@@ -283,6 +283,21 @@ There were no real bugs of note within the project. I encountered a few difficul
 
 A minor bug that I encountered during the development of the project came to light during the implementation of the clear_terminal function. I discovered that the terminal emulator used within the template would not support this functionality. After exhausting some other potential methods of implementing the desired functionality, I removed the original template code from the project and replaced it with the latest version.
 
+#### Libraries Utilised
+##### Built in Python Libraries
+
+Several of the built in python libraries were utilised to enable additional functionality within the application.
+##### math
+The math library was imported to utilise the math.floor functionality. This was used during the calculation of the correct number of ships that each player should have. I included this as a calculation instead of just setting the value to enable the value to adjust if the dimensions of the board are different. It would now be possible to add a much larger board to the game without creation of the ships getting broken.
+##### time
+The time library was imported to utilise the time.sleep functionality. This enabled me to incorporate specific time delays within the program which adds to the player experience by simulating the time between the player move and the computers response. Whilst only a small time delay occurs, I felt that it was a much better experience than the computer move appearing as soon as the player entered their own move. 
+##### os
+The os library was imported to utilise the os.system and os.name functionality. This enabled me to add functionality to the terminal emulator which allowed me to clear the previous print statements. This provides a clearer and more structured experience for the user.
+##### random
+The random library was imported to access a number of the built in methods of generating a random selection. It was primarily utilised during the AI shot selection algorithms to select a random location to fire, or a random location from a generated list of options.
+##### string
+The string library was imported to enable the ability to convert the alphabetical characters into numeric values whilst positioning or targetting ship locations. It was preferred to include a grid selection pattern of an letter then an number rather than two numbers to make it easier for users to select locations. It is much harder for a user to select the wrong location when using a letter and a number rather than two numbers.
+
 ## Deployment
 
 The site was deployed via Heroku, and the live link can be found here - [Calico Jack Battleship Game](https://calico-jack.herokuapp.com/)
