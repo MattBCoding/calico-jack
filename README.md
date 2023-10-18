@@ -8,7 +8,7 @@ As the game was developed in Python for use in the terminal, it utilises the Cod
 
 ![Screenshot of homepage](./assets/screenshots/main-menu-zoomed-in.png)
 
-[View the live website on Heroku](https://calico-jack.herokuapp.com/)
+
 Please note: To open any links in this document in a new browser tab, please press CTRL + Click.
 
 ## Table of Contents
@@ -300,7 +300,7 @@ The string library was imported to enable the ability to convert the alphabetica
 
 ## Deployment
 
-The site was deployed via Heroku, and the live link can be found here - [Calico Jack Battleship Game](https://calico-jack.herokuapp.com/)
+The site was deployed via Heroku.
 
 The project was developed utilising a Code Institute provided template. During the development of the project the template was updated to increase functionality. I switched over to the new template mid project which you can see within the commit history. Some of the deployment steps below are specifically required for the new CI template and may not be applicable to older versions, or different projects.
 
